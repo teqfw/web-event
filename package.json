@@ -1,0 +1,31 @@
+{
+  "name": "@teqfw/plugin",
+  "version": "0.1.0",
+  "description": "TeqFW: plugin description.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/teqfw/plugin.git"
+  },
+  "keywords": [
+    "ecmascript 2015",
+    "es6+",
+    "pwa",
+    "spa",
+    "teqfw",
+    "tequila framework",
+    "web applications",
+    "web-apps"
+  ],
+  "author": "Alex Gusev <alex@flancer64.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/teqfw/plugin/issues"
+  },
+  "homepage": "https://github.com/teqfw/plugin#readme",
+  "dependencies": {
+    "@teqfw/core-app": "*"
+  }
+}

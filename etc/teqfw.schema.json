@@ -1,0 +1,37 @@
+{
+  "package": {
+    "sale": {
+      "entity": {
+        "order": {
+          "comment": "Structure for sale_order table (with fake unique key - one sale per user).",
+          "attr": {
+            "id": {"type": "id"},
+            "user_ref": {"type": "ref"},
+            "date_created": {
+              "comment": "Date-time for sale order registration.",
+              "type": "datetime",
+              "default": "current"
+            }
+          },
+          "index": {
+            "uq_user": {"type": "unique", "attrs": ["user_ref"]}
+          },
+          "relation": {
+            "user": {
+              "attrs": ["user_ref"],
+              "ref": {
+                "path": "/user",
+                "attrs": ["id"]
+              },
+              "onDelete": "restrict",
+              "onUpdate": "restrict"
+            }
+          }
+        }
+      }
+    }
+  },
+  "refs": {
+    "/user": ["id"]
+  }
+}
