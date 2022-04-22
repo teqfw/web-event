@@ -1,17 +1,17 @@
 {
   "@teqfw/di": {
     "autoload": {
-      "ns": "TeqFw_Web_Api",
+      "ns": "TeqFw_Web_Event",
       "path": "./src"
     }
   },
   "@teqfw/web": {
     "handlers": {
-      "TeqFw_Web_Event_Back_App_Server_Handler_Event_Direct": {
+      "TeqFw_Web_Event_Back_Mod_Server_Handler_Direct": {
         "before": ["TeqFw_Web_Back_App_Server_Handler_Static"],
         "spaces": ["efb"]
       },
-      "TeqFw_Web_Event_Back_App_Server_Handler_Event_Reverse": {
+      "TeqFw_Web_Event_Back_Mod_Server_Handler_Reverse": {
         "before": ["TeqFw_Web_Back_App_Server_Handler_Static"],
         "spaces": ["ebf"]
       }

@@ -1,11 +1,11 @@
 # @teqfw/web-event
 
-Template repository to create repos for Tequila plugins.
+TeqFW plugin to use asynchronous requests to backend services in teq-apps.
 
 | CAUTION: TeqFW is an unstable, fast-growing project w/o backward compatibility. Use it at your own risk. |
 | -------------------------------------------------------------------------------------------------------- |
 
-This `teq`-plugin contains ...
+This `teq`-plugin contains handlers that process asynchronous requests (with JSON payloads) between frontend & backend.
 
 ## Install
 
@@ -30,3 +30,11 @@ This plugin uses `TeqFw_Web_Event` namespace.
 ## `./cfg/local.json`
 
 [DTO](src/Back/Dto/Config/Local.mjs) for `@teqfw/web-event` node.
+
+## Backend DB
+
+* `TeqFw_Web_Event_Back_RDb_Schema_Queue`: queue for delayed 'back-to-front' messages.
+
+## Main es6-modules
+
+* `TeqFw_Web_Event_Back_Mod_Server_Handler_Direct`: web server handler to process 'front-to-back' requests.

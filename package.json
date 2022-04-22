@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/teqfw/web-event#readme",
   "dependencies": {
+    "@teqfw/db": "*",
     "@teqfw/web": "*"
   }
 }

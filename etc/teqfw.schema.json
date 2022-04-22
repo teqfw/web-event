@@ -1,30 +1,26 @@
 {
   "package": {
-    "sale": {
-      "entity": {
-        "order": {
-          "comment": "Structure for sale_order table (with fake unique key - one sale per user).",
-          "attr": {
-            "id": {"type": "id"},
-            "user_ref": {"type": "ref"},
-            "date_created": {
-              "comment": "Date-time for sale order registration.",
-              "type": "datetime",
-              "default": "current"
-            }
-          },
-          "index": {
-            "uq_user": {"type": "unique", "attrs": ["user_ref"]}
-          },
-          "relation": {
-            "user": {
-              "attrs": ["user_ref"],
-              "ref": {
-                "path": "/user",
-                "attrs": ["id"]
+    "web": {
+      "package": {
+        "event": {
+          "entity": {
+            "queue": {
+              "comment": "Queue for delayed transborder events.",
+              "attr": {
+                "id": {"type": "id"},
+                "front_ref": {"comment": "Front ID for recipient of the message.", "type": "ref"},
+                "message": {
+                  "comment": "Event message as JSON string.",
+                  "type": "text"
+                }
               },
-              "onDelete": "restrict",
-              "onUpdate": "restrict"
+              "relation": {
+                "front": {
+                  "attrs": ["front_ref"],
+                  "ref": {"path": "/web/front", "attrs": ["id"]},
+                  "action": {"delete": "cascade", "update": "cascade"}
+                }
+              }
             }
           }
         }
@@ -32,6 +28,6 @@
     }
   },
   "refs": {
-    "/user": ["id"]
+    "/web/front": ["id"]
   }
 }
