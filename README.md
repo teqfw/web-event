@@ -34,6 +34,11 @@ This plugin uses `TeqFw_Web_Event` namespace.
 ## Backend DB
 
 * `TeqFw_Web_Event_Back_RDb_Schema_Queue`: queue for delayed 'back-to-front' messages.
+*
+
+## Frontend DB
+
+* `TeqFw_Web_Event_Front_IDb_Schema_Queue`: queue for delayed 'front-to-back' messages.
 
 ## Main es6-modules
 

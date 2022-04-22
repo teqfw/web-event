@@ -15,9 +15,9 @@ export default class TeqFw_Web_Event_Front_Mod_Connect_Direct_Portal {
         /** @type {TeqFw_Web_Api_Front_Mod_App_Back_Identity} */
         const backIdentity = spec['TeqFw_Web_Api_Front_Mod_App_Back_Identity$'];
         /** @type {TeqFw_Web_Front_App_Store_IDB} */
-        const idb = spec['TeqFw_Web_Front_Store_Db$']; // plugin's local IDB
-        /** @type {TeqFw_Web_Front_Store_Entity_Event_Delayed} */
-        const idbQueue = spec['TeqFw_Web_Front_Store_Entity_Event_Delayed$'];
+        const idb = spec['TeqFw_Web_Event_Front_IDb$']; // plugin's local IDB
+        /** @type {TeqFw_Web_Event_Front_IDb_Schema_Queue} */
+        const idbQueue = spec['TeqFw_Web_Event_Front_IDb_Schema_Queue$'];
         /** @type {TeqFw_Web_Event_Front_Mod_Bus} */
         const eventBus = spec['TeqFw_Web_Event_Front_Mod_Bus$'];
         /** @type {TeqFw_Web_Event_Shared_Event_Back_Stream_Reverse_Authenticated} */
@@ -26,7 +26,7 @@ export default class TeqFw_Web_Event_Front_Mod_Connect_Direct_Portal {
         const castDate = spec['TeqFw_Core_Shared_Util_Cast.castDate'];
 
         // VARS
-        const I_DELAYED = idbQueue.getIndexes();
+        const I_QUEUE = idbQueue.getIndexes();
 
         // MAIN
         eventBus.subscribe(esbAuthenticated.getEventName(), onReverseAuthenticated);
@@ -66,7 +66,7 @@ export default class TeqFw_Web_Event_Front_Mod_Connect_Direct_Portal {
              */
             async function getDelayedEvents() {
                 const trx = await idb.startTransaction([idbQueue]);
-                const res = await idb.readSet(trx, idbQueue, I_DELAYED.BY_DATE);
+                const res = await idb.readSet(trx, idbQueue, I_QUEUE.BY_DATE);
                 trx.commit();
                 return res;
             }
