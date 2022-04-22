@@ -18,8 +18,8 @@ export default class TeqFw_Web_Event_Back_Hand_Front_Authenticate {
         const esbAuthenticated = spec['TeqFw_Web_Event_Shared_Event_Back_Stream_Reverse_Authenticated$'];
         /** @type {TeqFw_Web_Event_Shared_Event_Back_Stream_Reverse_Failed} */
         const esbFailed = spec['TeqFw_Web_Event_Shared_Event_Back_Stream_Reverse_Failed$'];
-        /** @type {TeqFw_Web_Back_Event_Front_Authenticated} */
-        const ebFrontAuthenticated = spec['TeqFw_Web_Back_Event_Front_Authenticated$'];
+        /** @type {TeqFw_Web_Event_Back_Event_Front_Authenticated} */
+        const ebFrontAuthenticated = spec['TeqFw_Web_Event_Back_Event_Front_Authenticated$'];
         /** @type {TeqFw_Db_Back_RDb_IConnect} */
         const conn = spec['TeqFw_Db_Back_RDb_IConnect$'];
         /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */

@@ -5,6 +5,12 @@
       "path": "./src"
     }
   },
+  "@teqfw/core": {
+    "plugin": {
+      "onInit": "TeqFw_Web_Event_Back_Plugin_Init",
+      "onStop": "TeqFw_Web_Event_Back_Plugin_Stop"
+    }
+  },
   "@teqfw/web": {
     "handlers": {
       "TeqFw_Web_Event_Back_Mod_Server_Handler_Direct": {

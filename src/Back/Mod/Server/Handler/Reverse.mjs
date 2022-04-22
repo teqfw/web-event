@@ -146,7 +146,7 @@ export default class TeqFw_Web_Event_Back_Mod_Server_Handler_Reverse {
                     event.meta.frontUUID = frontUuid;
                     event.meta.backUUID = _backUuid;
                     const json = JSON.stringify(event);
-                    res.write(`event: ${DEF.MOD_WEB.SHARED.EVENT_AUTHENTICATE}\n`);
+                    res.write(`event: ${DEF.SHARED.EVENT_AUTHENTICATE}\n`);
                     res.write(`retry: ${RECONNECT_TIMEOUT}\n`);
                     res.write(`data: ${json}\n\n`);
                 } else {
@@ -184,7 +184,7 @@ export default class TeqFw_Web_Event_Back_Mod_Server_Handler_Reverse {
         this.canProcess = function ({method, address} = {}) {
             return (
                 (method === HTTP2_METHOD_GET)
-                && (address?.space === DEF.MOD_WEB.SHARED.SPACE_EVENT_REVERSE)
+                && (address?.space === DEF.SHARED.SPACE_REVERSE)
             );
         }
 

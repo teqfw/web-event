@@ -121,7 +121,7 @@ export default class TeqFw_Web_Event_Back_Mod_Server_Handler_Direct {
         this.canProcess = function ({method, address} = {}) {
             return (
                 (method === HTTP2_METHOD_POST)
-                && (address?.space === DEF.MOD_WEB.SHARED.SPACE_EVENT_DIRECT)
+                && (address?.space === DEF.SHARED.SPACE_DIRECT)
             );
         }
     }

@@ -12,8 +12,8 @@ export default class TeqFw_Web_Event_Back_Mod_Server_Handler_Reverse_Portal {
         const eventsBack = spec['TeqFw_Core_Back_App_Event_Bus$'];
         /** @type {TeqFw_Web_Event_Back_Mod_Reverse_Registry} */
         const registry = spec['TeqFw_Web_Event_Back_Mod_Reverse_Registry$'];
-        /** @type {TeqFw_Web_Back_Mod_Event_Queue} */
-        const modQueue = spec['TeqFw_Web_Back_Mod_Event_Queue$'];
+        /** @type {TeqFw_Web_Event_Back_Mod_Queue} */
+        const modQueue = spec['TeqFw_Web_Event_Back_Mod_Queue$'];
         /** @type {TeqFw_Web_Event_Shared_Dto_Event} */
         const dtoEvent = spec['TeqFw_Web_Event_Shared_Dto_Event$'];
         /** @type {TeqFw_Core_Back_Mod_App_Uuid} */
@@ -22,8 +22,8 @@ export default class TeqFw_Web_Event_Back_Mod_Server_Handler_Reverse_Portal {
         const dtoLogMeta = spec['TeqFw_Web_Shared_Dto_Log_Meta_Event$'];
         /** @type {TeqFw_Core_Shared_Util_Cast.castDate|function} */
         const castDate = spec['TeqFw_Core_Shared_Util_Cast.castDate'];
-        /** @type {TeqFw_Web_Back_Event_Republish_Delayed} */
-        const ebRepublishDelayed = spec['TeqFw_Web_Back_Event_Republish_Delayed$'];
+        /** @type {TeqFw_Web_Event_Back_Event_Republish_Delayed} */
+        const ebRepublishDelayed = spec['TeqFw_Web_Event_Back_Event_Republish_Delayed$'];
 
         // MAIN
         logger.setNamespace(this.constructor.name);
