@@ -1,13 +1,13 @@
 {
-  "name": "@teqfw/plugin",
+  "name": "@teqfw/web-event",
   "version": "0.1.0",
-  "description": "TeqFW: plugin description.",
+  "description": "TeqFW: asynchronous requests to backend services in teq-apps.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/teqfw/plugin.git"
+    "url": "git+https://github.com/teqfw/web-event.git"
   },
   "keywords": [
     "ecmascript 2015",
@@ -22,10 +22,10 @@
   "author": "Alex Gusev <alex@flancer64.com>",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/teqfw/plugin/issues"
+    "url": "https://github.com/teqfw/web-event/issues"
   },
-  "homepage": "https://github.com/teqfw/plugin#readme",
+  "homepage": "https://github.com/teqfw/web-event#readme",
   "dependencies": {
-    "@teqfw/core-app": "*"
+    "@teqfw/web": "*"
   }
 }

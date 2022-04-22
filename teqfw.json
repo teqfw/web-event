@@ -1,8 +1,20 @@
 {
   "@teqfw/di": {
     "autoload": {
-      "ns": "TeqFw_Plugin",
+      "ns": "TeqFw_Web_Api",
       "path": "./src"
+    }
+  },
+  "@teqfw/web": {
+    "handlers": {
+      "TeqFw_Web_Event_Back_App_Server_Handler_Event_Direct": {
+        "before": ["TeqFw_Web_Back_App_Server_Handler_Static"],
+        "spaces": ["efb"]
+      },
+      "TeqFw_Web_Event_Back_App_Server_Handler_Event_Reverse": {
+        "before": ["TeqFw_Web_Back_App_Server_Handler_Static"],
+        "spaces": ["ebf"]
+      }
     }
   }
 }

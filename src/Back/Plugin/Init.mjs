@@ -1,9 +1,9 @@
 /**
  * Plugin initialization function.
- * @namespace TeqFw_Plugin_Back_Plugin_Init
+ * @namespace TeqFw_Web_Event_Back_Plugin_Init
  */
 // MODULE'S VARS
-const NS = 'TeqFw_Plugin_Back_Plugin_Init';
+const NS = 'TeqFw_Web_Event_Back_Plugin_Init';
 
 export default function (spec) {
     // EXTRACT DEPS
@@ -13,7 +13,7 @@ export default function (spec) {
     // FUNCS
     /**
      * @return {Promise<void>}
-     * @memberOf TeqFw_Plugin_Back_Plugin_Init
+     * @memberOf TeqFw_Web_Event_Back_Plugin_Init
      */
     async function action() { }
 

@@ -1,9 +1,9 @@
 /**
  * Plugin finalization function.
- * @namespace TeqFw_Plugin_Back_Plugin_Stop
+ * @namespace TeqFw_Web_Event_Back_Plugin_Stop
  */
 // MODULE'S VARS
-const NS = 'TeqFw_Plugin_Back_Plugin_Stop';
+const NS = 'TeqFw_Web_Event_Back_Plugin_Stop';
 
 export default function (spec) {
     // EXTRACT DEPS
@@ -13,7 +13,7 @@ export default function (spec) {
     // FUNCS
     /**
      * @return {Promise<void>}
-     * @namespace TeqFw_Plugin_Back_Plugin_Stop
+     * @namespace TeqFw_Web_Event_Back_Plugin_Stop
      */
     async function action() { }
 

@@ -1,4 +1,4 @@
-# @teqfw/plugin: releases
+# @teqfw/web-event: releases
 
 ## 0.1.0
 
