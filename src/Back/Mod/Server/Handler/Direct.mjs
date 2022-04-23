@@ -30,8 +30,8 @@ export default class TeqFw_Web_Event_Back_Mod_Server_Handler_Direct {
         const respond403 = spec['TeqFw_Web_Back_App_Server_Respond.respond403'];
         /** @type {TeqFw_Web_Back_App_Server_Respond.respond500|function} */
         const respond500 = spec['TeqFw_Web_Back_App_Server_Respond.respond500'];
-        /** @type {TeqFw_Core_Back_App_Event_Bus} */
-        const eventBus = spec['TeqFw_Core_Back_App_Event_Bus$'];
+        /** @type {TeqFw_Core_Back_Mod_Event_Bus} */
+        const eventBus = spec['TeqFw_Core_Back_Mod_Event_Bus$'];
         /** @type {TeqFw_Web_Event_Shared_Dto_Event} */
         const dtoEvent = spec['TeqFw_Web_Event_Shared_Dto_Event$'];
         /** @type {TeqFw_Web_Event_Shared_Dto_Event_Response} */

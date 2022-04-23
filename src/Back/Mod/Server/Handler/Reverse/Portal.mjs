@@ -8,8 +8,8 @@ export default class TeqFw_Web_Event_Back_Mod_Server_Handler_Reverse_Portal {
         const logger = spec['TeqFw_Core_Shared_Api_ILogger$$']; // instance
         /** @type {TeqFw_Core_Back_Mod_App_Uuid} */
         const backUuid = spec['TeqFw_Core_Back_Mod_App_Uuid$'];
-        /** @type {TeqFw_Core_Back_App_Event_Bus} */
-        const eventsBack = spec['TeqFw_Core_Back_App_Event_Bus$'];
+        /** @type {TeqFw_Core_Back_Mod_Event_Bus} */
+        const eventsBack = spec['TeqFw_Core_Back_Mod_Event_Bus$'];
         /** @type {TeqFw_Web_Event_Back_Mod_Reverse_Registry} */
         const registry = spec['TeqFw_Web_Event_Back_Mod_Reverse_Registry$'];
         /** @type {TeqFw_Web_Event_Back_Mod_Queue} */

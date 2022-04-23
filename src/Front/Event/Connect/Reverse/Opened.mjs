@@ -19,8 +19,8 @@ class Dto {
 export default class TeqFw_Web_Event_Front_Event_Connect_Reverse_Opened {
     constructor(spec) {
         // DEPS
-        /** @type {TeqFw_Core_Shared_App_Event_Message} */
-        const dtoBase = spec['TeqFw_Core_Shared_App_Event_Message$'];
+        /** @type {TeqFw_Core_Shared_Mod_Event_Message} */
+        const dtoBase = spec['TeqFw_Core_Shared_Mod_Event_Message$'];
 
         // VARS
         const ATTR = dtoBase.getAttributes();
@@ -37,8 +37,8 @@ export default class TeqFw_Web_Event_Front_Event_Connect_Reverse_Opened {
 
         // INSTANCE METHODS
         /**
-         * @param {{[data]: TeqFw_Web_Event_Front_Event_Connect_Reverse_Opened.Dto, [meta]: TeqFw_Core_Shared_App_Event_Message_Meta.Dto}} [data]
-         * @return {{data: TeqFw_Web_Event_Front_Event_Connect_Reverse_Opened.Dto, meta: TeqFw_Core_Shared_App_Event_Message_Meta.Dto}}
+         * @param {{[data]: TeqFw_Web_Event_Front_Event_Connect_Reverse_Opened.Dto, [meta]: TeqFw_Core_Shared_Mod_Event_Message_Meta.Dto}} [data]
+         * @return {{data: TeqFw_Web_Event_Front_Event_Connect_Reverse_Opened.Dto, meta: TeqFw_Core_Shared_Mod_Event_Message_Meta.Dto}}
          */
         this.createDto = function (data) {
             const res = dtoBase.createDto({[ATTR.META]: data?.[ATTR.META]});

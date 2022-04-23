@@ -10,8 +10,8 @@
 export default class TeqFw_Web_Event_Front_Mod_Bus {
     constructor(spec) {
         // DEPS
-        /** @type {TeqFw_Core_Shared_App_Event_Bus} */
-        const baseEventBus = spec['TeqFw_Core_Shared_App_Event_Bus$$']; // instance
+        /** @type {TeqFw_Core_Shared_Mod_Event_Bus} */
+        const baseEventBus = spec['TeqFw_Core_Shared_Mod_Event_Bus$$']; // instance
 
         // MAIN
         Object.assign(this, baseEventBus); // new base instance for every current instance

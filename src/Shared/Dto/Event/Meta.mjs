@@ -8,7 +8,7 @@ const NS = 'TeqFw_Web_Event_Shared_Dto_Event_Meta';
 
 // MODULE'S CLASSES
 /**
- * @extends TeqFw_Core_Shared_App_Event_Message_Meta.Dto
+ * @extends TeqFw_Core_Shared_Mod_Event_Message_Meta.Dto
  * @memberOf TeqFw_Web_Event_Shared_Dto_Event_Meta
  */
 class Dto {
@@ -25,8 +25,8 @@ class Dto {
 export default class TeqFw_Web_Event_Shared_Dto_Event_Meta {
     constructor(spec) {
         // DEPS
-        /** @type {TeqFw_Core_Shared_App_Event_Message_Meta} */
-        const baseDto = spec['TeqFw_Core_Shared_App_Event_Message_Meta$'];
+        /** @type {TeqFw_Core_Shared_Mod_Event_Message_Meta} */
+        const baseDto = spec['TeqFw_Core_Shared_Mod_Event_Message_Meta$'];
         /** @type {TeqFw_Core_Shared_Util_Cast.castString|function} */
         const castString = spec['TeqFw_Core_Shared_Util_Cast.castString'];
 

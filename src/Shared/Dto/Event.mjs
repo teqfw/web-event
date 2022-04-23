@@ -18,7 +18,7 @@ const ATTR = {
 
 /**
  * @memberOf TeqFw_Web_Event_Shared_Dto_Event
- * @extends TeqFw_Core_Shared_App_Event_Message.Dto
+ * @extends TeqFw_Core_Shared_Mod_Event_Message.Dto
  */
 class Dto {
     static namespace = NS;
