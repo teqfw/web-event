@@ -15,8 +15,8 @@ export default class TeqFw_Web_Event_Back_Fact_Stamper {
         const rdb = spec['TeqFw_Db_Back_RDb_IConnect$'];
         /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
         const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
-        /** @type {TeqFw_Web_Back_Store_RDb_Schema_Front} */
-        const rdbFront = spec['TeqFw_Web_Back_Store_RDb_Schema_Front$'];
+        /** @type {TeqFw_Web_Auth_Back_RDb_Schema_Front} */
+        const rdbFront = spec['TeqFw_Web_Auth_Back_RDb_Schema_Front$'];
         /** @type {TeqFw_Web_Back_Mod_Server_Key} */
         const modServerKeys = spec['TeqFw_Web_Back_Mod_Server_Key$'];
 
@@ -25,7 +25,7 @@ export default class TeqFw_Web_Event_Back_Fact_Stamper {
         const _cache = {};
 
         // FUNCS
-        /** @type {typeof TeqFw_Web_Back_Store_RDb_Schema_Front.ATTR} */
+        /** @type {typeof TeqFw_Web_Auth_Back_RDb_Schema_Front.ATTR} */
         const ATTR = rdbFront.getAttributes();
 
         // INSTANCE METHODS
@@ -47,7 +47,7 @@ export default class TeqFw_Web_Event_Back_Fact_Stamper {
                 let res;
                 const trx = await rdb.startTransaction();
                 try {
-                    /** @type {TeqFw_Web_Back_Store_RDb_Schema_Front.Dto} */
+                    /** @type {TeqFw_Web_Auth_Back_RDb_Schema_Front.Dto} */
                     const one = await crud.readOne(trx, rdbFront, {[ATTR.UUID]: uuid});
                     res = one?.key_pub;
                     await trx.commit();

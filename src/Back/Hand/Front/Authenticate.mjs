@@ -24,8 +24,8 @@ export default class TeqFw_Web_Event_Back_Hand_Front_Authenticate {
         const conn = spec['TeqFw_Db_Back_RDb_IConnect$'];
         /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
         const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
-        /** @type {TeqFw_Web_Back_Store_RDb_Schema_Front} */
-        const rdbFront = spec['TeqFw_Web_Back_Store_RDb_Schema_Front$'];
+        /** @type {TeqFw_Web_Auth_Back_RDb_Schema_Front} */
+        const rdbFront = spec['TeqFw_Web_Auth_Back_RDb_Schema_Front$'];
         /** @type {TeqFw_Web_Back_Mod_Server_Key} */
         const modServerKey = spec['TeqFw_Web_Back_Mod_Server_Key$'];
         /** @type {TeqFw_Web_Back_Mod_Crypto_Scrambler.Factory} */
@@ -56,7 +56,7 @@ export default class TeqFw_Web_Event_Back_Hand_Front_Authenticate {
                 let res;
                 const trx = await conn.startTransaction();
                 try {
-                    /** @type {TeqFw_Web_Back_Store_RDb_Schema_Front.Dto} */
+                    /** @type {TeqFw_Web_Auth_Back_RDb_Schema_Front.Dto} */
                     const one = await crud.readOne(trx, rdbFront, frontId);
                     await trx.commit();
                     res = one?.key_pub;
