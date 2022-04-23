@@ -13,10 +13,10 @@ export default class TeqFw_Web_Event_Front_Mod_Connect_Direct {
         const modCfg = spec['TeqFw_Web_Front_Mod_Config$'];
         /** @type {TeqFw_Web_Front_Api_Mod_Server_Connect_IState} */
         const modConn = spec['TeqFw_Web_Front_Api_Mod_Server_Connect_IState$'];
-        /** @type {TeqFw_Web_Api_Front_Mod_App_Front_Identity} */
-        const frontIdentity = spec['TeqFw_Web_Api_Front_Mod_App_Front_Identity$'];
-        /** @type {TeqFw_Web_Api_Front_Mod_App_Back_Identity} */
-        const backIdentity = spec['TeqFw_Web_Api_Front_Mod_App_Back_Identity$'];
+        /** @type {TeqFw_Web_Auth_Front_Mod_Identity_Front} */
+        const frontIdentity = spec['TeqFw_Web_Auth_Front_Mod_Identity_Front$'];
+        /** @type {TeqFw_Web_Auth_Front_Mod_Identity_Back} */
+        const backIdentity = spec['TeqFw_Web_Auth_Front_Mod_Identity_Back$'];
         /** @type {TeqFw_Web_Event_Shared_Mod_Stamper} */
         const stamper = spec['TeqFw_Web_Event_Shared_Mod_Stamper$$']; // new instance
         /** @type {TeqFw_Web_Shared_Dto_Log_Meta_Event} */
