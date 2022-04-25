@@ -13,10 +13,8 @@ export default class TeqFw_Web_Event_Front_Mod_Connect_Direct {
         const modCfg = spec['TeqFw_Web_Front_Mod_Config$'];
         /** @type {TeqFw_Web_Front_Api_Mod_Server_Connect_IState} */
         const modConn = spec['TeqFw_Web_Front_Api_Mod_Server_Connect_IState$'];
-        /** @type {TeqFw_Web_Auth_Front_Mod_Identity_Front} */
-        const frontIdentity = spec['TeqFw_Web_Auth_Front_Mod_Identity_Front$'];
-        /** @type {TeqFw_Web_Auth_Front_Mod_Identity_Back} */
-        const backIdentity = spec['TeqFw_Web_Auth_Front_Mod_Identity_Back$'];
+        /** @type {TeqFw_Web_Auth_Front_Mod_Identity} */
+        const modIdentity = spec['TeqFw_Web_Auth_Front_Mod_Identity$'];
         /** @type {TeqFw_Web_Event_Shared_Mod_Stamper} */
         const stamper = spec['TeqFw_Web_Event_Shared_Mod_Stamper$$']; // new instance
         /** @type {TeqFw_Web_Shared_Dto_Log_Meta_Event} */
@@ -59,14 +57,14 @@ export default class TeqFw_Web_Event_Front_Mod_Connect_Direct {
                 try {
                     const meta = data.meta;
                     const logMeta = dtoLogMeta.createDto();
-                    logMeta.backUuid = backIdentity.getUUID();
+                    logMeta.backUuid = modIdentity.getBackUuid();
                     logMeta.eventName = meta.name;
                     logMeta.eventUuid = meta.uuid;
                     logMeta.frontUuid = meta.frontUUID;
                     //
                     modConn.startActivity();
                     const eventName = meta.name;
-                    stamper.initKeys(backIdentity.getServerKey(), frontIdentity.getSecretKey());
+                    stamper.initKeys(modIdentity.getBackKey(), modIdentity.getSecretKey());
                     data.stamp = stamper.create(meta);
                     logger.info(`${meta.backUUID} => ${eventName} (${meta.uuid}) (sent)`, logMeta);
                     const urlBase = composeBaseUrl();
@@ -90,9 +88,9 @@ export default class TeqFw_Web_Event_Front_Mod_Connect_Direct {
                     } else if (res.status === 403) {
                         const msg = await res.text();
                         logger.info(msg, logMeta);
-                        if(meta.frontUUID) {
+                        if (meta.frontUUID) {
                             // there is front identity, but it is not found on back
-                            await frontIdentity.registerOnBack();
+                            await modIdentity.registerOnBack();
                         }
                     }
 

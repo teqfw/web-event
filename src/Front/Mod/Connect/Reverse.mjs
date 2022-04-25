@@ -24,10 +24,8 @@ export default class TeqFw_Web_Event_Front_Mod_Connect_Reverse {
         const DEF = spec['TeqFw_Web_Event_Front_Defaults$'];
         /** @type {TeqFw_Core_Shared_Api_ILogger} */
         const logger = spec['TeqFw_Core_Shared_Api_ILogger$$']; // instance
-        /** @type {TeqFw_Web_Auth_Front_Mod_Identity_Front} */
-        const frontIdentity = spec['TeqFw_Web_Auth_Front_Mod_Identity_Front$'];
-        /** @type {TeqFw_Web_Auth_Front_Mod_Identity_Back} */
-        const backIdentity = spec['TeqFw_Web_Auth_Front_Mod_Identity_Back$'];
+        /** @type {TeqFw_Web_Auth_Front_Mod_Identity} */
+        const modIdentity = spec['TeqFw_Web_Auth_Front_Mod_Identity$'];
         /** @type {TeqFw_Web_Event_Front_Mod_Bus} */
         const eventFront = spec['TeqFw_Web_Event_Front_Mod_Bus$'];
         /** @type {TeqFw_Web_Event_Front_Mod_Connect_Direct_Portal} */
@@ -82,12 +80,12 @@ export default class TeqFw_Web_Event_Front_Mod_Connect_Reverse {
                 const dto = esbAuthReq.createDto(obj);
                 const backUUID = dto.data.backUUID;
                 const serverKey = dto.data.serverKey;
-                await backIdentity.set(backUUID, serverKey);
+                // TODO: refactor authentication
+                // await backIdentity.set(backUUID, serverKey);
                 const scrambler = await factScrambler.create();
-                const front = frontIdentity.get();
-                scrambler.setKeys(serverKey, front.keys.secret);
+                scrambler.setKeys(serverKey, modIdentity.getSecretKey());
                 const msg = esfAuthRes.createDto();
-                msg.data.frontId = front.frontId;
+                msg.data.frontId = modIdentity.getFrontBid();
                 msg.data.encrypted = scrambler.encryptAndSign(backUUID);
                 portalBack.publish(msg);
                 logger.info(`Front authentication response is sent to back.`);
@@ -136,7 +134,7 @@ export default class TeqFw_Web_Event_Front_Mod_Connect_Reverse {
                 (navigator.onLine) &&
                 ((_source === undefined) || (_source.readyState === SSE_STATE.CLOSED))
             ) {
-                const url = `${_url}/${frontIdentity.getUuid()}`;
+                const url = `${_url}/${modIdentity.getFrontUuid()}`;
                 // open new SSE connection and add event listeners
                 _source = new EventSource(url);
                 _source.addEventListener('open', onOpen);

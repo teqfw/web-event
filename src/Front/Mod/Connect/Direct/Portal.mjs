@@ -10,10 +10,8 @@ export default class TeqFw_Web_Event_Front_Mod_Connect_Direct_Portal {
         const logger = spec['TeqFw_Core_Shared_Api_ILogger$$']; // instance
         /** @type {TeqFw_Web_Event_Front_Mod_Connect_Direct} */
         const conn = spec['TeqFw_Web_Event_Front_Mod_Connect_Direct$'];
-        /** @type {TeqFw_Web_Auth_Front_Mod_Identity_Front} */
-        const frontIdentity = spec['TeqFw_Web_Auth_Front_Mod_Identity_Front$'];
-        /** @type {TeqFw_Web_Auth_Front_Mod_Identity_Back} */
-        const backIdentity = spec['TeqFw_Web_Auth_Front_Mod_Identity_Back$'];
+        /** @type {TeqFw_Web_Auth_Front_Mod_Identity} */
+        const modIdentity = spec['TeqFw_Web_Auth_Front_Mod_Identity$'];
         /** @type {TeqFw_Web_Front_App_Store_IDB} */
         const idb = spec['TeqFw_Web_Event_Front_IDb$']; // plugin's local IDB
         /** @type {TeqFw_Web_Event_Front_IDb_Schema_Queue} */
@@ -92,8 +90,8 @@ export default class TeqFw_Web_Event_Front_Mod_Connect_Direct_Portal {
          */
         this.publish = async function (event) {
             const meta = event.meta;
-            meta.backUUID = backIdentity.getUUID();
-            meta.frontUUID = frontIdentity.getUuid();
+            meta.backUUID = modIdentity.getBackUuid();
+            meta.frontUUID = modIdentity.getFrontUuid();
             logger.info(`Save event #${meta.uuid} (${meta.name}) to front queue and publish it.`);
             await saveToQueue(event);
             const sent = await conn.send(event);
