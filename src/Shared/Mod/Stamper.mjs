@@ -6,8 +6,8 @@ export default class TeqFw_Web_Event_Shared_Mod_Stamper {
         // DEPS
         /** @type {TeqFw_Core_Shared_Util_Cast.castDate|function} */
         const castDate = spec['TeqFw_Core_Shared_Util_Cast.castDate'];
-        /** @type {TeqFw_Web_Shared_Api_Crypto_IScrambler} */
-        const scrambler = spec['TeqFw_Web_Shared_Api_Crypto_IScrambler$$']; // instance
+        /** @type {TeqFw_Web_Auth_Shared_Api_Crypto_IScrambler} */
+        const scrambler = spec['TeqFw_Web_Auth_Shared_Api_Crypto_IScrambler$$']; // instance
 
         // VARS
         let _isInitialized = false;

@@ -9,8 +9,8 @@ export default class TeqFw_Web_Event_Back_Hand_Server_Key_Source {
         const portalFront = spec['TeqFw_Web_Event_Back_Mod_Server_Handler_Reverse_Portal$'];
         /** @type {TeqFw_Core_Back_Mod_Event_Bus} */
         const eventsBack = spec['TeqFw_Core_Back_Mod_Event_Bus$'];
-        /** @type {TeqFw_Web_Back_Mod_Server_Key} */
-        const dsKeys = spec['TeqFw_Web_Back_Mod_Server_Key$'];
+        /** @type {TeqFw_Web_Auth_Back_Mod_Server_Key} */
+        const dsKeys = spec['TeqFw_Web_Auth_Back_Mod_Server_Key$'];
         /** @type {TeqFw_Web_Event_Shared_Event_Front_Server_Key_Request} */
         const esfKeyReq = spec['TeqFw_Web_Event_Shared_Event_Front_Server_Key_Request$'];
         /** @type {TeqFw_Web_Event_Shared_Event_Back_Server_Key_Response} */

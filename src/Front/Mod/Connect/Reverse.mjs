@@ -42,8 +42,8 @@ export default class TeqFw_Web_Event_Front_Mod_Connect_Reverse {
         const esfAuthRes = spec['TeqFw_Web_Event_Shared_Event_Front_Stream_Reverse_Authenticate_Response$'];
         /** @type {TeqFw_Web_Front_Api_Mod_Server_Connect_IState} */
         const modConn = spec['TeqFw_Web_Front_Api_Mod_Server_Connect_IState$'];
-        /** @type {TeqFw_Web_Front_Mod_Crypto_Scrambler.Factory} */
-        const factScrambler = spec['TeqFw_Web_Front_Mod_Crypto_Scrambler.Factory$'];
+        /** @type {TeqFw_Web_Auth_Front_Mod_Crypto_Scrambler.Factory} */
+        const factScrambler = spec['TeqFw_Web_Auth_Front_Mod_Crypto_Scrambler.Factory$'];
 
         // VARS
         /** @type {EventSource} */

@@ -17,8 +17,8 @@ export default class TeqFw_Web_Event_Back_Fact_Stamper {
         const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
         /** @type {TeqFw_Web_Auth_Back_RDb_Schema_Front} */
         const rdbFront = spec['TeqFw_Web_Auth_Back_RDb_Schema_Front$'];
-        /** @type {TeqFw_Web_Back_Mod_Server_Key} */
-        const modServerKeys = spec['TeqFw_Web_Back_Mod_Server_Key$'];
+        /** @type {TeqFw_Web_Auth_Back_Mod_Server_Key} */
+        const modServerKeys = spec['TeqFw_Web_Auth_Back_Mod_Server_Key$'];
 
         // VARS
         /** @type {Object<string, TeqFw_Web_Event_Shared_Mod_Stamper>} */

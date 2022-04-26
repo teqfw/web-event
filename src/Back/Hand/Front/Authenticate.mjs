@@ -26,10 +26,10 @@ export default class TeqFw_Web_Event_Back_Hand_Front_Authenticate {
         const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
         /** @type {TeqFw_Web_Auth_Back_RDb_Schema_Front} */
         const rdbFront = spec['TeqFw_Web_Auth_Back_RDb_Schema_Front$'];
-        /** @type {TeqFw_Web_Back_Mod_Server_Key} */
-        const modServerKey = spec['TeqFw_Web_Back_Mod_Server_Key$'];
-        /** @type {TeqFw_Web_Back_Mod_Crypto_Scrambler.Factory} */
-        const factScrambler = spec['TeqFw_Web_Back_Mod_Crypto_Scrambler.Factory$'];
+        /** @type {TeqFw_Web_Auth_Back_Mod_Server_Key} */
+        const modServerKey = spec['TeqFw_Web_Auth_Back_Mod_Server_Key$'];
+        /** @type {TeqFw_Web_Auth_Back_Mod_Crypto_Scrambler.Factory} */
+        const factScrambler = spec['TeqFw_Web_Auth_Back_Mod_Crypto_Scrambler.Factory$'];
         /** @type {TeqFw_Core_Back_Mod_App_Uuid} */
         const backUUID = spec['TeqFw_Core_Back_Mod_App_Uuid$'];
         /** @type {TeqFw_Web_Event_Back_Mod_Reverse_Registry} */
