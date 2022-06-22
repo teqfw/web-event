@@ -2,7 +2,7 @@
  * Process to distribute server's public key for asymmetric encryption.
  * @deprecated use TeqFw_Web_Auth_Back_Mod_Server_Handler
  */
-export default class TeqFw_Web_Event_Back_Hand_Server_Key_Source {
+export default class TeqFw_Web_Event_Back_Listen_Server_Key_Source {
     constructor(spec) {
         // DEPS
         /** @type {TeqFw_Web_Event_Back_Mod_Server_Handler_Reverse_Portal} */

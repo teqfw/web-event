@@ -18,8 +18,8 @@ export default function (spec) {
      * @memberOf TeqFw_Web_Event_Back_Plugin_Init
      */
     async function action() {
-        await container.get('TeqFw_Web_Event_Back_Hand_Front_Authenticate$');
-        await container.get('TeqFw_Web_Event_Back_Hand_Server_Key_Source$');
+        await container.get('TeqFw_Web_Event_Back_Listen_Front_Authenticate$');
+        await container.get('TeqFw_Web_Event_Back_Listen_Server_Key_Source$');
     }
 
     // MAIN
