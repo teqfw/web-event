@@ -86,7 +86,7 @@ export default class TeqFw_Web_Event_Front_Mod_Connect_Direct_Portal {
         // INSTANCE METHODS
         /**
          * @param {TeqFw_Web_Event_Shared_Dto_Event.Dto|*} event
-         * @return {Promise<void>}
+         * @return {Promise<string>} UUID of the event
          */
         this.publish = async function (event) {
             const meta = event.meta;
@@ -101,6 +101,7 @@ export default class TeqFw_Web_Event_Front_Mod_Connect_Direct_Portal {
             } else {
                 logger.info(`Event #${meta.uuid} (${meta.name}) is not published to back.`);
             }
+            return meta.uuid;
         }
     }
 }

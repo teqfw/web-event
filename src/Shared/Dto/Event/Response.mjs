@@ -1,44 +1,46 @@
 /**
- * Server response for received front event.
+ * Base structure for transborder event message that is response to other transborder event message (request).
+ * @namespace TeqFw_Web_Event_Shared_Dto_Event_Response
  */
 // MODULE'S VARS
 const NS = 'TeqFw_Web_Event_Shared_Dto_Event_Response';
 
-/**
- * @memberOf TeqFw_Web_Event_Shared_Dto_Event_Response
- * @type {Object}
- */
-const ATTR = {
-    SUCCESS: 'success',
-};
-
 // MODULE'S CLASSES
+
 /**
  * @memberOf TeqFw_Web_Event_Shared_Dto_Event_Response
+ * @extends TeqFw_Web_Event_Shared_Dto_Event.Dto
  */
 class Dto {
     static namespace = NS;
-    /** @type {boolean} */
-    success;
+    /** @type {TeqFw_Web_Event_Shared_Dto_Event_Response_Meta.Dto} */
+    meta;
 }
 
 /**
  * @implements TeqFw_Core_Shared_Api_Factory_Dto_IMeta
  */
 export default class TeqFw_Web_Event_Shared_Dto_Event_Response {
-
     constructor(spec) {
-        /** @type {TeqFw_Core_Shared_Util_Cast.castBoolean|function} */
-        const castBoolean = spec['TeqFw_Core_Shared_Util_Cast.castBoolean'];
+        /** @type {TeqFw_Web_Event_Shared_Dto_Event} */
+        const dtoBase = spec['TeqFw_Web_Event_Shared_Dto_Event$'];
+        /** @type {TeqFw_Web_Event_Shared_Dto_Event_Response_Meta} */
+        const dtoMeta = spec['TeqFw_Web_Event_Shared_Dto_Event_Response_Meta$'];
+
+        // VARS
+        const ATTR = dtoBase.getAttributes();
 
         // INSTANCE METHODS
         /**
-         * @param {TeqFw_Web_Event_Shared_Dto_Event_Response.Dto} data
+         * @param {TeqFw_Web_Event_Shared_Dto_Event_Response.Dto|*} data
          * @return {TeqFw_Web_Event_Shared_Dto_Event_Response.Dto}
          */
         this.createDto = function (data = null) {
-            const res = new Dto();
-            res.success = castBoolean(data?.success);
+            // init base DTO and copy it to this DTO
+            const base = dtoBase.createDto(data);
+            const res = Object.assign(new Dto(), base);
+            // then init this DTO props
+            res.meta = dtoMeta.createDto(data?.[ATTR.META]);
             return res;
         }
 
@@ -46,8 +48,4 @@ export default class TeqFw_Web_Event_Shared_Dto_Event_Response {
 
         this.getAttrNames = () => Object.values(ATTR);
     }
-
 }
-
-// finalize code components for this es6-module
-Object.freeze(ATTR);

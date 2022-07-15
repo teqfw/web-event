@@ -31,7 +31,7 @@ export default class TeqFw_Web_Event_Front_Mod_Connect_Reverse {
         /** @type {TeqFw_Web_Event_Front_Mod_Connect_Direct_Portal} */
         const portalBack = spec['TeqFw_Web_Event_Front_Mod_Connect_Direct_Portal$'];
         /** @type {TeqFw_Web_Event_Shared_Dto_Event} */
-        const factTransMsg = spec['TeqFw_Web_Event_Shared_Dto_Event$'];
+        const dtoTransMsg = spec['TeqFw_Web_Event_Shared_Dto_Event$'];
         /** @type {TeqFw_Web_Event_Front_Event_Connect_Reverse_Closed} */
         const efClosed = spec['TeqFw_Web_Event_Front_Event_Connect_Reverse_Closed$'];
         /** @type {TeqFw_Web_Event_Front_Event_Connect_Reverse_Opened} */
@@ -109,7 +109,7 @@ export default class TeqFw_Web_Event_Front_Mod_Connect_Reverse {
             function onMessage(event) {
                 try {
                     const obj = JSON.parse(event.data);
-                    const dto = factTransMsg.createDto(obj);
+                    const dto = dtoTransMsg.createDto(obj);
                     const name = dto.meta.name;
                     const uuid = dto.meta.uuid;
                     const backUUID = dto.meta.backUUID;

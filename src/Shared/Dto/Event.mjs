@@ -38,8 +38,6 @@ class Dto {
  */
 export default class TeqFw_Web_Event_Shared_Dto_Event {
     constructor(spec) {
-        /** @type {TeqFw_Core_Shared_Dto_Formless} */
-        const dtoFormless = spec['TeqFw_Core_Shared_Dto_Formless$'];
         /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta} */
         const dtoMeta = spec['TeqFw_Web_Event_Shared_Dto_Event_Meta$'];
         /** @type {TeqFw_Core_Shared_Util_Cast.castString|function} */
@@ -51,8 +49,10 @@ export default class TeqFw_Web_Event_Shared_Dto_Event {
          * @return {TeqFw_Web_Event_Shared_Dto_Event.Dto}
          */
         this.createDto = function (data = null) {
-            const res = new Dto();
-            res.data = dtoFormless.createDto(data?.[ATTR.DATA]);
+            // init base DTO and copy it to this DTO
+            const res = Object.assign(new Dto(), data);
+            // then init this DTO props
+            // res.data = dtoFormless.createDto(data?.[ATTR.DATA]);
             res.meta = dtoMeta.createDto(data?.[ATTR.META]);
             res.stamp = castString(data?.stamp);
             return res;

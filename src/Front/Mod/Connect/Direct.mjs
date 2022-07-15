@@ -78,7 +78,7 @@ export default class TeqFw_Web_Event_Front_Mod_Connect_Direct {
                     if (res.status === 200) {
                         const text = await res.text();
                         try {
-                            /** @type {TeqFw_Web_Event_Shared_Dto_Event_Response.Dto} */
+                            /** @type {TeqFw_Web_Event_Shared_Dto_Direct_Response.Dto} */
                             const eventRes = JSON.parse(text);
                             result = eventRes.success ?? false;
                             logger.info(`${meta.frontUUID} <= ${eventName} (${meta.uuid}) (done)`, logMeta);

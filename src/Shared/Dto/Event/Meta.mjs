@@ -26,7 +26,7 @@ export default class TeqFw_Web_Event_Shared_Dto_Event_Meta {
     constructor(spec) {
         // DEPS
         /** @type {TeqFw_Core_Shared_Mod_Event_Message_Meta} */
-        const baseDto = spec['TeqFw_Core_Shared_Mod_Event_Message_Meta$'];
+        const dtoBase = spec['TeqFw_Core_Shared_Mod_Event_Message_Meta$'];
         /** @type {TeqFw_Core_Shared_Util_Cast.castString|function} */
         const castString = spec['TeqFw_Core_Shared_Util_Cast.castString'];
 
@@ -37,7 +37,7 @@ export default class TeqFw_Web_Event_Shared_Dto_Event_Meta {
          */
         this.createDto = function (data) {
             // init base DTO and copy it to this DTO
-            const base = baseDto.createDto(data);
+            const base = dtoBase.createDto(data);
             const res = Object.assign(new Dto(), base);
             // then init this DTO props
             res.backUUID = castString(data?.backUUID);

@@ -34,8 +34,8 @@ export default class TeqFw_Web_Event_Back_Mod_Server_Handler_Direct {
         const eventBus = spec['TeqFw_Core_Back_Mod_Event_Bus$'];
         /** @type {TeqFw_Web_Event_Shared_Dto_Event} */
         const dtoEvent = spec['TeqFw_Web_Event_Shared_Dto_Event$'];
-        /** @type {TeqFw_Web_Event_Shared_Dto_Event_Response} */
-        const dtoRes = spec['TeqFw_Web_Event_Shared_Dto_Event_Response$'];
+        /** @type {TeqFw_Web_Event_Shared_Dto_Direct_Response} */
+        const dtoRes = spec['TeqFw_Web_Event_Shared_Dto_Direct_Response$'];
         /** @type {TeqFw_Web_Event_Back_Fact_Stamper} */
         const factStamper = spec['TeqFw_Web_Event_Back_Fact_Stamper$'];
         /** @type {TeqFw_Core_Back_Mod_App_Uuid} */
