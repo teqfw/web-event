@@ -91,6 +91,7 @@ export default class TeqFw_Web_Event_Back_Listen_Front_Authenticate {
                             // publish local event about front authentication
                             const dtoAuth = ebFrontAuthenticated.createDto();
                             dtoAuth.data.frontId = data.frontId;
+                            dtoAuth.data.frontUuid = frontUuid;
                             eventsBack.publish(dtoAuth);
                         } // impossible situation: payload is decrypted but wrong
                     } catch (e) {
