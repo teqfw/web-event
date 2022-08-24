@@ -17,7 +17,7 @@ export default function (spec) {
 
     // VARS
     const A_DELAYED = idbDelayed.getAttributes();
-    const E_DELAYED = idbDelayed.getEntityName();
+    const E_DELAYED = idbDelayed.getName();
     const I_DELAYED = idbDelayed.getIndexes();
 
     // INNER FUNCTIONS
