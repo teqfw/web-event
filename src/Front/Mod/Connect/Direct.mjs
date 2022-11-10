@@ -92,8 +92,10 @@ export default class TeqFw_Web_Event_Front_Mod_Connect_Direct {
                             // there is front identity, but it is not found on back
                             await modIdentity.registerOnBack();
                         }
+                    } else {
+                        const msg = `Event request error. Status: ${res.status}.`;
+                        logger.error(msg, logMeta);
                     }
-
                 } catch (e) {
                     // errHndl.error(e);
                 } finally {
