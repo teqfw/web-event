@@ -134,7 +134,11 @@ export default class TeqFw_Web_Event_Front_Mod_Connect_Reverse {
                 (navigator.onLine) &&
                 ((_source === undefined) || (_source.readyState === SSE_STATE.CLOSED))
             ) {
-                const url = `${_url}/${modIdentity.getFrontUuid()}`;
+                // compose URL with front & tab identifiers
+                const frontUuid = modIdentity.getFrontUuid();
+                const tabUuid = modIdentity.getTabUuid();
+                const url = `${_url}/${frontUuid}`;
+
                 // open new SSE connection and add event listeners
                 _source = new EventSource(url);
                 _source.addEventListener('open', onOpen);

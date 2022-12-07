@@ -2,7 +2,7 @@
  * Web server handler to establish event stream from back to front (reverse channel).
  */
 // MODULE'S IMPORT
-import {constants as H2} from 'http2';
+import {constants as H2} from 'node:http2';
 import {validate, v4} from 'uuid';
 
 // MODULE'S VARS
@@ -68,8 +68,10 @@ export default class TeqFw_Web_Event_Back_Mod_Server_Handler_Reverse {
              * @return {string|null}
              */
             function getFrontAppUUID(url) {
-                const connId = url.split('/').pop();
-                return validate(connId) ? connId : null;
+                const parts = url.split('/');
+                // const tabUuid = parts.pop();
+                const frontUuid = parts.pop();
+                return validate(frontUuid) ? frontUuid : null;
             }
 
             /**

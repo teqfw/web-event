@@ -2,7 +2,7 @@
 
 TeqFW plugin to use asynchronous requests to backend services in teq-apps.
 
-| CAUTION: TeqFW is an unstable, fast-growing project w/o backward compatibility. Use it at your own risk. |
+| CAUTION: TeqFW is an unstable project w/o backward compatibility. Use it at your own risk. |
 | -------------------------------------------------------------------------------------------------------- |
 
 This `teq`-plugin contains handlers that process asynchronous requests (with JSON payloads) between frontend & backend.
