@@ -37,8 +37,8 @@ export default class TeqFw_Web_Event_Back_Mod_Server_Handler_Reverse {
         const dtoStream = spec['TeqFw_Web_Event_Back_Dto_Reverse_Stream$'];
         /** @type {TeqFw_Web_Event_Shared_Event_Back_Stream_Reverse_Authenticate_Request} */
         const esbAuthReq = spec['TeqFw_Web_Event_Shared_Event_Back_Stream_Reverse_Authenticate_Request$'];
-        /** @type {TeqFw_Web_Auth_Back_Mod_Server_Key} */
-        const modServerKey = spec['TeqFw_Web_Auth_Back_Mod_Server_Key$'];
+        /** @type {TeqFw_Web_Event_Back_Mod_Server_Key} */
+        const modServerKey = spec['TeqFw_Web_Event_Back_Mod_Server_Key$'];
 
         // VARS
         /**

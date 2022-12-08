@@ -4,6 +4,25 @@
       "package": {
         "event": {
           "entity": {
+            "front": {
+              "comment": "Frontends registry contains UUIDs and public keys for a connected fronts.",
+              "attr": {
+                "id": {"type": "id"},
+                "uuid": {"comment": "Front UUID.", "type": "string"},
+                "date_created": {
+                  "comment": "Date-time for front registration.",
+                  "type": "datetime",
+                  "default": "current"
+                },
+                "key_pub": {
+                  "comment": "Public key for encryption and authentication.",
+                  "type": "string"
+                }
+              },
+              "index": {
+                "uuid": {"type": "unique", "attrs": ["uuid"]}
+              }
+            },
             "queue": {
               "comment": "Queue for delayed transborder events.",
               "attr": {
@@ -17,7 +36,7 @@
               "relation": {
                 "front": {
                   "attrs": ["front_ref"],
-                  "ref": {"path": "/web/auth/front", "attrs": ["id"]},
+                  "ref": {"path": "/web/event/front", "attrs": ["id"]},
                   "action": {"delete": "cascade", "update": "cascade"}
                 }
               }
@@ -27,7 +46,5 @@
       }
     }
   },
-  "refs": {
-    "/web/auth/front": ["id"]
-  }
+  "refs": {}
 }

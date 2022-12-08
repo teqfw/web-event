@@ -37,7 +37,7 @@ export default class TeqFw_Web_Event_Back_Mod_Server_Handler_Direct {
         /** @type {TeqFw_Web_Event_Shared_Dto_Direct_Response} */
         const dtoRes = spec['TeqFw_Web_Event_Shared_Dto_Direct_Response$'];
         /** @type {TeqFw_Web_Event_Back_Fact_Stamper} */
-        const factStamper = spec['TeqFw_Web_Event_Back_Fact_Stamper$'];
+        // const factStamper = spec['TeqFw_Web_Event_Back_Fact_Stamper$'];
         /** @type {TeqFw_Core_Back_Mod_App_Uuid} */
         const modBackUuid = spec['TeqFw_Core_Back_Mod_App_Uuid$'];
         /** @type {TeqFw_Web_Shared_Dto_Log_Meta_Event} */

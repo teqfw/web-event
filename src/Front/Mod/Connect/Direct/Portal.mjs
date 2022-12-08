@@ -10,8 +10,8 @@ export default class TeqFw_Web_Event_Front_Mod_Connect_Direct_Portal {
         const logger = spec['TeqFw_Core_Shared_Api_ILogger$$']; // instance
         /** @type {TeqFw_Web_Event_Front_Mod_Connect_Direct} */
         const conn = spec['TeqFw_Web_Event_Front_Mod_Connect_Direct$'];
-        /** @type {TeqFw_Web_Auth_Front_Mod_Identity} */
-        const modIdentity = spec['TeqFw_Web_Auth_Front_Mod_Identity$'];
+        /** @type {TeqFw_Web_Event_Front_Mod_Identity} */
+        const modIdentity = spec['TeqFw_Web_Event_Front_Mod_Identity$'];
         /** @type {TeqFw_Web_Front_App_Store_IDB} */
         const idb = spec['TeqFw_Web_Event_Front_IDb$']; // plugin's local IDB
         /** @type {TeqFw_Web_Event_Front_IDb_Schema_Queue} */

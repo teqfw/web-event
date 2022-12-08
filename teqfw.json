@@ -3,6 +3,17 @@
     "autoload": {
       "ns": "TeqFw_Web_Event",
       "path": "./src"
+    },
+    "replace": {
+      "TeqFw_Core_Shared_Lib_Uuid": {"front": "TeqFw_Web_Event_Front_Lib_Uuid"},
+      "TeqFw_Web_Event_Shared_Api_Crypto_IScrambler": {
+        "back": "TeqFw_Web_Event_Back_Mod_Crypto_Scrambler",
+        "front": "TeqFw_Web_Event_Front_Mod_Crypto_Scrambler"
+      },
+      "TeqFw_Web_Event_Shared_Api_Crypto_Key_IManager": {
+        "back": "TeqFw_Web_Event_Back_Mod_Crypto_Key_Manager",
+        "front": "TeqFw_Web_Event_Front_Mod_Crypto_Key_Manager"
+      }
     }
   },
   "@teqfw/core": {

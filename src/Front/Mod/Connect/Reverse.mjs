@@ -24,8 +24,8 @@ export default class TeqFw_Web_Event_Front_Mod_Connect_Reverse {
         const DEF = spec['TeqFw_Web_Event_Front_Defaults$'];
         /** @type {TeqFw_Core_Shared_Api_ILogger} */
         const logger = spec['TeqFw_Core_Shared_Api_ILogger$$']; // instance
-        /** @type {TeqFw_Web_Auth_Front_Mod_Identity} */
-        const modIdentity = spec['TeqFw_Web_Auth_Front_Mod_Identity$'];
+        /** @type {TeqFw_Web_Event_Front_Mod_Identity} */
+        const modIdentity = spec['TeqFw_Web_Event_Front_Mod_Identity$'];
         /** @type {TeqFw_Web_Event_Front_Mod_Bus} */
         const eventFront = spec['TeqFw_Web_Event_Front_Mod_Bus$'];
         /** @type {TeqFw_Web_Event_Front_Mod_Connect_Direct_Portal} */
