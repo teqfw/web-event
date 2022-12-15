@@ -1,16 +1,16 @@
 /**
  * Frontend implementation for scrambler (encrypt/decrypt object for strings).
  *
- * @namespace TeqFw_Web_Auth_Front_Mod_Crypto_Scrambler
- * @implements TeqFw_Web_Auth_Shared_Api_Crypto_IScrambler
+ * @namespace TeqFw_Web_Event_Front_Mod_Crypto_Scrambler
+ * @implements TeqFw_Web_Event_Shared_Api_Crypto_IScrambler
  */
-export default class TeqFw_Web_Auth_Front_Mod_Crypto_Scrambler {
+export default class TeqFw_Web_Event_Front_Mod_Crypto_Scrambler {
     constructor(spec) {
         // DEPS
-        /** @type {TeqFw_Web_Auth_Front_Lib_Nacl.box} */
-        const box = spec['TeqFw_Web_Auth_Front_Lib_Nacl.box'];
-        /** @type {TeqFw_Web_Auth_Front_Lib_Nacl.randomBytes|function} */
-        const randomBytes = spec['TeqFw_Web_Auth_Front_Lib_Nacl.randomBytes'];
+        /** @type {TeqFw_Web_Event_Front_Ext_Nacl.box} */
+        const box = spec['TeqFw_Web_Event_Front_Ext_Nacl.box'];
+        /** @type {TeqFw_Web_Event_Front_Ext_Nacl.randomBytes|function} */
+        const randomBytes = spec['TeqFw_Web_Event_Front_Ext_Nacl.randomBytes'];
         /** @type {TeqFw_Core_Shared_Api_Util_ICodec} */
         const util = spec['TeqFw_Core_Shared_Api_Util_ICodec$'];
 
@@ -54,7 +54,7 @@ export default class TeqFw_Web_Auth_Front_Mod_Crypto_Scrambler {
 
 /**
  * @implements TeqFw_Core_Shared_Api_Factory_IAsync
- * @memberOf TeqFw_Web_Auth_Front_Mod_Crypto_Scrambler
+ * @memberOf TeqFw_Web_Event_Front_Mod_Crypto_Scrambler
  */
 export class Factory {
     constructor(spec) {
@@ -66,11 +66,11 @@ export class Factory {
         /**
          *
          * @param [opts]
-         * @return {Promise<TeqFw_Web_Auth_Front_Mod_Crypto_Scrambler>}
+         * @return {Promise<TeqFw_Web_Event_Front_Mod_Crypto_Scrambler>}
          */
         this.create = async function (opts) {
             // return new instance
-            return container.get('TeqFw_Web_Auth_Front_Mod_Crypto_Scrambler$$');
+            return container.get('TeqFw_Web_Event_Front_Mod_Crypto_Scrambler$$');
         }
     }
 }

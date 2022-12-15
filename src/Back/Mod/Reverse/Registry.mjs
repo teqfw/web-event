@@ -23,7 +23,7 @@ export default class TeqFw_Web_Event_Back_Mod_Reverse_Registry {
          */
         this.delete = function (streamUUID) {
             if (_store[streamUUID]) {
-                const frontUUID = _store[streamUUID].frontId;
+                const frontUUID = _store[streamUUID].frontUuid;
                 delete _mapUUIDFrontToStream[frontUUID];
                 delete _store[streamUUID];
             }
@@ -75,7 +75,7 @@ export default class TeqFw_Web_Event_Back_Mod_Reverse_Registry {
          * @return {string}
          */
         this.mapUUIDStreamToFront = function (streamUUID) {
-            return _store[streamUUID]?.frontId;
+            return _store[streamUUID]?.frontUuid;
         }
         /**
          * Put connection to the registry.
@@ -86,7 +86,7 @@ export default class TeqFw_Web_Event_Back_Mod_Reverse_Registry {
         this.put = function (conn, streamUUID, frontUUID) {
             if (_store[streamUUID])
                 throw new Error(`Cannot registry reverse stream with duplicated UUID: ${streamUUID}.`);
-            conn.frontId = frontUUID;
+            conn.frontUuid = frontUUID;
             conn.streamId = streamUUID;
             _store[streamUUID] = conn;
             _mapUUIDFrontToStream[frontUUID] = streamUUID;

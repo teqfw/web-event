@@ -14,9 +14,12 @@ const NS = 'TeqFw_Web_Event_Shared_Dto_Event_Meta';
 class Dto {
     static namespace = NS;
     /** @type {string} */
-    backUUID;
-    /** @type {string} */
-    frontUUID;
+    backUuid;
+    /**
+     * UUID for frontend session (tab in a browser) is generated on the back as stream UUID.
+     * @type {string}
+     */
+    streamUuid;
 }
 
 /**
@@ -38,10 +41,11 @@ export default class TeqFw_Web_Event_Shared_Dto_Event_Meta {
         this.createDto = function (data) {
             // init base DTO and copy it to this DTO
             const base = dtoBase.createDto(data);
+            /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta.Dto} */
             const res = Object.assign(new Dto(), base);
             // then init this DTO props
-            res.backUUID = castString(data?.backUUID);
-            res.frontUUID = castString(data?.frontUUID);
+            res.backUuid = castString(data?.backUuid);
+            res.streamUuid = castString(data?.streamUuid);
             return res;
         }
     }

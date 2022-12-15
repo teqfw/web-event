@@ -1,5 +1,5 @@
 /**
- * Front authenticattion is failed.
+ * Auth authenticattion is failed.
  */
 // MODULE'S VARS
 const NS = 'TeqFw_Web_Event_Shared_Event_Back_Stream_Reverse_Failed';
@@ -15,7 +15,7 @@ class Dto {
 }
 
 /**
- * @implements TeqFw_Core_Shared_Api_Factory_Dto_IEvent
+ * @implements TeqFw_Web_Event_Shared_Api_Factory_Dto_IEvent
  */
 export default class TeqFw_Web_Event_Shared_Event_Back_Stream_Reverse_Failed {
     constructor(spec) {

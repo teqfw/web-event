@@ -2,23 +2,26 @@
  * Model encapsulates front application's identity (UUID & asymmetric keys for front, public key & UUID for back).
  * Generate identity (UUID & asymmetric key) and send public parts (UUID & public key) to the server.
  */
-export default class TeqFw_Web_Event_Front_Mod_Identity {
+export default class TeqFw_Web_Event_Front_Mod_Identity_Front {
     constructor(spec) {
         // DEPS
         /** @type {TeqFw_Web_Event_Front_Defaults} */
         const DEF = spec['TeqFw_Web_Event_Front_Defaults$'];
+        /** @type {TeqFw_Core_Shared_Api_ILogger} */
+        const logger = spec['TeqFw_Core_Shared_Api_ILogger$$']; // instance
         /** @type {TeqFw_Web_Front_Mod_Store_Singleton} */
         const storeSingleton = spec['TeqFw_Web_Front_Mod_Store_Singleton$'];
-        /** @type {TeqFw_Web_Event_Front_Dto_Identity} */
-        const dtoIdentity = spec['TeqFw_Web_Event_Front_Dto_Identity$'];
+        /** @type {TeqFw_Web_Event_Front_Dto_Identity_Front} */
+        const dtoIdentity = spec['TeqFw_Web_Event_Front_Dto_Identity_Front$'];
         /** @type {TeqFw_Web_Event_Shared_Api_Crypto_Key_IManager} */
         const mgrKeys = spec['TeqFw_Web_Event_Shared_Api_Crypto_Key_IManager$'];
-        /** @type {TeqFw_Web_Event_Front_Mod_Connect} */
-        const connAuth = spec['TeqFw_Web_Event_Front_Mod_Connect$'];
+        /** @type {TeqFw_Web_Event_Front_Web_Connect_Front_Register.act|function} */
+        const connRegFront = spec['TeqFw_Web_Event_Front_Web_Connect_Front_Register$'];
 
         // VARS
+        logger.setNamespace(this.constructor.name);
         const KEY_IDENTITY = `${DEF.SHARED.NAME}/identity`;
-        /** @type {TeqFw_Web_Event_Front_Dto_Identity.Dto} */
+        /** @type {TeqFw_Web_Event_Front_Dto_Identity_Front.Dto} */
         let _cache;
 
         // INSTANCE METHODS
@@ -27,7 +30,7 @@ export default class TeqFw_Web_Event_Front_Mod_Identity {
          * @return {Promise<void>}
          */
         this.init = async function () {
-            /** @type {TeqFw_Web_Event_Front_Dto_Identity.Dto} */
+            /** @type {TeqFw_Web_Event_Front_Dto_Identity_Front.Dto} */
             const found = await storeSingleton.get(KEY_IDENTITY);
             if (found) _cache = found;
             else {
@@ -35,11 +38,11 @@ export default class TeqFw_Web_Event_Front_Mod_Identity {
                 const dto = dtoIdentity.createDto();
                 dto.frontUuid = self.crypto.randomUUID();
                 dto.frontKeys = await mgrKeys.generateAsyncKeys();
-                const regData = await connAuth.register(dto.frontUuid, dto.frontKeys.public);
-                if (regData) {
-                    dto.frontBid = regData.frontBid;
-                    dto.backKeyPublic = regData.backKeyPublic;
-                    dto.backUuid = regData.backUuid;
+                /** @type {number|null} */
+                const frontBid = await connRegFront(dto.frontUuid, dto.frontKeys.public);
+                if (frontBid) {
+                    dto.frontBid = frontBid;
+                    logger.info(`Front '${dto.frontUuid}' is registered as #${frontBid} on the back.`);
                     await storeSingleton.set(KEY_IDENTITY, dto);
                     _cache = dto;
                 } else {
@@ -49,27 +52,7 @@ export default class TeqFw_Web_Event_Front_Mod_Identity {
         }
 
         /**
-         * Register current identity on backend.
-         * @return {Promise<void>}
-         * @deprecated we don't use this method in event plugin more
-         */
-        this.registerOnBack = async function () {
-            /** @type {TeqFw_Web_Event_Front_Dto_Identity.Dto} */
-            const found = await storeSingleton.get(KEY_IDENTITY);
-            if (found) {
-                const regData = await connAuth.register(found.frontUuid, found.frontKeys.public);
-                if (regData) {
-                    found.frontBid = regData.frontBid;
-                    found.backKeyPublic = regData.backKeyPublic;
-                    found.backUuid = regData.backUuid;
-                    await storeSingleton.set(KEY_IDENTITY, found);
-                    _cache = found;
-                } else throw new Error('Fatal error. Cannot register existing front app on the back.');
-            } else throw new Error('Fatal error. Cannot get front identity from IDB.');
-        }
-
-        /**
-         * @return {TeqFw_Web_Event_Front_Dto_Identity.Dto}
+         * @return {TeqFw_Web_Event_Front_Dto_Identity_Front.Dto}
          */
         this.get = () => _cache;
         /**
@@ -85,7 +68,7 @@ export default class TeqFw_Web_Event_Front_Mod_Identity {
         this.getBackUuid = () => _cache?.backUuid;
 
         /**
-         * Front ID from backend RDB.
+         * Auth ID from backend RDB.
          * @return {number}
          */
         this.getFrontBid = () => _cache?.frontBid;
@@ -96,23 +79,39 @@ export default class TeqFw_Web_Event_Front_Mod_Identity {
         this.getFrontUuid = () => _cache?.frontUuid;
 
         /**
-         * Front's public key for asymmetric encryption.
+         * Auth's public key for asymmetric encryption.
          * @type {string}
          */
         this.getPublicKey = () => _cache?.frontKeys?.public;
+
         /**
-         * Front's secret key for asymmetric encryption.
+         * Auth's secret key for asymmetric encryption.
          * @type {string}
          */
         this.getSecretKey = () => _cache?.frontKeys?.secret;
 
-        this.getTabUuid = () => {
-            let res = sessionStorage.getItem(DEF.STORE_SESS_KEY_TAB_UUID);
-            if (!res) {
-                res = self.crypto.randomUUID();
-                sessionStorage.setItem(DEF.STORE_SESS_KEY_TAB_UUID, res);
-            }
-            return res;
+        /**
+         * Stream stream UUID for current session (tab in a browser).
+         * @returns {string}
+         */
+        this.getStreamUuid = () => {
+            return sessionStorage.getItem(DEF.STORE_REVERSE_STREAM_UUID);
+        }
+
+        /**
+         * Stream stream UUID for current session (tab in a browser).
+         * @param {string} uuid
+         */
+        this.setStreamUuid = (uuid) => {
+            return sessionStorage.setItem(DEF.STORE_REVERSE_STREAM_UUID, uuid);
+        }
+
+        /**
+         * UUID of backend to communicate in current session (tab in a browser).
+         * @param {string} uuid
+         */
+        this.setBackUuid = (uuid) => {
+            return sessionStorage.setItem(DEF.STORE_REVERSE_BACK_UUID, uuid);
         }
 
     }

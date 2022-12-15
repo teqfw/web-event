@@ -11,13 +11,16 @@ const NS = 'TeqFw_Web_Event_Shared_Event_Back_Stream_Reverse_Authenticate_Reques
 class Dto {
     static namespace = NS;
     /** @type {string} */
-    backUUID;
-    /** @type {string} */
+    backUuid;
+    /**
+     * Public key for the backend.
+     * @type {string}
+     */
     serverKey;
 }
 
 /**
- * @implements TeqFw_Core_Shared_Api_Factory_Dto_IEvent
+ * @implements TeqFw_Web_Event_Shared_Api_Factory_Dto_IEvent
  */
 export default class TeqFw_Web_Event_Shared_Event_Back_Stream_Reverse_Authenticate_Request {
     constructor(spec) {
@@ -37,7 +40,7 @@ export default class TeqFw_Web_Event_Shared_Event_Back_Stream_Reverse_Authentica
          */
         function createData(data) {
             const res = new Dto();
-            res.backUUID = castString(data?.backUUID);
+            res.backUuid = castString(data?.backUuid);
             res.serverKey = castString(data?.serverKey);
             return res;
         }

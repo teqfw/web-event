@@ -1,31 +1,31 @@
 /**
- * Request to backend to register new front app.
+ * Save frontend UUID and public key to back.
  */
 // MODULE'S VARS
-const NS = 'TeqFw_Web_Event_Shared_Dto_Connect_Register_Request';
+const NS = 'TeqFw_Web_Event_Shared_Dto_Register_Request';
 
 // MODULE'S CLASSES
 /**
- * @memberOf TeqFw_Web_Event_Shared_Dto_Connect_Register_Request
+ * @memberOf TeqFw_Web_Event_Shared_Dto_Register_Request
  */
 class Dto {
     static namespace = NS;
     /**
-     * Front's public key for asymmetric encryption.
+     * Auth's public key for asymmetric encryption.
      * @type {string}
      */
     publicKey;
     /**
-     * Front's UUID.
+     * Auth's UUID.
      * @type {string}
      */
-    uuid;
+    frontUuid;
 }
 
 /**
  * @implements TeqFw_Core_Shared_Api_Factory_IDto
  */
-export default class TeqFw_Web_Event_Shared_Dto_Connect_Register_Request {
+export default class TeqFw_Web_Event_Shared_Dto_Register_Request {
 
     constructor(spec) {
         /** @type {TeqFw_Core_Shared_Util_Cast.castString|function} */
@@ -33,13 +33,13 @@ export default class TeqFw_Web_Event_Shared_Dto_Connect_Register_Request {
 
         // INSTANCE METHODS
         /**
-         * @param {TeqFw_Web_Event_Shared_Dto_Connect_Register_Request.Dto} [data]
-         * @return {TeqFw_Web_Event_Shared_Dto_Connect_Register_Request.Dto}
+         * @param {TeqFw_Web_Event_Shared_Dto_Register_Request.Dto} [data]
+         * @return {TeqFw_Web_Event_Shared_Dto_Register_Request.Dto}
          */
         this.createDto = function (data) {
             const res = new Dto();
             res.publicKey = castString(data?.publicKey);
-            res.uuid = castString(data?.uuid);
+            res.frontUuid = castString(data?.frontUuid);
             return res;
         }
     }

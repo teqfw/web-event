@@ -44,7 +44,7 @@ export default class TeqFw_Web_Event_Back_Mod_Server_Handler_Reverse_Portal {
                 logMeta.backUuid = modBackUuid.get();
                 logMeta.eventName = meta.name;
                 logMeta.eventUuid = meta.uuid;
-                logMeta.frontUuid = meta.frontUUID;
+                logMeta.streamUuid = meta.frontUUID;
                 logger.info(`${meta.frontUUID} <= ${meta.name} (${meta.uuid})`, logMeta);
             }
 

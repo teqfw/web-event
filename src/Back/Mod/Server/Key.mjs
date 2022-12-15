@@ -1,6 +1,5 @@
 /**
  * Source to get server keys for asymmetric encryption.
- * TODO: initialize this model to plugin init function, make get/set as sync.
  *
  * @namespace TeqFw_Web_Event_Back_Mod_Server_Key
  */
@@ -27,40 +26,37 @@ export default class TeqFw_Web_Event_Back_Mod_Server_Key {
         /** @type {TeqFw_Web_Event_Shared_Dto_Identity_Keys.Dto} */
         let _keys;
 
-        // FUNCS
+        // INSTANCE METHODS
+
+        /**
+         * @return {string}
+         */
+        this.getPublic = function () {
+            return _keys.public;
+        }
+
+        /**
+         * @return {string}
+         */
+        this.getSecret = function () {
+            return _keys.secret;
+        }
+
         /**
          * Load server's keys from the file or generate new ones.
          */
-        async function init() {
+        this.init = async function () {
             const root = config.getBoot().projectRoot;
             const path = join(root, DEF.FILE_CRYPTO_KEYS);
             if (!(existsSync(path))) {
                 _keys = await mgrKey.generateAsyncKeys();
                 const data = JSON.stringify(_keys);
                 writeFileSync(path, data);
-                logger.info(`New crypto keys are stored in '${path}'.`);
+                logger.info(`New crypto keys for web events are stored in '${path}'.`);
             } else {
                 _keys = readJson(path);
-                logger.info(`Crypto keys are loaded from '${path}'.`);
+                logger.info(`Crypto keys for web events are loaded from '${path}'.`);
             }
-        }
-
-        // INSTANCE METHODS
-
-        /**
-         * @return {Promise<string>}
-         */
-        this.getPublic = async function () {
-            if (!_keys) await init();
-            return _keys.public;
-        }
-
-        /**
-         * @return {Promise<string>}
-         */
-        this.getSecret = async function () {
-            if (!_keys) await init();
-            return _keys.secret;
         }
     }
 }

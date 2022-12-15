@@ -1,5 +1,5 @@
 /**
- * Frontend local event 'Reverse event stream is closed'.
+ * Frontend local event 'Stream event stream is closed'.
  * TODO: use this event or TeqFw_Web_Front_Api_Mod_Server_Connect_IState model
  */
 // MODULE'S VARS
@@ -14,7 +14,7 @@ class Dto {
 }
 
 /**
- * @implements TeqFw_Core_Shared_Api_Factory_Dto_IEvent
+ * @implements TeqFw_Web_Event_Shared_Api_Factory_Dto_IEvent
  */
 export default class TeqFw_Web_Event_Front_Event_Connect_Reverse_Closed {
     constructor(spec) {

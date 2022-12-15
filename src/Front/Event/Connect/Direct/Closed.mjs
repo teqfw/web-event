@@ -13,7 +13,7 @@ class Dto {
 }
 
 /**
- * @implements TeqFw_Core_Shared_Api_Factory_Dto_IEvent
+ * @implements TeqFw_Web_Event_Shared_Api_Factory_Dto_IEvent
  */
 export default class TeqFw_Web_Event_Front_Event_Connect_Direct_Closed {
     constructor(spec) {

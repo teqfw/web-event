@@ -7,6 +7,9 @@ export default class TeqFw_Web_Event_Front_Defaults {
     /** @type {TeqFw_Web_Event_Shared_Defaults} */
     SHARED;
 
+    STORE_REVERSE_BACK_UUID = `@teqfw/web-event/reverseBackUuid`;
+    STORE_REVERSE_STREAM_UUID = `@teqfw/web-event/reverseStreamUuid`;
+
     constructor(spec) {
         // EXTRACT DEPS
         this.MOD_WEB = spec['TeqFw_Web_Front_Defaults$'];

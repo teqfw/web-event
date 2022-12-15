@@ -42,9 +42,9 @@ export default class TeqFw_Web_Event_Back_Mod_Queue {
             logMeta.backUuid = modBackUuid.get();
             logMeta.eventName = meta.name;
             logMeta.eventUuid = meta.uuid;
-            logMeta.frontUuid = meta.frontUUID;
+            logMeta.streamUuid = meta.streamUuid;
             try {
-                const {id: frontId} = await actGetIdByUuid({trx, uuid: event.meta.frontUUID});
+                const {id: frontId} = await actGetIdByUuid({trx, uuid: event.meta.streamUuid});
                 const dto = rdbQueue.createDto();
                 dto.message = JSON.stringify(event);
                 dto.front_ref = frontId;

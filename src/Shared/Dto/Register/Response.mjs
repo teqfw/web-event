@@ -1,58 +1,50 @@
 /**
- * Front application identity.
+ * Save frontend UUID and public key to back.
  */
 // MODULE'S VARS
-const NS = 'TeqFw_Web_Event_Front_Dto_Identity';
+const NS = 'TeqFw_Web_Event_Shared_Dto_Register_Response';
 
 // MODULE'S CLASSES
 /**
- * @memberOf TeqFw_Web_Event_Front_Dto_Identity
+ * @memberOf TeqFw_Web_Event_Shared_Dto_Register_Response
+ * @deprecated use frontBid only
  */
 class Dto {
     static namespace = NS;
-    /**
-     * Server's public key for asymmetric encryption.
-     * @type {string}
-     */
+    /** @type {string} */
     backKeyPublic;
     /** @type {string} */
     backUuid;
     /**
-     * Backend ID for current front.
+     * Backend ID for registered front.
      * @type {number}
      */
     frontBid;
-    /** @type {TeqFw_Web_Event_Shared_Dto_Identity_Keys.Dto} */
-    frontKeys;
-    /** @type {string} */
-    frontUuid;
 }
 
 /**
  * @implements TeqFw_Core_Shared_Api_Factory_IDto
+ * @deprecated use frontBid only
  */
-export default class TeqFw_Web_Event_Front_Dto_Identity {
+export default class TeqFw_Web_Event_Shared_Dto_Register_Response {
 
     constructor(spec) {
         /** @type {TeqFw_Core_Shared_Util_Cast.castInt|function} */
         const castInt = spec['TeqFw_Core_Shared_Util_Cast.castInt'];
         /** @type {TeqFw_Core_Shared_Util_Cast.castString|function} */
         const castString = spec['TeqFw_Core_Shared_Util_Cast.castString'];
-        /** @type {TeqFw_Web_Event_Shared_Dto_Identity_Keys} */
-        const dtoKeys = spec['TeqFw_Web_Event_Shared_Dto_Identity_Keys$'];
 
         // INSTANCE METHODS
         /**
-         * @param {TeqFw_Web_Event_Front_Dto_Identity.Dto} [data]
-         * @return {TeqFw_Web_Event_Front_Dto_Identity.Dto}
+         * @param {TeqFw_Web_Event_Shared_Dto_Register_Response.Dto} [data]
+         * @return {TeqFw_Web_Event_Shared_Dto_Register_Response.Dto}
+         * @deprecated use frontBid only
          */
         this.createDto = function (data) {
             const res = new Dto();
             res.backKeyPublic = castString(data?.backKeyPublic);
             res.backUuid = castString(data?.backUuid);
             res.frontBid = castInt(data?.frontBid);
-            res.frontKeys = dtoKeys.createDto(data?.frontKeys);
-            res.frontUuid = castString(data?.frontUuid);
             return res;
         }
     }

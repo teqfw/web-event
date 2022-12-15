@@ -4,7 +4,7 @@
  * Statics mapping for web server see in './teqfw.json'.
  * All frontend imports are related to this es6-module.
  *
- * @namespace TeqFw_Web_Event_Front_Lib_Nacl
+ * @namespace TeqFw_Web_Event_Front_Ext_Nacl
  */
 // MODULE'S IMPORT
 import * as unused from '../../../../tweetnacl/nacl-fast.min.js'; // just load CommonJS module to browser

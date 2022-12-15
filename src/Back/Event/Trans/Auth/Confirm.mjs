@@ -1,5 +1,5 @@
 /**
- * Front app is authenticated on the back.
+ * Authentication confirmation from frontend.
  */
 // MODULE'S VARS
 const NS = 'TeqFw_Web_Event_Back_Event_Front_Authenticated';
@@ -11,7 +11,7 @@ const NS = 'TeqFw_Web_Event_Back_Event_Front_Authenticated';
 class Dto {
     static namespace = NS;
     /**
-     * Front application ID in backend RDB.
+     * Auth application ID in backend RDB.
      * @type {number}
      */
     frontId;
@@ -20,7 +20,7 @@ class Dto {
 }
 
 /**
- * @implements TeqFw_Core_Shared_Api_Factory_Dto_IEvent
+ * @implements TeqFw_Web_Event_Shared_Api_Factory_Dto_IEvent
  */
 export default class TeqFw_Web_Event_Back_Event_Front_Authenticated {
     constructor(spec) {

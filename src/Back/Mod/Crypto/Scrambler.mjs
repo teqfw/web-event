@@ -42,7 +42,7 @@ export default class TeqFw_Web_Event_Back_Mod_Crypto_Scrambler {
 
         this.encryptAndSign = function (plain) {
             const messageUint8 = util.utf2ab(JSON.stringify(plain));
-            const nonce = nacl.randomBytes(box.nonceLength);
+            const nonce = nacl.randomBytes(nacl.box.nonceLength);
             const encrypted = nacl.box.after(messageUint8, nonce, _keyShared);
             const fullMessage = new Uint8Array(nonce.length + encrypted.length);
             fullMessage.set(nonce);

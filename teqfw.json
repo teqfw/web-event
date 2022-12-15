@@ -5,7 +5,6 @@
       "path": "./src"
     },
     "replace": {
-      "TeqFw_Core_Shared_Lib_Uuid": {"front": "TeqFw_Web_Event_Front_Lib_Uuid"},
       "TeqFw_Web_Event_Shared_Api_Crypto_IScrambler": {
         "back": "TeqFw_Web_Event_Back_Mod_Crypto_Scrambler",
         "front": "TeqFw_Web_Event_Front_Mod_Crypto_Scrambler"
@@ -24,6 +23,18 @@
   },
   "@teqfw/web": {
     "handlers": {
+      "TeqFw_Web_Event_Back_Web_Handler_Front_Register": {
+        "before": ["TeqFw_Web_Back_App_Server_Handler_Static"],
+        "spaces": ["web-event-front-reg"]
+      },
+      "TeqFw_Web_Event_Back_Web_Handler_Stream_Open": {
+        "before": ["TeqFw_Web_Back_App_Server_Handler_Static"],
+        "spaces": ["web-event-stream-open"]
+      },
+      "TeqFw_Web_Event_Back_Web_Handler_Stream_Activate": {
+        "before": ["TeqFw_Web_Back_App_Server_Handler_Static"],
+        "spaces": ["web-event-stream-act"]
+      },
       "TeqFw_Web_Event_Back_Mod_Server_Handler_Direct": {
         "before": ["TeqFw_Web_Back_App_Server_Handler_Static"],
         "spaces": ["efb"]
@@ -32,6 +43,9 @@
         "before": ["TeqFw_Web_Back_App_Server_Handler_Static"],
         "spaces": ["ebf"]
       }
+    },
+    "statics": {
+      "/tweetnacl/": "/tweetnacl/"
     }
   }
 }

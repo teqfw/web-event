@@ -37,9 +37,11 @@ export default class TeqFw_Web_Event_Back_Mod_Server_Handler_Direct {
         /** @type {TeqFw_Web_Event_Shared_Dto_Direct_Response} */
         const dtoRes = spec['TeqFw_Web_Event_Shared_Dto_Direct_Response$'];
         /** @type {TeqFw_Web_Event_Back_Fact_Stamper} */
-        // const factStamper = spec['TeqFw_Web_Event_Back_Fact_Stamper$'];
+        const factStamper = spec['TeqFw_Web_Event_Back_Fact_Stamper$'];
         /** @type {TeqFw_Core_Back_Mod_App_Uuid} */
         const modBackUuid = spec['TeqFw_Core_Back_Mod_App_Uuid$'];
+        /** @type {TeqFw_Web_Event_Back_Mod_Registry_Stream} */
+        const modRegStream = spec['TeqFw_Web_Event_Back_Mod_Registry_Stream$'];
         /** @type {TeqFw_Web_Shared_Dto_Log_Meta_Event} */
         const dtoLogMeta = spec['TeqFw_Web_Shared_Dto_Log_Meta_Event$'];
 
@@ -64,23 +66,23 @@ export default class TeqFw_Web_Event_Back_Mod_Server_Handler_Direct {
                 logMeta.backUuid = modBackUuid.get();
                 logMeta.eventName = meta.name;
                 logMeta.eventUuid = meta.uuid;
-                logMeta.frontUuid = meta.frontUUID;
-                logger.info(`${meta.frontUUID} => ${meta.name} (${meta.uuid}).`, logMeta);
+                logMeta.streamUuid = meta.streamUuid;
+                logger.info(`${meta.streamUuid} => ${meta.name} (${meta.uuid}).`, logMeta);
             }
 
             // MAIN
             /** @type {TeqFw_Core_Shared_Mod_Map} */
             const shares = res[DEF.MOD_WEB.HNDL_SHARE];
             if (!res.headersSent && !shares.get(DEF.MOD_WEB.SHARE_RES_STATUS)) {
-                let frontUuid, eventUuid;
                 const json = shares.get(DEF.MOD_WEB.SHARE_REQ_BODY_JSON);
+                const message = dtoEvent.createDto(json);
+                const meta = message?.meta;
+                const streamUuid = meta?.streamUuid;
+                const eventUuid = meta?.uuid;
                 try {
-                    const message = dtoEvent.createDto(json);
-                    const meta = message.meta;
-                    frontUuid = meta.frontUUID;
-                    eventUuid = meta.uuid;
                     // try to load public key using front UUID then validate encryption stamp
-                    const stamper = await factStamper.create({frontUuid});
+                    const stream = modRegStream.get(streamUuid);
+                    const stamper = await factStamper.create({frontUuid: stream.frontUuid});
                     if (stamper) {
                         const valid = stamper.verify(message.stamp, meta);
                         if (valid) {
@@ -99,12 +101,12 @@ export default class TeqFw_Web_Event_Back_Mod_Server_Handler_Direct {
                             respond403(res, msg);
                         }
                     } else {
-                        const msg = `Unknown front UUID: ${frontUuid}`;
+                        const msg = `Unknown front UUID: ${streamUuid}`;
                         logger.error(`Front authentication is failed. ${msg}`, meta);
                         respond403(res, msg);
                     }
                 } catch (e) {
-                    logger.error(`Error for event #${frontUuid}/${eventUuid}: ${e?.message}`);
+                    logger.error(`Error for event #${streamUuid}/${eventUuid}: ${e?.message}`);
                     respond500(res, e?.message);
                 }
             }
