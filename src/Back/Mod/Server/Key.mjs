@@ -19,8 +19,8 @@ export default class TeqFw_Web_Event_Back_Mod_Server_Key {
         const config = spec['TeqFw_Core_Back_Config$'];
         /** @type {TeqFw_Core_Back_Util.readJson|function} */
         const readJson = spec['TeqFw_Core_Back_Util.readJson'];
-        /** @type {TeqFw_Web_Event_Shared_Api_Crypto_Key_IManager} */
-        const mgrKey = spec['TeqFw_Web_Event_Shared_Api_Crypto_Key_IManager$'];
+        /** @type {TeqFw_Web_Event_Shared_Api_Crypto_Key_Manager} */
+        const mgrKey = spec['TeqFw_Web_Event_Shared_Api_Crypto_Key_Manager$'];
 
         // VARS
         /** @type {TeqFw_Web_Event_Shared_Dto_Identity_Keys.Dto} */

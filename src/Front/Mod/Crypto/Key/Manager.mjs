@@ -1,6 +1,6 @@
 /**
  * Key manager to generate keys, import/export keys, etc.
- * @implements TeqFw_Web_Event_Shared_Api_Crypto_Key_IManager
+ * @implements TeqFw_Web_Event_Shared_Api_Crypto_Key_Manager
  */
 export default class TeqFw_Web_Event_Front_Mod_Crypto_Key_Manager {
     constructor(spec) {

@@ -6,7 +6,7 @@
  *
  * @interface
  */
-export default class TeqFw_Web_Event_Shared_Api_Crypto_IScrambler {
+export default class TeqFw_Web_Event_Shared_Api_Crypto_Scrambler {
 
     /**
      * @param {string} encrypted

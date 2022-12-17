@@ -13,7 +13,7 @@ class Dto {
 }
 
 /**
- * @implements TeqFw_Web_Event_Shared_Api_Factory_Dto_IEvent
+ * @implements TeqFw_Web_Event_Shared_Api_Factory_Event
  */
 export default class TeqFw_Web_Event_Shared_Event_Back_Stream_Reverse_Authenticated {
     constructor(spec) {
@@ -22,7 +22,7 @@ export default class TeqFw_Web_Event_Shared_Event_Back_Stream_Reverse_Authentica
         const dtoBase = spec['TeqFw_Web_Event_Shared_Dto_Event$'];
 
         // VARS
-        const ATTR = dtoBase.getAttributes();
+        // const ATTR = dtoBase.getAttributes();
 
         // FUNCS
         /**
@@ -48,5 +48,6 @@ export default class TeqFw_Web_Event_Shared_Event_Back_Stream_Reverse_Authentica
         }
 
         this.getEventName = () => NS;
+        this.getName = () => NS;
     }
 }

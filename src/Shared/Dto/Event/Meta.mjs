@@ -1,5 +1,5 @@
 /**
- * Message meta-data for transborder events.
+ * Meta-data for simple event message.
  *
  * @namespace TeqFw_Web_Event_Shared_Dto_Event_Meta
  */
@@ -8,18 +8,25 @@ const NS = 'TeqFw_Web_Event_Shared_Dto_Event_Meta';
 
 // MODULE'S CLASSES
 /**
- * @extends TeqFw_Core_Shared_Mod_Event_Message_Meta.Dto
  * @memberOf TeqFw_Web_Event_Shared_Dto_Event_Meta
  */
 class Dto {
     static namespace = NS;
-    /** @type {string} */
-    backUuid;
     /**
-     * UUID for frontend session (tab in a browser) is generated on the back as stream UUID.
+     * Name of the event (Prj_Back_Event_Name).
      * @type {string}
      */
-    streamUuid;
+    name;
+    /**
+     * UTC time for the event.
+     * @type {Date}
+     */
+    published;
+    /**
+     * UUID v4 for the event.
+     * @type {string}
+     */
+    uuid;
 }
 
 /**
@@ -28,24 +35,25 @@ class Dto {
 export default class TeqFw_Web_Event_Shared_Dto_Event_Meta {
     constructor(spec) {
         // DEPS
-        /** @type {TeqFw_Core_Shared_Mod_Event_Message_Meta} */
-        const dtoBase = spec['TeqFw_Core_Shared_Mod_Event_Message_Meta$'];
+        /** @type {TeqFw_Core_Shared_Api_Util_Crypto.randomUUID|function} */
+        const randomUUID = spec['TeqFw_Core_Shared_Api_Util_Crypto.randomUUID'];
+        /** @type {TeqFw_Core_Shared_Util_Cast.castDate|function} */
+        const castDate = spec['TeqFw_Core_Shared_Util_Cast.castDate'];
         /** @type {TeqFw_Core_Shared_Util_Cast.castString|function} */
         const castString = spec['TeqFw_Core_Shared_Util_Cast.castString'];
 
         // INSTANCE METHODS
         /**
-         * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta.Dto} data
+         * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta.Dto} [data]
          * @return {TeqFw_Web_Event_Shared_Dto_Event_Meta.Dto}
          */
-        this.createDto = function (data) {
-            // init base DTO and copy it to this DTO
-            const base = dtoBase.createDto(data);
-            /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta.Dto} */
-            const res = Object.assign(new Dto(), base);
-            // then init this DTO props
-            res.backUuid = castString(data?.backUuid);
-            res.streamUuid = castString(data?.streamUuid);
+        this.createDto = function (data = null) {
+            // create DTO and copy input data to this DTO
+            const res = Object.assign(new Dto(), data);
+            // cast data for known props
+            res.name = castString(data?.name);
+            res.published = castDate(data?.published) ?? new Date();
+            res.uuid = castString(data?.uuid) ?? randomUUID();
             return res;
         }
     }

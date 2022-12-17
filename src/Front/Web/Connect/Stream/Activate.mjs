@@ -72,7 +72,8 @@ export default function (spec) {
                 body: JSON.stringify(req)
             });
             const res = await fetched.json();
-            debugger
+            if (res === true)
+                logger.error(`Stream '${streamUuid}' for front '${frontUuid}' is active now.`);
             // TODO: mark 'front-to-back' portal as activated
         } catch (e) {
             logger.error(`Cannot send stream activation request to back. Error: ${e?.message}`);

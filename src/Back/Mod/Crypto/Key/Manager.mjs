@@ -6,7 +6,7 @@
 import nacl from 'tweetnacl'; // as CommonJS module
 
 /**
- * @implements TeqFw_Web_Event_Shared_Api_Crypto_Key_IManager
+ * @implements TeqFw_Web_Event_Shared_Api_Crypto_Key_Manager
  */
 export default class TeqFw_Web_Event_Back_Mod_Crypto_Key_Manager {
 

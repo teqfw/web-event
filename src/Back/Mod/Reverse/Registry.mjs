@@ -2,6 +2,7 @@
  * Registry for reverse events streams.
  *
  * @namespace TeqFw_Web_Event_Back_Mod_Reverse_Registry
+ * @deprecated use TeqFw_Web_Event_Back_Mod_Registry_Stream
  */
 export default class TeqFw_Web_Event_Back_Mod_Reverse_Registry {
 

@@ -11,7 +11,7 @@ const NS = 'TeqFw_Web_Event_Back_Mod_Crypto_Scrambler';
 
 // MODULE'S CLASSES
 /**
- * @implements TeqFw_Web_Event_Shared_Api_Crypto_IScrambler
+ * @implements TeqFw_Web_Event_Shared_Api_Crypto_Scrambler
  */
 export default class TeqFw_Web_Event_Back_Mod_Crypto_Scrambler {
     constructor(spec) {

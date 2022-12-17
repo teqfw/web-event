@@ -17,7 +17,7 @@ class Dto {
 }
 
 /**
- * @implements TeqFw_Web_Event_Shared_Api_Factory_Dto_IEvent
+ * @implements TeqFw_Web_Event_Shared_Api_Factory_Event
  */
 export default class TeqFw_Web_Event_Shared_Event_Front_Stream_Reverse_Authenticate_Response {
     constructor(spec) {

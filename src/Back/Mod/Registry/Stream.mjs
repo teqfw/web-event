@@ -78,26 +78,6 @@ export default class TeqFw_Web_Event_Back_Mod_Registry_Stream {
         }
 
         /**
-         * Get connection object by front session UUID.
-         * @param {string} uuid session UUID
-         * @param {boolean} [activeOnly]
-         * @return {TeqFw_Web_Event_Back_Dto_Reverse_Stream.Dto|null}
-         * @deprecated use streamUuid
-         */
-        this.getBySessionUuid = function (uuid, activeOnly = true) {
-            const stream = _mapSessionToStream[uuid]
-            return this.get(stream, activeOnly);
-        }
-
-        /**
-         * Get frontUUID by stream UUID
-         * @param {string} streamUUID
-         * @return {string}
-         */
-        this.mapUUIDStreamToFront = function (streamUUID) {
-            return _store[streamUUID]?.frontUuid;
-        }
-        /**
          * Put connection to the registry.
          * @param {TeqFw_Web_Event_Back_Dto_Reverse_Stream.Dto} stream
          */

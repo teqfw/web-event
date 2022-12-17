@@ -20,7 +20,7 @@ class Dto {
 }
 
 /**
- * @implements TeqFw_Web_Event_Shared_Api_Factory_Dto_IEvent
+ * @implements TeqFw_Web_Event_Shared_Api_Factory_Event
  */
 export default class TeqFw_Web_Event_Shared_Event_Back_Stream_Reverse_Authenticate_Request {
     constructor(spec) {
@@ -31,7 +31,7 @@ export default class TeqFw_Web_Event_Shared_Event_Back_Stream_Reverse_Authentica
         const castString = spec['TeqFw_Core_Shared_Util_Cast.castString'];
 
         // VARS
-        const ATTR = dtoBase.getAttributes();
+        // const ATTR = dtoBase.getAttributes();
 
         // FUNCS
         /**

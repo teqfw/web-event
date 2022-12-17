@@ -1,22 +1,11 @@
 /**
- * Data for reverse stream authentication (sent from back to front).
+ * Reverse stream authentication DTO (sent from back to front).
  * @namespace TeqFw_Web_Event_Shared_Dto_Stream_Auth
  */
 // MODULE'S VARS
 const NS = 'TeqFw_Web_Event_Shared_Dto_Stream_Auth';
 
 // MODULE'S CLASSES
-/**
- * @memberOf TeqFw_Web_Event_Shared_Dto_Stream_Auth
- * @type {Object}
- */
-const ATTR = {
-    BACK_KEY: 'backKey',
-    BACK_UUID: 'backUuid',
-    STREAM_UUID_ENC: 'streamUuidEnc',
-};
-Object.freeze(ATTR);
-
 /**
  * @memberOf TeqFw_Web_Event_Shared_Dto_Stream_Auth
  */
@@ -40,7 +29,7 @@ class Dto {
 }
 
 /**
- * @implements TeqFw_Core_Shared_Api_Factory_Dto_IMeta
+ * @implements TeqFw_Core_Shared_Api_Factory_IDto
  */
 export default class TeqFw_Web_Event_Shared_Dto_Stream_Auth {
     constructor(spec) {
@@ -59,7 +48,5 @@ export default class TeqFw_Web_Event_Shared_Dto_Stream_Auth {
             res.streamUuidEnc = castString(data?.streamUuidEnc);
             return res;
         }
-
-        this.getAttributes = () => ATTR;
     }
 }

@@ -13,8 +13,8 @@ export default class TeqFw_Web_Event_Front_Mod_Identity_Front {
         const storeSingleton = spec['TeqFw_Web_Front_Mod_Store_Singleton$'];
         /** @type {TeqFw_Web_Event_Front_Dto_Identity_Front} */
         const dtoIdentity = spec['TeqFw_Web_Event_Front_Dto_Identity_Front$'];
-        /** @type {TeqFw_Web_Event_Shared_Api_Crypto_Key_IManager} */
-        const mgrKeys = spec['TeqFw_Web_Event_Shared_Api_Crypto_Key_IManager$'];
+        /** @type {TeqFw_Web_Event_Shared_Api_Crypto_Key_Manager} */
+        const mgrKeys = spec['TeqFw_Web_Event_Shared_Api_Crypto_Key_Manager$'];
         /** @type {TeqFw_Web_Event_Front_Web_Connect_Front_Register.act|function} */
         const connRegFront = spec['TeqFw_Web_Event_Front_Web_Connect_Front_Register$'];
 

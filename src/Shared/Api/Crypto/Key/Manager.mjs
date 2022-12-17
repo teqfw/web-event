@@ -6,7 +6,7 @@
  *
  * @interface
  */
-export default class TeqFw_Web_Event_Shared_Api_Crypto_Key_IManager {
+export default class TeqFw_Web_Event_Shared_Api_Crypto_Key_Manager {
 
     /**
      * Generate keys pair for asynchronous encryption.

@@ -53,10 +53,11 @@ export default class TeqFw_Web_Event_Back_Mod_Portal_Front {
             const meta = event?.meta;
             const eventName = meta?.name;
             const uuid = meta?.uuid;
-            const frontUuid = meta?.frontUUID;
+            const frontUuid = meta?.frontUuid;
+            const streamUuid = meta?.streamUuid;
             meta.backUuid = backUuid.get();
             const activeOnly = !useUnAuthStream;
-            const conn = registry.getByFrontUUID(frontUuid, activeOnly);
+            const conn = registry.get(streamUuid, activeOnly);
             if (conn) {
                 // TODO: save message to queue on write failure
                 conn.write(event);

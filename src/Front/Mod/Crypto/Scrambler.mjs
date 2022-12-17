@@ -2,7 +2,7 @@
  * Frontend implementation for scrambler (encrypt/decrypt object for strings).
  *
  * @namespace TeqFw_Web_Event_Front_Mod_Crypto_Scrambler
- * @implements TeqFw_Web_Event_Shared_Api_Crypto_IScrambler
+ * @implements TeqFw_Web_Event_Shared_Api_Crypto_Scrambler
  */
 export default class TeqFw_Web_Event_Front_Mod_Crypto_Scrambler {
     constructor(spec) {

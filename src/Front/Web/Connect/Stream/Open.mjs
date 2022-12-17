@@ -73,89 +73,93 @@ export default function (spec) {
      * @memberOf TeqFw_Web_Event_Front_Web_Connect_Stream_Open
      */
     function act() {
-        // FUNCS
-        /**
-         * Listener for SSE authentication event from the back.
-         * Decrypt and verify authentication payload. Save stream UUID to local storage. Return confirmation to back.
-         * @param {MessageEvent} event
-         * @memberOf TeqFw_Web_Event_Front_Web_Connect_Stream_Open.act
-         */
-        async function onAuthenticate(event) {
-            /** @type {TeqFw_Web_Event_Shared_Dto_Stream_Auth.Dto} */
-            const dataAuth = dtoAuth.createDto(JSON.parse(event?.data));
-            // decrypt payload and extract back & stream UUIDs
-            const pub = dataAuth.backKey;
-            const sec = modIdFront.getSecretKey();
-            const scrambler = await factScrambler.create();
-            scrambler.setKeys(pub, sec);
-            const streamUuid = scrambler.decryptAndVerify(dataAuth.streamUuidEnc);
-            // compose backend identity
-            const dataIdBack = dtoIdBack.createDto();
-            dataIdBack.backKey = dataAuth.backKey;
-            dataIdBack.backUuid = dataAuth.backUuid;
-            dataIdBack.streamUuid = streamUuid;
-            modIdBack.set(dataIdBack);
-            // publish confirmation to back
-            connActivate(modIdFront.getFrontUuid(), streamUuid);
-            logger.info(`Front authentication response is sent to back.`);
-        }
-
-        /**
-         * Publish 'opened' event on the front.
-         * @param {Event} event
-         */
-        function onError(event) {
-            if (event.eventPhase !== EventSource.CLOSED) {
-                logger.error(`Error in 'back-to-front event stream' (event: ${JSON.stringify(event)}).`);
+        return new Promise((resolve, reject) => {
+            // FUNCS
+            /**
+             * Listener for SSE authentication event from the back.
+             * Decrypt and verify authentication payload. Save stream UUID to local storage. Return confirmation to back.
+             * @param {MessageEvent} event
+             * @memberOf TeqFw_Web_Event_Front_Web_Connect_Stream_Open.act
+             */
+            async function onAuthenticate(event) {
+                /** @type {TeqFw_Web_Event_Shared_Dto_Stream_Auth.Dto} */
+                const dataAuth = dtoAuth.createDto(JSON.parse(event?.data));
+                // decrypt payload and extract back & stream UUIDs
+                const pub = dataAuth.backKey;
+                const sec = modIdFront.getSecretKey();
+                const scrambler = await factScrambler.create();
+                scrambler.setKeys(pub, sec);
+                const streamUuid = scrambler.decryptAndVerify(dataAuth.streamUuidEnc);
+                // compose backend identity
+                const dataIdBack = dtoIdBack.createDto();
+                dataIdBack.backKey = dataAuth.backKey;
+                dataIdBack.backUuid = dataAuth.backUuid;
+                dataIdBack.streamUuid = streamUuid;
+                modIdBack.set(dataIdBack);
+                // publish confirmation to back
+                connActivate(modIdFront.getFrontUuid(), streamUuid);
+                logger.info(`Front authentication response is sent to back.`);
+                resolve();
             }
-            closeStream();
-        }
 
-        /**
-         * Listener for regular SSE event from the back.
-         * @param {MessageEvent} event
-         */
-        function onMessage(event) {
-            try {
-                const obj = JSON.parse(event.data);
-                const dto = dtoTransMsg.createDto(obj);
-                const name = dto.meta.name;
-                const uuid = dto.meta.uuid;
-                const backUuid = dto.meta.backUuid;
-                logger.info(`${name} (${uuid}): ${backUuid} => ${dto?.meta?.streamUuid}/${modIdFront.getFrontUuid()}`);
-                eventFront.publish(dto);
-            } catch (e) {
-                logger.error(e);
+            /**
+             * Publish 'opened' event on the front.
+             * @param {Event} event
+             */
+            function onError(event) {
+                if (event.eventPhase !== EventSource.CLOSED) {
+                    logger.error(`Error in 'back-to-front event stream' (event: ${JSON.stringify(event)}).`);
+                }
+                closeStream();
             }
-        }
 
-        /**
-         * Publish 'opened' event on the front.
-         * @param {Event} event
-         */
-        function onOpen(event) {
-            eventFront.publish(efOpened.createDto());
-            modConn.setOnline();
-        }
+            /**
+             * Listener for regular SSE event from the back.
+             * @param {MessageEvent} event
+             */
+            function onMessage(event) {
+                try {
+                    const obj = JSON.parse(event.data);
+                    const dto = dtoTransMsg.createDto(obj);
+                    const name = dto.meta.name;
+                    const uuid = dto.meta.uuid;
+                    const backUuid = dto.meta.backUuid;
+                    logger.info(`${name} (${uuid}): ${backUuid} => ${dto?.meta?.streamUuid}/${modIdFront.getFrontUuid()}`);
+                    eventFront.publish(dto);
+                } catch (e) {
+                    logger.error(e);
+                }
+            }
 
-        // MAIN
-        if (
-            (navigator.onLine) &&
-            ((_source === undefined) || (_source.readyState === SSE_STATE.CLOSED))
-        ) {
-            // compose URL with front identifier to log requests
-            const frontUuid = modIdFront.getFrontUuid();
-            const url = `${_url}/${frontUuid}`;
+            /**
+             * Publish 'opened' event on the front.
+             * @param {Event} event
+             */
+            function onOpen(event) {
+                eventFront.publish(efOpened.createDto());
+                modConn.setOnline();
+            }
 
-            // open new SSE connection and add event listeners
-            _source = new EventSource(url);
-            _source.addEventListener('open', onOpen);
-            _source.addEventListener('error', onError);
-            // on 'message' (repeat backend event emission on the front)
-            _source.addEventListener('message', onMessage);
-            // Auth authentication request is the first event in the stream
-            _source.addEventListener(DEF.SHARED.SSE_AUTHENTICATE, onAuthenticate);
-        }
+            // MAIN
+            if (
+                (navigator.onLine) &&
+                ((_source === undefined) || (_source.readyState === SSE_STATE.CLOSED))
+            ) {
+                // compose URL with front identifier to log requests
+                const frontUuid = modIdFront.getFrontUuid();
+                const url = `${_url}/${frontUuid}`;
+
+                // open new SSE connection and add event listeners
+                _source = new EventSource(url);
+                _source.addEventListener('open', onOpen);
+                _source.addEventListener('error', onError);
+                // on 'message' (repeat backend event emission on the front)
+                _source.addEventListener('message', onMessage);
+                // Auth authentication request is the first SSE event in the stream
+                _source.addEventListener(DEF.SHARED.SSE_AUTHENTICATE, onAuthenticate);
+            } else resolve(); // work offline
+        });
+
     }
 
     Object.defineProperty(act, 'namespace', {value: NS});
