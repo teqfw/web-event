@@ -24,8 +24,6 @@ export default function (spec) {
     const modCfg = spec['TeqFw_Web_Front_Mod_Config$'];
     /** @type {TeqFw_Web_Event_Shared_Dto_Register_Request} */
     const dtoReq = spec['TeqFw_Web_Event_Shared_Dto_Register_Request$'];
-    /** @type {TeqFw_Web_Event_Shared_Dto_Register_Response} */
-    const dtoRes = spec['TeqFw_Web_Event_Shared_Dto_Register_Response$'];
 
     // VARS
     let BASE;

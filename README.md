@@ -1,11 +1,11 @@
 # @teqfw/web-event
 
-TeqFW plugin to use asynchronous requests to backend services in teq-apps.
+TeqFW plugin to use events for communications between front and back in teq-apps.
 
 | CAUTION: TeqFW is an unstable project w/o backward compatibility. Use it at your own risk. |
 |--------------------------------------------------------------------------------------------|
 
-This `teq`-plugin contains handlers that process asynchronous requests (with JSON payloads) between frontend & backend.
+This `teq`-plugin adds event driven (asynchronous) requests (with JSON payloads) between frontend & backend.
 
 ## Install
 
@@ -17,19 +17,15 @@ $ npm i @teqfw/web-event --save
 
 This plugin uses `TeqFw_Web_Event` namespace.
 
+## Descriptors
+
 ## `teqfw.json`
 
-[DTO](src/Back/Dto/Plugin/Desc.mjs) for `@teqfw/web-event` nodes in `teq`-plugins descriptors.
-
-```json
-{
-  "@teqfw/web-event": {}
-}
-```
+Plugin `@teqfw/web-event` doesn't have own node in `teq`-descriptors.
 
 ## `./cfg/local.json`
 
-[DTO](src/Back/Dto/Config/Local.mjs) for `@teqfw/web-event` node.
+Plugin `@teqfw/web-event` doesn't have own node in local configuration.
 
 ## Backend DB
 
@@ -44,7 +40,11 @@ This plugin uses `TeqFw_Web_Event` namespace.
 
 ### Web server handlers
 
+* `TeqFw_Web_Event_Back_Web_Handler_Direct`: receive 'front-to-back' transborder events.
 * `TeqFw_Web_Event_Back_Web_Handler_Front_Register`: register front UUID & public key in backend.
-* `TeqFw_Web_Event_Back_Web_Handler_Stream_Open`: open new SSE connection to send event from back to front.
 * `TeqFw_Web_Event_Back_Web_Handler_Stream_Activate`: authenticate front to use opened SSE connection.
-* `TeqFw_Web_Event_Back_Web_Handler_Direct`: process 'front-to-back' requests.
+* `TeqFw_Web_Event_Back_Web_Handler_Stream_Open`: open new SSE connection to send event from back to front.
+
+### Event channels
+
+* `TeqFw_Web_Event_Front_Mod_Channel`:

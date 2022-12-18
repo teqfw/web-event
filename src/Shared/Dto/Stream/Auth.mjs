@@ -1,5 +1,5 @@
 /**
- * Reverse stream authentication DTO (sent from back to front).
+ * Server events stream authentication DTO (sent from back to front).
  * @namespace TeqFw_Web_Event_Shared_Dto_Stream_Auth
  */
 // MODULE'S VARS
@@ -42,7 +42,9 @@ export default class TeqFw_Web_Event_Shared_Dto_Stream_Auth {
          * @return {TeqFw_Web_Event_Shared_Dto_Stream_Auth.Dto}
          */
         this.createDto = function (data = null) {
-            const res = new Dto();
+            // create new DTO and populate it with initialization data
+            const res = Object.assign(new Dto(), data);
+            // cast known attributes
             res.backKey = castString(data?.backKey);
             res.backUuid = castString(data?.backUuid);
             res.streamUuidEnc = castString(data?.streamUuidEnc);

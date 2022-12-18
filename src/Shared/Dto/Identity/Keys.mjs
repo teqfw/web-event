@@ -4,15 +4,6 @@
 // MODULE'S VARS
 const NS = 'TeqFw_Web_Event_Shared_Dto_Identity_Keys';
 
-/**
- * @memberOf TeqFw_Web_Event_Shared_Dto_Identity_Keys
- * @type {Object}
- */
-const ATTR = {
-    PUBLIC: 'public',
-    SECRET: 'secret',
-};
-
 // MODULE'S CLASSES
 /**
  * @memberOf TeqFw_Web_Event_Shared_Dto_Identity_Keys
@@ -32,7 +23,7 @@ class Dto {
 }
 
 /**
- * @implements TeqFw_Core_Shared_Api_Factory_Dto_IMeta
+ * @implements TeqFw_Core_Shared_Api_Factory_IDto
  */
 export default class TeqFw_Web_Event_Shared_Dto_Identity_Keys {
 
@@ -46,17 +37,12 @@ export default class TeqFw_Web_Event_Shared_Dto_Identity_Keys {
          * @return {TeqFw_Web_Event_Shared_Dto_Identity_Keys.Dto}
          */
         this.createDto = function (data) {
-            const res = new Dto();
+            // create new DTO and populate it with initialization data
+            const res = Object.assign(new Dto(), data);
+            // cast known attributes
             res.public = castString(data?.public);
             res.secret = castString(data?.secret);
             return res;
         }
-
-        this.getAttributes = () => ATTR;
-
     }
-
 }
-
-// finalize code components for this es6-module
-Object.freeze(ATTR);

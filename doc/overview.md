@@ -83,7 +83,7 @@ xu0Vv3FVLciUQ/5MP3HeqKcHPSvqDzyp+6pNHtf94iMKPh0t8UoG6fiT6ongovqVgUbnL8t5FVRTTFVD
 ```
 
 Front decrypts and verifies payload in `TeqFw_Web_Event_Front_Web_Connect_Stream_Open.act.onAuthenticate` function then
-returns streamUuid back to server as metadata of regular event (`TeqFw_Web_Event_Shared_Event_Front_Auth_Confirm`).
+returns streamUuid back to server as metadata of regular event (`...`).
 
 Аутентификация не должна идти через event'ы - там уже идут события после аутентификации (потоки активированы).
 

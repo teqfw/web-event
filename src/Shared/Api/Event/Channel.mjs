@@ -1,10 +1,16 @@
 /**
- * Interface for events channel.
+ * Interface for events channel (event bus).
  * This is documentation only code (not executable).
  *
  * @interface
  */
 export default class TeqFw_Web_Event_Shared_Api_Event_Channel {
+    /**
+     * Create message DTO with meta-data corresponded to current channel.
+     * @returns {TeqFw_Web_Event_Shared_Dto_Event.Dto}
+     */
+    createMessage() {}
+
     /**
      * Publish message about event and run all event handlers with given payload.
      * @param {TeqFw_Web_Event_Shared_Dto_Event.Dto} message
@@ -13,15 +19,15 @@ export default class TeqFw_Web_Event_Shared_Api_Event_Channel {
 
     /**
      * Add event listener to the channel.
-     * @param {string} eventName
+     * @param {Class|string} event Event DTO factory or event's name
      * @param {function} handler
-     * @return {TeqFw_Web_Event_Shared_Api_Event_ISubscription}
+     * @return {TeqFw_Core_Shared_Mod_Event_Subscription}
      */
-    subscribe(eventName, handler) { }
+    subscribe(event, handler) { }
 
     /**
      * Remove subscription.
-     * @param {TeqFw_Web_Event_Shared_Api_Event_ISubscription} subscription
+     * @param {TeqFw_Core_Shared_Mod_Event_Subscription} subscription
      */
     unsubscribe(subscription) { }
 }

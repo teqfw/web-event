@@ -1,22 +1,25 @@
 /**
- * Identity for frontend application (cookie, IDB, cache access).
+ * Delayed events for some front app were re-published by back.
  */
 // MODULE'S VARS
-const NS = 'TeqFw_Web_Event_Front_Dto_Identity_Front';
+const NS = 'TeqFw_Web_Event_Back_Event_Msg_Republish_Delayed';
 
 // MODULE'S CLASSES
 /**
- * @memberOf TeqFw_Web_Event_Front_Dto_Identity_Front
+ * @memberOf TeqFw_Web_Event_Back_Event_Msg_Republish_Delayed
  */
 class Dto {
     static namespace = NS;
     /**
-     * Backend ID for current front.
+     * Number of re-published events.
      * @type {number}
      */
-    frontBid;
-    /** @type {TeqFw_Web_Event_Shared_Dto_Identity_Keys.Dto} */
-    frontKeys;
+    count;
+    /**
+     * Auth application ID in backend RDB.
+     * @type {number}
+     */
+    frontId;
     /** @type {string} */
     frontUuid;
 }
@@ -24,30 +27,27 @@ class Dto {
 /**
  * @implements TeqFw_Core_Shared_Api_Factory_IDto
  */
-export default class TeqFw_Web_Event_Front_Dto_Identity_Front {
-
+export default class TeqFw_Web_Event_Back_Event_Msg_Republish_Delayed {
     constructor(spec) {
+        // DEPS
         /** @type {TeqFw_Core_Shared_Util_Cast.castInt|function} */
         const castInt = spec['TeqFw_Core_Shared_Util_Cast.castInt'];
         /** @type {TeqFw_Core_Shared_Util_Cast.castString|function} */
         const castString = spec['TeqFw_Core_Shared_Util_Cast.castString'];
-        /** @type {TeqFw_Web_Event_Shared_Dto_Identity_Keys} */
-        const dtoKeys = spec['TeqFw_Web_Event_Shared_Dto_Identity_Keys$'];
 
         // INSTANCE METHODS
         /**
-         * @param {TeqFw_Web_Event_Front_Dto_Identity_Front.Dto} [data]
-         * @return {TeqFw_Web_Event_Front_Dto_Identity_Front.Dto}
+         * @param {TeqFw_Web_Event_Back_Event_Msg_Republish_Delayed.Dto} [data]
+         * @return {TeqFw_Web_Event_Back_Event_Msg_Republish_Delayed.Dto}
          */
-        this.createDto = function (data) {
+        this.createDto = function (data = null) {
             // create new DTO and populate it with initialization data
             const res = Object.assign(new Dto(), data);
             // cast known attributes
-            res.frontBid = castInt(data?.frontBid);
-            res.frontKeys = dtoKeys.createDto(data?.frontKeys);
+            res.count = castInt(data?.count);
+            res.frontId = castInt(data?.frontId);
             res.frontUuid = castString(data?.frontUuid);
             return res;
         }
     }
-
 }

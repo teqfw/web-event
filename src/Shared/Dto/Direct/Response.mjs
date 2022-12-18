@@ -5,14 +5,6 @@
 // MODULE'S VARS
 const NS = 'TeqFw_Web_Event_Shared_Dto_Direct_Response';
 
-/**
- * @memberOf TeqFw_Web_Event_Shared_Dto_Direct_Response
- * @type {Object}
- */
-const ATTR = {
-    SUCCESS: 'success',
-};
-
 // MODULE'S CLASSES
 /**
  * @memberOf TeqFw_Web_Event_Shared_Dto_Direct_Response
@@ -24,7 +16,7 @@ class Dto {
 }
 
 /**
- * @implements TeqFw_Core_Shared_Api_Factory_Dto_IMeta
+ * @implements TeqFw_Core_Shared_Api_Factory_IDto
  */
 export default class TeqFw_Web_Event_Shared_Dto_Direct_Response {
 
@@ -38,17 +30,12 @@ export default class TeqFw_Web_Event_Shared_Dto_Direct_Response {
          * @return {TeqFw_Web_Event_Shared_Dto_Direct_Response.Dto}
          */
         this.createDto = function (data = null) {
-            const res = new Dto();
+            // create new DTO and populate it with initialization data
+            const res = Object.assign(new Dto(), data);
+            // cast known attributes
             res.success = castBoolean(data?.success);
             return res;
         }
-
-        this.getAttributes = () => ATTR;
-
-        this.getAttrNames = () => Object.values(ATTR);
     }
 
 }
-
-// finalize code components for this es6-module
-Object.freeze(ATTR);

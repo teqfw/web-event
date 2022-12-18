@@ -37,7 +37,9 @@ export default class TeqFw_Web_Event_Shared_Dto_Register_Request {
          * @return {TeqFw_Web_Event_Shared_Dto_Register_Request.Dto}
          */
         this.createDto = function (data) {
-            const res = new Dto();
+            // create new DTO and populate it with initialization data
+            const res = Object.assign(new Dto(), data);
+            // cast known attributes
             res.publicKey = castString(data?.publicKey);
             res.frontUuid = castString(data?.frontUuid);
             return res;

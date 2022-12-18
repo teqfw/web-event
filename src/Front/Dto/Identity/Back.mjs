@@ -39,7 +39,9 @@ export default class TeqFw_Web_Event_Front_Dto_Identity_Back {
          * @return {TeqFw_Web_Event_Front_Dto_Identity_Back.Dto}
          */
         this.createDto = function (data) {
-            const res = new Dto();
+            // create new DTO and populate it with initialization data
+            const res = Object.assign(new Dto(), data);
+            // cast known attributes
             res.backKey = castString(data?.backKey);
             res.backUuid = castString(data?.backUuid);
             res.streamUuid = castString(data?.streamUuid);

@@ -8,8 +8,8 @@ export default class TeqFw_Web_Event_Back_Mod_Portal_Front {
         const logger = spec['TeqFw_Core_Shared_Api_ILogger$$']; // instance
         /** @type {TeqFw_Core_Back_Mod_App_Uuid} */
         const backUuid = spec['TeqFw_Core_Back_Mod_App_Uuid$'];
-        /** @type {TeqFw_Core_Back_Mod_Event_Bus} */
-        const eventsBack = spec['TeqFw_Core_Back_Mod_Event_Bus$'];
+        /** @type {TeqFw_Web_Event_Back_Mod_Channel} */
+        const eventsBack = spec['TeqFw_Web_Event_Back_Mod_Channel$'];
         /** @type {TeqFw_Web_Event_Back_Mod_Registry_Stream} */
         const registry = spec['TeqFw_Web_Event_Back_Mod_Registry_Stream$'];
         /** @type {TeqFw_Web_Event_Back_Mod_Queue} */
@@ -20,8 +20,8 @@ export default class TeqFw_Web_Event_Back_Mod_Portal_Front {
         const dtoLogMeta = spec['TeqFw_Web_Shared_Dto_Log_Meta_Event$'];
         /** @type {TeqFw_Core_Shared_Util_Cast.castDate|function} */
         const castDate = spec['TeqFw_Core_Shared_Util_Cast.castDate'];
-        /** @type {TeqFw_Web_Event_Back_Event_Republish_Delayed} */
-        const ebRepublishDelayed = spec['TeqFw_Web_Event_Back_Event_Republish_Delayed$'];
+        /** @type {TeqFw_Web_Event_Back_Event_Msg_Republish_Delayed} */
+        const ebRepublishDelayed = spec['TeqFw_Web_Event_Back_Event_Msg_Republish_Delayed$'];
         /** @type {TeqFw_Web_Event_Shared_Dto_Event} */
         const factEvt = spec['TeqFw_Web_Event_Shared_Dto_Event$'];
         /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_FromBack} */
@@ -117,11 +117,13 @@ export default class TeqFw_Web_Event_Back_Mod_Portal_Front {
             }
             if (count > 0) {
                 logger.info(`Total ${count} delayed events were processed for front #${frontUuid}.`, {frontUuid});
-                const event = ebRepublishDelayed.createDto();
-                event.data.count = count;
-                event.data.frontId = frontId;
-                event.data.frontUuid = frontUuid;
-                eventsBack.publish(event);
+                const data = ebRepublishDelayed.createDto();
+                data.count = count;
+                data.frontId = frontId;
+                data.frontUuid = frontUuid;
+                const msg = eventsBack.createMessage();
+                msg.data = data;
+                eventsBack.publish(msg).then();
             }
         }
     }

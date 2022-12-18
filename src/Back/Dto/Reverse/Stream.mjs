@@ -69,7 +69,9 @@ export default class TeqFw_Web_Event_Back_Dto_Reverse_Stream {
          * @return {TeqFw_Web_Event_Back_Dto_Reverse_Stream.Dto}
          */
         this.createDto = function (data) {
-            const res = new Dto();
+            // create new DTO and populate it with initialization data
+            const res = Object.assign(new Dto(), data);
+            // cast known attributes
             res.finalize = castFunction(data?.finalize);
             res.frontUuid = castString(data?.frontUuid);
             res.messageId = castInt(data?.messageId) || 1;

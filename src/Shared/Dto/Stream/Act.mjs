@@ -8,16 +8,6 @@ const NS = 'TeqFw_Web_Event_Shared_Dto_Stream_Act';
 // MODULE'S CLASSES
 /**
  * @memberOf TeqFw_Web_Event_Shared_Dto_Stream_Act
- * @type {Object}
- */
-const ATTR = {
-    FRONT_UUID: 'frontUuid',
-    STREAM_UUID: 'streamUuid',
-};
-Object.freeze(ATTR);
-
-/**
- * @memberOf TeqFw_Web_Event_Shared_Dto_Stream_Act
  */
 class Dto {
     static namespace = NS;
@@ -34,7 +24,7 @@ class Dto {
 }
 
 /**
- * @implements TeqFw_Core_Shared_Api_Factory_Dto_IMeta
+ * @implements TeqFw_Core_Shared_Api_Factory_IDto
  */
 export default class TeqFw_Web_Event_Shared_Dto_Stream_Act {
     constructor(spec) {
@@ -47,12 +37,12 @@ export default class TeqFw_Web_Event_Shared_Dto_Stream_Act {
          * @return {TeqFw_Web_Event_Shared_Dto_Stream_Act.Dto}
          */
         this.createDto = function (data = null) {
-            const res = new Dto();
+            // create new DTO and populate it with initialization data
+            const res = Object.assign(new Dto(), data);
+            // cast known attributes
             res.frontUuid = castString(data?.frontUuid);
             res.streamUuid = castString(data?.streamUuid);
             return res;
         }
-
-        this.getAttributes = () => ATTR;
     }
 }

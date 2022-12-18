@@ -15,7 +15,7 @@ export default class TeqFw_Web_Event_Shared_Mod_Stamper {
         // VARS
         /**
          * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta.Dto} meta event message metadata
-         * @return {string} payoad to encrypt/verify
+         * @return {string} payload to encrypt/verify
          */
         function composePayload(meta) {
             /** @type {Date} */

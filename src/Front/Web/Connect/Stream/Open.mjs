@@ -28,12 +28,12 @@ export default function (spec) {
     const DEF = spec['TeqFw_Web_Event_Front_Defaults$'];
     /** @type {TeqFw_Core_Shared_Api_ILogger} */
     const logger = spec['TeqFw_Core_Shared_Api_ILogger$$']; // instance
-    /** @type {TeqFw_Web_Event_Front_Mod_Bus} */
-    const eventFront = spec['TeqFw_Web_Event_Front_Mod_Bus$'];
-    /** @type {TeqFw_Web_Event_Front_Event_Connect_Reverse_Closed} */
-    const efClosed = spec['TeqFw_Web_Event_Front_Event_Connect_Reverse_Closed$'];
-    /** @type {TeqFw_Web_Event_Front_Event_Connect_Reverse_Opened} */
-    const efOpened = spec['TeqFw_Web_Event_Front_Event_Connect_Reverse_Opened$'];
+    /** @type {TeqFw_Web_Event_Front_Mod_Channel} */
+    const eventsFront = spec['TeqFw_Web_Event_Front_Mod_Channel$'];
+    /** @type {TeqFw_Web_Event_Front_Event_Msg_Stream_Closed} */
+    const efClosed = spec['TeqFw_Web_Event_Front_Event_Msg_Stream_Closed$'];
+    /** @type {TeqFw_Web_Event_Front_Event_Msg_Stream_Opened} */
+    const efOpened = spec['TeqFw_Web_Event_Front_Event_Msg_Stream_Opened$'];
     /** @type {TeqFw_Web_Front_Api_Mod_Server_Connect_IState} */
     const modConn = spec['TeqFw_Web_Front_Api_Mod_Server_Connect_IState$'];
     /** @type {TeqFw_Web_Event_Front_Mod_Identity_Front} */
@@ -48,7 +48,6 @@ export default function (spec) {
     const dtoIdBack = spec['TeqFw_Web_Event_Front_Dto_Identity_Back$'];
     /** @type {TeqFw_Web_Event_Front_Web_Connect_Stream_Activate.act|function} */
     const connActivate = spec['TeqFw_Web_Event_Front_Web_Connect_Stream_Activate$'];
-
     /** @type {TeqFw_Web_Event_Front_Mod_Crypto_Scrambler.Factory} */
     const factScrambler = spec['TeqFw_Web_Event_Front_Mod_Crypto_Scrambler.Factory$'];
 
@@ -60,12 +59,17 @@ export default function (spec) {
 
     // FUNCS
     function closeStream() {
+        //close SSL connection if not closed
         if (_source && (_source.readyState !== SSE_STATE.CLOSED)) {
             _source.close();
-            eventFront.publish(efClosed.createDto());
             logger.info(`Reverse events stream connection is closed.`);
         }
-        modConn.setOffline();
+        // generate local event
+        /** @type {TeqFw_Web_Event_Shared_Dto_Event.Dto} */
+        const msg = eventsFront.createMessage();
+        msg.data = efClosed.createDto();
+        eventsFront.publish(msg)
+            .then(modConn.setOffline); // update connection state
     }
 
     /**
@@ -111,6 +115,7 @@ export default function (spec) {
                     logger.error(`Error in 'back-to-front event stream' (event: ${JSON.stringify(event)}).`);
                 }
                 closeStream();
+                reject();
             }
 
             /**
@@ -125,7 +130,7 @@ export default function (spec) {
                     const uuid = dto.meta.uuid;
                     const backUuid = dto.meta.backUuid;
                     logger.info(`${name} (${uuid}): ${backUuid} => ${dto?.meta?.streamUuid}/${modIdFront.getFrontUuid()}`);
-                    eventFront.publish(dto);
+                    eventsFront.publish(dto);
                 } catch (e) {
                     logger.error(e);
                 }
@@ -136,8 +141,11 @@ export default function (spec) {
              * @param {Event} event
              */
             function onOpen(event) {
-                eventFront.publish(efOpened.createDto());
-                modConn.setOnline();
+                /** @type {TeqFw_Web_Event_Shared_Dto_Event.Dto} */
+                const msg = eventsFront.createMessage();
+                msg.data = efOpened.createDto();
+                eventsFront.publish(msg)
+                    .then(modConn.setOnline);
             }
 
             // MAIN

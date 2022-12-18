@@ -42,8 +42,6 @@ export default function (spec) {
     const dtoStream = spec['TeqFw_Web_Event_Back_Dto_Reverse_Stream$'];
     /** @type {TeqFw_Web_Event_Shared_Dto_Stream_Auth} */
     const dtoAuth = spec['TeqFw_Web_Event_Shared_Dto_Stream_Auth$'];
-    /** @type {TeqFw_Web_Event_Shared_Event_Back_Stream_Reverse_Authenticate_Request} */
-    const esbAuthReq = spec['TeqFw_Web_Event_Shared_Event_Back_Stream_Reverse_Authenticate_Request$'];
     /** @type {TeqFw_Web_Event_Back_Act_Front_ReadByUuid.act|function} */
     const actReadFront = spec['TeqFw_Web_Event_Back_Act_Front_ReadByUuid$'];
 
