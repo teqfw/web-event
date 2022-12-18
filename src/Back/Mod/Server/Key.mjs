@@ -1,5 +1,5 @@
 /**
- * Source to get server keys for asymmetric encryption.
+ * Source to get server keys for asymmetric encryption from file.
  *
  * @namespace TeqFw_Web_Event_Back_Mod_Server_Key
  */

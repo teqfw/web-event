@@ -20,7 +20,7 @@ export default function (spec) {
      * @memberOf TeqFw_Web_Event_Back_Plugin_Init
      */
     async function action() {
-        // load or generate asymmetric keys for server
+        // load or generate asymmetric keys for server to use in event processing
         await modServerKey.init();
         logger.info(`Plugin '${DEF.SHARED.NAME}' is initialized.`)
     }

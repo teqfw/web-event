@@ -14,8 +14,6 @@ export default class TeqFw_Web_Event_Back_Mod_Portal_Front {
         const registry = spec['TeqFw_Web_Event_Back_Mod_Registry_Stream$'];
         /** @type {TeqFw_Web_Event_Back_Mod_Queue} */
         const modQueue = spec['TeqFw_Web_Event_Back_Mod_Queue$'];
-        /** @type {TeqFw_Web_Event_Shared_Dto_Event} */
-        const dtoEvent = spec['TeqFw_Web_Event_Shared_Dto_Event$'];
         /** @type {TeqFw_Core_Back_Mod_App_Uuid} */
         const modBackUuid = spec['TeqFw_Core_Back_Mod_App_Uuid$'];
         /** @type {TeqFw_Web_Shared_Dto_Log_Meta_Event} */
@@ -24,20 +22,34 @@ export default class TeqFw_Web_Event_Back_Mod_Portal_Front {
         const castDate = spec['TeqFw_Core_Shared_Util_Cast.castDate'];
         /** @type {TeqFw_Web_Event_Back_Event_Republish_Delayed} */
         const ebRepublishDelayed = spec['TeqFw_Web_Event_Back_Event_Republish_Delayed$'];
+        /** @type {TeqFw_Web_Event_Shared_Dto_Event} */
+        const factEvt = spec['TeqFw_Web_Event_Shared_Dto_Event$'];
+        /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_FromBack} */
+        const factMeta = spec['TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_FromBack$'];
+
 
         // MAIN
         logger.setNamespace(this.constructor.name);
 
         // INSTANCE METHODS
         /**
+         * Create empty message for 'back-to-front' transborder event.
+         * @returns {TeqFw_Web_Event_Shared_Dto_Event.Dto}
+         */
+        this.createMessage = function () {
+            const res = factEvt.createDto();
+            res.meta = factMeta.createDto();
+            return res;
+        }
+
+        /**
          * @param {TeqFw_Web_Event_Shared_Dto_Event.Dto|*} event
-         * @param {boolean} useUnAuthStream send event to unauthenticated stream
          * @return {Promise<boolean>}
          */
-        this.publish = async function (event, {useUnAuthStream} = {}) {
+        this.publish = async function (event) {
             // FUNCS
             /**
-             * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta.Dto} meta
+             * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_FromBack.Dto} meta
              */
             function logEvent(meta) {
                 const logMeta = dtoLogMeta.createDto();
@@ -45,26 +57,26 @@ export default class TeqFw_Web_Event_Back_Mod_Portal_Front {
                 logMeta.eventName = meta.name;
                 logMeta.eventUuid = meta.uuid;
                 logMeta.streamUuid = meta.streamUuid;
-                logger.info(`${meta.streamUuid} <= ${meta.name} (${meta.uuid})`, logMeta);
+                logger.info(`${meta.name} (${meta.uuid}): ${meta.backUuid} => ${meta.frontUuid}/${meta.streamUuid}`, logMeta);
             }
 
             // MAIN
             let res = false;
+            /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_FromBack.Dto} */
             const meta = event?.meta;
-            const eventName = meta?.name;
-            const uuid = meta?.uuid;
             const frontUuid = meta?.frontUuid;
             const streamUuid = meta?.streamUuid;
+            const uuid = meta?.uuid;
+            meta.name = event?.data?.constructor?.namespace;
             meta.backUuid = backUuid.get();
-            const activeOnly = !useUnAuthStream;
-            const conn = registry.get(streamUuid, activeOnly);
+            const conn = registry.getActive(streamUuid);
             if (conn) {
-                // TODO: save message to queue on write failure
-                conn.write(event);
-                logEvent(meta);
-                res = true;
+                if (conn.write(event)) {
+                    logEvent(meta);
+                    res = true;
+                } else await modQueue.save(event);
             } else {
-                logger.info(`Event ${eventName} (${uuid}) cannot be published on offline front #${frontUuid}. `);
+                logger.info(`Event ${meta.name} (${uuid}) cannot be published on offline front #${frontUuid}. `);
                 await modQueue.save(event);
             }
             return res;
@@ -86,13 +98,13 @@ export default class TeqFw_Web_Event_Back_Mod_Portal_Front {
                 const eventId = one.id;
                 logger.info(`Process delayed event #${eventId}.`);
                 const data = JSON.parse(one.message);
-                const event = dtoEvent.createDto(data);
+                const event = factEvt.createDto(data);
                 const meta = event.meta;
                 const dateEvent = castDate(meta.expiration);
                 if (dateEvent < now)
                     await modQueue.removeEvent(eventId); // just remove expired events
                 else { // ... and process not expired
-                    const conn = registry.getByFrontUUID(frontUuid);
+                    const conn = registry.getByFrontUuid(frontUuid);
                     if (conn) {
                         conn.write(event);
                         logger.info(`<= ${frontUuid} / ${meta.uuid}: ${meta.name}`);

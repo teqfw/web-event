@@ -46,7 +46,7 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Stream_Activate {
                 const dataIn = shares.get(DEF.MOD_WEB.SHARE_REQ_BODY_JSON);
                 const frontUuid = dataIn.frontUuid;
                 const streamUuid = dataIn.streamUuid;
-                const found = modReg.get(streamUuid, false);
+                const found = modReg.get(streamUuid);
                 if (found && (found.frontUuid === frontUuid)) {
                     found.state = STATE.ACTIVE;
                     clearTimeout(found.unauthenticatedCloseId);

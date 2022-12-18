@@ -6,7 +6,7 @@
 import {constants as H2} from 'http2';
 
 // MODULE'S VARS
-const NS = 'TeqFw_Web_Event_Back_Mod_Server_Handler_Direct';
+const NS = 'TeqFw_Web_Event_Back_Web_Handler_Direct';
 const {
     HTTP2_HEADER_CONTENT_TYPE,
     HTTP2_METHOD_POST,
@@ -19,7 +19,7 @@ const {
 /**
  * @implements TeqFw_Web_Back_Api_Dispatcher_IHandler
  */
-export default class TeqFw_Web_Event_Back_Mod_Server_Handler_Direct {
+export default class TeqFw_Web_Event_Back_Web_Handler_Direct {
     constructor(spec) {
         // DEPS
         /** @type {TeqFw_Web_Event_Back_Defaults} */
@@ -54,7 +54,7 @@ export default class TeqFw_Web_Event_Back_Mod_Server_Handler_Direct {
          * Process HTTP request if not processed before.
          * @param {module:http.IncomingMessage|module:http2.Http2ServerRequest}req
          * @param {module:http.ServerResponse|module:http2.Http2ServerResponse} res
-         * @memberOf TeqFw_Web_Event_Back_Mod_Server_Handler_Direct
+         * @memberOf TeqFw_Web_Event_Back_Web_Handler_Direct
          */
         async function process(req, res) {
             // FUNCS
@@ -81,7 +81,7 @@ export default class TeqFw_Web_Event_Back_Mod_Server_Handler_Direct {
                 const eventUuid = meta?.uuid;
                 try {
                     // try to load public key using front UUID then validate encryption stamp
-                    const stream = modRegStream.get(streamUuid);
+                    const stream = modRegStream.getActive(streamUuid);
                     const stamper = await factStamper.create({frontUuid: stream.frontUuid});
                     if (stamper) {
                         const valid = stamper.verify(message.stamp, meta);

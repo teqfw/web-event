@@ -14,71 +14,78 @@ export default class TeqFw_Web_Event_Back_Mod_Registry_Stream {
         // VARS
         /** @type {Object<string, TeqFw_Web_Event_Back_Dto_Reverse_Stream.Dto>} */
         const _store = {}; // internal store for connection objects (stream UUID is the key)
-        /** @type {Object<string, TeqFw_Web_Event_Back_Dto_Reverse_Stream.Dto>} */
-        const _storeByFront = {}; // access stream objects by frontUuid
-        /**
-         * @deprecated use streamUuid on the front
-         * @type {{}}
-         * @private
-         */
-        const _mapSessionToStream = {}; // map to get stream UUID for front session UUID
+        /** @type {Object<string, string[]>} */
+        const _byFront = {};// access stream objects by frontUuid
 
         // INSTANCE METHODS
         /**
-         * Delete connection data from registry.
+         * Delete stream from registry.
          * @param {string} streamUuid
          */
         this.delete = function (streamUuid) {
             if (_store[streamUuid]) {
-                const frontUUID = _store[streamUuid].frontUuid;
-                delete _storeByFront[frontUUID];
-                delete _mapSessionToStream[frontUUID];
+                const frontUuid = _store[streamUuid].frontUuid;
+                if (_byFront[frontUuid]) {
+                    const filtered = _byFront[frontUuid].filter(item => item !== streamUuid);
+                    if (filtered.length) _byFront[frontUuid] = filtered
+                    else delete _byFront[frontUuid];
+                }
                 delete _store[streamUuid];
             }
         }
 
         /**
-         * Get connection object by stream UUID.
+         * Get stream by stream UUID.
          * @param {string} uuid
-         * @param {boolean} [activeOnly]
          * @return {TeqFw_Web_Event_Back_Dto_Reverse_Stream.Dto|null}
          */
-        this.get = (uuid, activeOnly = true) => {
+        this.get = (uuid) => {
+            return _store[uuid];
+        }
+
+        /**
+         * Get active stream (for authenticated fronts) by stream UUID.
+         * @param {string} uuid
+         * @return {TeqFw_Web_Event_Back_Dto_Reverse_Stream.Dto|null}
+         */
+        this.getActive = (uuid) => {
             let res;
             const found = _store[uuid];
-            if (found)
-                if (activeOnly === false) res = found;
-                else if ((activeOnly === true) && (found.state === STATE.ACTIVE))
-                    res = found;
+            if (found && (found.state === STATE.ACTIVE))
+                res = found;
             return res;
         }
 
         /**
-         * Return all active streams.
+         * Return all active streams (for authenticated fronts).
          * @return {TeqFw_Web_Event_Back_Dto_Reverse_Stream.Dto[]}
          */
-        this.getAll = () => {
+        this.getAllActive = () => {
             const res = [];
             /** @type {TeqFw_Web_Event_Back_Dto_Reverse_Stream.Dto[]} */
             const streams = Object.values(_store);
             for (const one of streams)
                 if (one.state === STATE.ACTIVE) res.push(one);
-
             return res;
         }
         /**
-         * Get connection object by front application UUID.
+         * Get all active streams by front application UUID.
          * @param {string} uuid
-         * @param {boolean} [activeOnly]
-         * @return {TeqFw_Web_Event_Back_Dto_Reverse_Stream.Dto|null}
+         * @return {TeqFw_Web_Event_Back_Dto_Reverse_Stream.Dto[]}
          */
-        this.getByFrontUUID = function (uuid, activeOnly = true) {
-            const streamUUID = _storeByFront[uuid]
-            return this.get(streamUUID, activeOnly);
+        this.getByFrontUuid = function (uuid) {
+            const res = [];
+            if (_byFront[uuid]) {
+                for (const streamUuid of _byFront[uuid]) {
+                    const stream = this.getActive(streamUuid);
+                    if (stream) res.push(stream);
+                }
+            }
+            return res;
         }
 
         /**
-         * Put connection to the registry.
+         * Put stream object to the registry.
          * @param {TeqFw_Web_Event_Back_Dto_Reverse_Stream.Dto} stream
          */
         this.put = function (stream) {
@@ -86,7 +93,8 @@ export default class TeqFw_Web_Event_Back_Mod_Registry_Stream {
             if (_store[uuid])
                 throw new Error(`Cannot registry reverse stream with duplicated UUID: ${uuid}.`);
             _store[uuid] = stream;
-            _storeByFront[stream.frontUuid] = stream;
+            if (!Array.isArray(_byFront[stream.frontUuid])) _byFront[stream.frontUuid] = [];
+            _byFront[stream.frontUuid].push(uuid);
         }
 
     }

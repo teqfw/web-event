@@ -3,7 +3,7 @@
  */
 // MODULE'S VARS
 const NS = 'TeqFw_Web_Event_Front_IDb';
-const IDB_VERSION = 1;
+const IDB_VERSION = 2;
 /**
  * Factory to create connector to application level IDB
  * @param spec

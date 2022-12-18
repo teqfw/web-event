@@ -56,9 +56,6 @@ export default class TeqFw_Web_Event_Front_IDb_Schema_Queue {
      */
     getAttributes = () => ATTR;
 
-    getAttrNames = () => Object.values(ATTR);
-
-    getEntityName = () => ENTITY;
     /**
      * @return {typeof TeqFw_Web_Event_Front_IDb_Schema_Queue.INDEX}
      */
