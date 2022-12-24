@@ -41,9 +41,9 @@ export default function (spec) {
                 [ATTR.UUID]: uuid,
             };
             const pk = await crud.create(trx, rdbFront, data);
-            res.id = pk[ATTR.ID];
+            res.id = pk[ATTR.BID];
         } else if (found.key_pub === keyPub) {
-            res.id = found.id;
+            res.id = found.bid;
         } else {
             // I don't know what we should to do here :(
         }

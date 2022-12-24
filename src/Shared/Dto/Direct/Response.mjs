@@ -17,6 +17,7 @@ class Dto {
 
 /**
  * @implements TeqFw_Core_Shared_Api_Factory_IDto
+ * @deprecated use simple boolean in response
  */
 export default class TeqFw_Web_Event_Shared_Dto_Direct_Response {
 

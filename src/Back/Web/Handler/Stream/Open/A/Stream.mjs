@@ -60,43 +60,96 @@ export default function (spec) {
     /**
      * Result function.
      * @param {module:http.ServerResponse|module:http2.Http2ServerResponse} res
-     * @param {string} frontUuid
+     * @param {string} frontUuid profile in a browser (IDB, ...)
+     * @param {string} sessionUuid tab in a browser (Session Store)
+     * @returns {Promise<void>}
      * @memberOf TeqFw_Web_Event_Back_Web_Handler_Stream_Open_A_Stream
      */
-    function act(res, frontUuid) {
+    async function act(res, frontUuid, sessionUuid) {
         // FUNCS
 
         /**
-         * Write headers to SSE stream to start streaming.
-         * @param {module:http.ServerResponse|module:http2.Http2ServerResponse} res
-         * @memberOf TeqFw_Web_Event_Back_Web_Handler_Stream_Open_A_Stream.act
+         * Read front data from RDB by front UUID (public key).
+         * @param {string} uuid
+         * @returns {Promise<TeqFw_Web_Event_Back_RDb_Schema_Front.Dto>}
          */
-        function startStreaming(res) {
-            res.writeHead(HTTP_STATUS_OK, {
-                [HTTP2_HEADER_CONTENT_TYPE]: 'text/event-stream',
-                [HTTP2_HEADER_CACHE_CONTROL]: 'no-cache',
-            });
+        async function readFront(uuid) {
+            let res;
+            const trx = await conn.startTransaction();
+            try {
+                res = await actReadFront({trx, uuid});
+                await trx.commit();
+            } catch (e) {
+                logger.error(`Cannot found front '${frontUuid}' in RDB on SSE stream opening. Error: ${e?.message}`);
+                await trx.rollback();
+            }
+            return res;
         }
 
         /**
-         * Create reverse events stream for connected front session.
+         * Send authentication request to the front. backUuid & streamUuid are payload.
+         * @param {string} streamUuid UUID for newly opened stream
+         * @param {TeqFw_Web_Event_Back_RDb_Schema_Front.Dto} front front data from RDB
+         * @param {module:http.ServerResponse|module:http2.Http2ServerResponse} res
+         * @memberOf TeqFw_Web_Event_Back_Web_Handler_Stream_Open_A_Stream.act
+         */
+        async function authenticateStream(streamUuid, front, res) {
+            if (res.writable) {
+                // update frontBid in the stream
+                const stream = modRegStream.get(streamUuid);
+                stream.frontBid = front.bid;
+                // compose encrypted payload
+                const scrambler = await factScrambler.create();
+                try {
+                    const pub = front.key_pub;
+                    scrambler.setKeys(pub, _keySec);
+                    // we should use raw data for authentication (w/o event DTO)
+                    const auth = dtoAuth.createDto();
+                    auth.backUuid = _backUuid;
+                    auth.backKey = _keyPub;
+                    auth.streamUuidEnc = scrambler.encryptAndSign(streamUuid);
+                    // send to front using SSE
+                    const payload = JSON.stringify(auth);
+                    res.write(`event: ${DEF.SHARED.SSE_AUTHENTICATE}\n`);
+                    res.write(`retry: ${RECONNECT_TIMEOUT}\n`);
+                    res.write(`data: ${payload}\n\n`);
+                    logger.info(`Authentication request is sent to stream '${streamUuid}' for `
+                        + `front '${front.uuid}/${stream.sessionUuid}' from back '${_backUuid}'.`);
+                } catch (e) {
+                    // encryption failed
+                    logger.error(`Cannot encrypt authentication data for front '${front.uuid}' `
+                        + `in stream '${streamUuid}'. Close the stream.`);
+                    modRegStream.delete(streamUuid);
+                    res.end();
+                }
+            } else {
+                logger.error(`Back-to-front events stream is not writable (${streamUuid}).`);
+            }
+        }
+
+        /**
+         * Create reverse events stream object for given front & session.
          *
          * @param {module:http.ServerResponse|module:http2.Http2ServerResponse} res
-         * @param {string} frontUuid
+         * @param {TeqFw_Web_Event_Back_RDb_Schema_Front.Dto} front front data from RDB
+         * @param {string} sessionUuid tab in a browser (Session Store)
          * @return {string} stream UUID
          * @memberOf TeqFw_Web_Event_Back_Web_Handler_Stream_Open_A_Stream.act
          */
-        function createStream(res, frontUuid) {
+        function createStream(res, front, sessionUuid) {
             // VARS
             // generate new UUID for newly established connection and pin it to the scope
             const streamUuid = randomUUID();
 
             // MAIN
             const stream = dtoStream.createDto();
+            stream.frontBid = front.bid;
+            stream.frontKeyPub = front.key_pub;
+            stream.frontUuid = front.uuid;
+            stream.sessionUuid = sessionUuid;
             stream.uuid = streamUuid;
-            stream.frontUuid = frontUuid;
             modRegStream.put(stream);
-            logger.info(`New stream '${streamUuid}' is opened for back-to-front events (front: ${frontUuid}).`);
+            logger.info(`New stream '${streamUuid}' is opened for back-to-front events (front: ${front.uuid}/${sessionUuid}).`);
             // set 'write' function to connection, response stream is pinned in closure
             stream.write = function (payload) {
                 if (res.writable) {
@@ -121,83 +174,35 @@ export default function (spec) {
                 modRegStream.delete(streamUuid);
                 logger.info(`Back-to-front events stream is closed (front: '${streamUuid}').`);
             });
-
-            res.addListener('error', () => {
+            // log stream errors
+            res.addListener('error', (e) => {
                 logger.error(`Error in reverse events stream (front: '${streamUuid}'): ${e}`);
             });
             return streamUuid;
         }
 
         /**
-         * Send authentication request to the front. backUuid & streamUuid are payload.
-         * @param {string} streamUuid UUID for newly opened stream
-         * @param {string} frontUuid UUID for connected front
+         * Write headers to SSE stream to start streaming.
          * @param {module:http.ServerResponse|module:http2.Http2ServerResponse} res
          * @memberOf TeqFw_Web_Event_Back_Web_Handler_Stream_Open_A_Stream.act
          */
-        async function authenticateStream(streamUuid, frontUuid, res) {
-
-            // FUNCS
-
-            /**
-             * @param {string} uuid
-             * @returns {Promise<TeqFw_Web_Event_Back_RDb_Schema_Front.Dto>}
-             */
-            async function readFront(uuid) {
-                let res;
-                const trx = await conn.startTransaction();
-                try {
-                    res = await actReadFront({trx, uuid});
-                    await trx.commit();
-                } catch (e) {
-                    logger.error(`Cannot read front '${frontUuid}' to authenticate event stream. Error: ${e?.message}`);
-                    await trx.rollback();
-                }
-                return res;
-            }
-
-            // MAIN
-            if (res.writable) {
-                /** @type {TeqFw_Web_Event_Back_RDb_Schema_Front.Dto} */
-                const front = await readFront(frontUuid);
-                if (front) {
-                    // compose encrypted payload
-                    const scrambler = await factScrambler.create();
-                    try {
-                        const pub = front.key_pub;
-                        scrambler.setKeys(pub, _keySec);
-                        // we should use raw data for authentication (w/o event DTO)
-                        const auth = dtoAuth.createDto();
-                        auth.backUuid = _backUuid;
-                        auth.backKey = _keyPub;
-                        auth.streamUuidEnc = scrambler.encryptAndSign(streamUuid);
-                        // send to front using SSE
-                        const payload = JSON.stringify(auth);
-                        res.write(`event: ${DEF.SHARED.SSE_AUTHENTICATE}\n`);
-                        res.write(`retry: ${RECONNECT_TIMEOUT}\n`);
-                        res.write(`data: ${payload}\n\n`);
-                        logger.info(`Authentication request is sent to stream '${streamUuid}' for front '${frontUuid}' from back '${_backUuid}'.`);
-                    } catch (e) {
-                        // encryption failed
-                        logger.error(`Cannot encrypt authentication data for front '${frontUuid}' in stream '${streamUuid}'. Close the stream.`);
-                        modRegStream.delete(streamUuid);
-                        res.end();
-                    }
-                } else {
-                    // unknown front, close the stream
-                    logger.error(`Cannot found front '${frontUuid}' to authenticate stream '${streamUuid}'. Close the stream.`);
-                    modRegStream.delete(streamUuid);
-                    res.end();
-                }
-            } else {
-                logger.error(`Back-to-front events stream is not writable (${streamUuid}).`);
-            }
+        function startStreaming(res) {
+            res.writeHead(HTTP_STATUS_OK, {
+                [HTTP2_HEADER_CONTENT_TYPE]: 'text/event-stream',
+                [HTTP2_HEADER_CACHE_CONTROL]: 'no-cache',
+            });
         }
 
         // MAIN
-        const streamUuid = createStream(res, frontUuid);
-        startStreaming(res); // respond with headers only to start events stream
-        authenticateStream(streamUuid, frontUuid, res).then();
+
+        const front = await readFront(frontUuid);
+        if (front) {
+            const streamUuid = createStream(res, front, sessionUuid);
+            startStreaming(res); // respond with headers only to start events stream
+            authenticateStream(streamUuid, front, res).then();
+        } else {
+            // TODO: report error 404
+        }
     }
 
     // MAIN

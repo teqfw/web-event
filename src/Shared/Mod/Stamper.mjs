@@ -14,7 +14,7 @@ export default class TeqFw_Web_Event_Shared_Mod_Stamper {
 
         // VARS
         /**
-         * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta.Dto} meta event message metadata
+         * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans.Dto} meta event message metadata
          * @return {string} payload to encrypt/verify
          */
         function composePayload(meta) {
@@ -38,7 +38,7 @@ export default class TeqFw_Web_Event_Shared_Mod_Stamper {
 
         /**
          * Concatenate data for encryption and encrypt it.
-         * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta.Dto} meta event message metadata
+         * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans.Dto} meta event message metadata
          * @return {string} stamp (encrypted data)
          */
         this.create = function (meta) {
@@ -48,13 +48,12 @@ export default class TeqFw_Web_Event_Shared_Mod_Stamper {
 
         /**
          * Decrypt stamp and compare with expected data.
-         * @param {string} stamp encrypted data
-         * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta.Dto} meta event message metadata
+         * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans.Dto} meta event message metadata
          * @return {boolean}
          */
-        this.verify = function (stamp, meta) {
+        this.verify = function (meta) {
             const expect = composePayload(meta);
-            const actual = scrambler.decryptAndVerify(stamp);
+            const actual = scrambler.decryptAndVerify(meta.stamp);
             return (actual === expect);
         }
     }

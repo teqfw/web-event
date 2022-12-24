@@ -16,7 +16,17 @@ class Dto {
      */
     finalize;
     /**
-     * Frontend application UUID.
+     * Frontend application ID in backend.
+     * @type {number}
+     */
+    frontBid;
+    /**
+     * Public key for the front.
+     * @type {string}
+     */
+    frontKeyPub;
+    /**
+     * Frontend application UUID (profile in browser).
      * @type {string}
      */
     frontUuid;
@@ -25,6 +35,11 @@ class Dto {
      * @type {number}
      */
     messageId;
+    /**
+     * Frontend session UUID (tab in browser).
+     * @type {string}
+     */
+    sessionUuid;
     /**
      * Connection state.
      * @type {string} see TeqFw_Web_Event_Back_Enum_Stream_State
@@ -73,6 +88,7 @@ export default class TeqFw_Web_Event_Back_Dto_Reverse_Stream {
             const res = Object.assign(new Dto(), data);
             // cast known attributes
             res.finalize = castFunction(data?.finalize);
+            res.frontBid = castInt(data?.frontBid);
             res.frontUuid = castString(data?.frontUuid);
             res.messageId = castInt(data?.messageId) || 1;
             res.state = castString(data?.state) ?? STATE.OPENED;

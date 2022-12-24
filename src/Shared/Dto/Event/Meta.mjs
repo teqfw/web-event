@@ -13,12 +13,12 @@ const NS = 'TeqFw_Web_Event_Shared_Dto_Event_Meta';
 class Dto {
     static namespace = NS;
     /**
-     * Name of the event (Prj_Back_Event_Name).
+     * Name of the event (Prj_Back_Event_Msg_Name).
      * @type {string}
      */
     name;
     /**
-     * UTC time for the event.
+     * UTC time for initial publication of the event in a channel.
      * @type {Date}
      */
     published;
@@ -53,7 +53,7 @@ export default class TeqFw_Web_Event_Shared_Dto_Event_Meta {
             // cast data for known props
             res.name = castString(data?.name);
             res.published = castDate(data?.published) ?? new Date();
-            res.uuid = castString(data?.uuid) ?? randomUUID();
+            res.uuid = castString(data?.uuid) ?? randomUUID(); // use shred util for shared code
             return res;
         }
     }

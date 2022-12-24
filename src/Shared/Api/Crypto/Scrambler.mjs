@@ -10,7 +10,7 @@ export default class TeqFw_Web_Event_Shared_Api_Crypto_Scrambler {
 
     /**
      * @param {string} encrypted
-     * @return {string|null}
+     * @return {string}
      */
     decryptAndVerify(encrypted) {}
 

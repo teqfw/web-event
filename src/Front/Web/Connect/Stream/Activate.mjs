@@ -17,6 +17,12 @@ export default function (spec) {
     const DEF = spec['TeqFw_Web_Event_Front_Defaults$'];
     /** @type {TeqFw_Core_Shared_Api_ILogger} */
     const logger = spec['TeqFw_Core_Shared_Api_ILogger$$']; // instance
+    /** @type {TeqFw_Web_Event_Front_Mod_Channel} */
+    const eventsFront = spec['TeqFw_Web_Event_Front_Mod_Channel$'];
+    /** @type {TeqFw_Web_Event_Front_Mod_Portal_Back} */
+    const portalBack = spec['TeqFw_Web_Event_Front_Mod_Portal_Back$'];
+    /** @type {TeqFw_Web_Event_Front_Event_Msg_Stream_Authenticated} */
+    const efAuth = spec['TeqFw_Web_Event_Front_Event_Msg_Stream_Authenticated$'];
     /** @type {TeqFw_Web_Front_Mod_Config} */
     const modCfg = spec['TeqFw_Web_Front_Mod_Config$'];
     /** @type {TeqFw_Web_Front_Api_Mod_Server_Connect_IState} */
@@ -33,6 +39,7 @@ export default function (spec) {
     /**
      * Don't call this function in VARS section, because config is not loaded yet.
      * @return {string}
+     * TODO: extract common code to util
      */
     function baseUrl() {
         if (!BASE) {
@@ -72,9 +79,16 @@ export default function (spec) {
                 body: JSON.stringify(req)
             });
             const res = await fetched.json();
-            if (res === true)
-                logger.error(`Stream '${streamUuid}' for front '${frontUuid}' is active now.`);
-            // TODO: mark 'front-to-back' portal as activated
+            if (res === true) {
+                logger.info(`Stream '${streamUuid}' for front '${frontUuid}' is active now.`);
+                const data = efAuth.createDto();
+                data.frontUuid = frontUuid;
+                /** @type {TeqFw_Web_Event_Shared_Dto_Event.Dto} */
+                const msg = eventsFront.createMessage({data});
+                await eventsFront.publish(msg);
+                // process delayed events
+                portalBack.sendDelayedEvents().then();
+            }
         } catch (e) {
             logger.error(`Cannot send stream activation request to back. Error: ${e?.message}`);
         } finally {

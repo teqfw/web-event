@@ -28,7 +28,7 @@ export default function (spec) {
     async function act({trx, uuid}) {
         /** @type {TeqFw_Web_Event_Back_RDb_Schema_Front.Dto} */
         const one = await crud.readOne(trx, rdbFront, {[ATTR.UUID]: uuid});
-        const id = one?.id;
+        const id = one?.bid;
         return {id};
     }
 

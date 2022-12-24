@@ -40,6 +40,10 @@ export default function (spec) {
     const modIdFront = spec['TeqFw_Web_Event_Front_Mod_Identity_Front$'];
     /** @type {TeqFw_Web_Event_Front_Mod_Identity_Back} */
     const modIdBack = spec['TeqFw_Web_Event_Front_Mod_Identity_Back$'];
+    /** @type {TeqFw_Web_Event_Front_Mod_Identity_Session} */
+    const modIdSess = spec['TeqFw_Web_Event_Front_Mod_Identity_Session$'];
+    /** @type {TeqFw_Web_Event_Shared_Mod_Stamper} */
+    const modStamper = spec['TeqFw_Web_Event_Shared_Mod_Stamper$'];
     /** @type {TeqFw_Web_Event_Shared_Dto_Event} */
     const dtoTransMsg = spec['TeqFw_Web_Event_Shared_Dto_Event$'];
     /** @type {TeqFw_Web_Event_Shared_Dto_Stream_Auth} */
@@ -100,6 +104,7 @@ export default function (spec) {
                 dataIdBack.backUuid = dataAuth.backUuid;
                 dataIdBack.streamUuid = streamUuid;
                 modIdBack.set(dataIdBack);
+                modIdSess.setIdBack(dataIdBack);
                 // publish confirmation to back
                 connActivate(modIdFront.getFrontUuid(), streamUuid);
                 logger.info(`Front authentication response is sent to back.`);
@@ -120,17 +125,46 @@ export default function (spec) {
 
             /**
              * Listener for regular SSE event from the back.
+             * Validates stamp of incoming message or decrypt incoming data.
+             *
              * @param {MessageEvent} event
              */
-            function onMessage(event) {
+            async function onMessage(event) {
+                // FUNCS
+                /**
+                 * Log incoming message and publish it in local channel.
+                 * @param {Object} data
+                 * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans.Dto} meta
+                 */
+                function publish({data, meta}) {
+                    const name = meta.name;
+                    const uuid = meta.uuid;
+                    const backUuid = meta.backUuid;
+                    logger.info(`${name} (${uuid}): ${backUuid} => ${meta?.sessionUuid}/${modIdFront.getFrontUuid()}`);
+                    eventsFront.publish({data, meta}).then();
+                }
+
+                // MAIN
                 try {
                     const obj = JSON.parse(event.data);
-                    const dto = dtoTransMsg.createDto(obj);
-                    const name = dto.meta.name;
-                    const uuid = dto.meta.uuid;
-                    const backUuid = dto.meta.backUuid;
-                    logger.info(`${name} (${uuid}): ${backUuid} => ${dto?.meta?.streamUuid}/${modIdFront.getFrontUuid()}`);
-                    eventsFront.publish(dto);
+                    /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans.Dto} */
+                    const meta = obj.meta;
+                    if (meta.encrypted) {
+                        // decrypt and verify all data
+                        const scrambler = await factScrambler.create();
+                        scrambler.setKeys(modIdSess.getBackKey(), modIdFront.getSecretKey());
+                        const decrypted = scrambler.decryptAndVerify(obj.data);
+                        obj.data = JSON.parse(decrypted);
+                        const dto = dtoTransMsg.createDto(obj);
+                        publish(dto);
+                    } else {
+                        // decrypt and verify stamp only
+                        const dto = dtoTransMsg.createDto(obj);
+                        modStamper.initKeys(modIdSess.getBackKey(), modIdFront.getSecretKey());
+                        if (modStamper.verify(dto.meta)) {
+                            publish(dto);
+                        } else logger.error(`Wrong stamp for message '${dto.meta.name}' (uuid: ${dto.meta.uuid}).`);
+                    }
                 } catch (e) {
                     logger.error(e);
                 }
@@ -144,6 +178,7 @@ export default function (spec) {
                 /** @type {TeqFw_Web_Event_Shared_Dto_Event.Dto} */
                 const msg = eventsFront.createMessage();
                 msg.data = efOpened.createDto();
+                msg.meta.name = msg.data.constructor.namespace;
                 eventsFront.publish(msg)
                     .then(modConn.setOnline);
             }
@@ -155,7 +190,8 @@ export default function (spec) {
             ) {
                 // compose URL with front identifier to log requests
                 const frontUuid = modIdFront.getFrontUuid();
-                const url = `${_url}/${frontUuid}`;
+                const sessionUuid = modIdSess.getSessionUuid();
+                const url = `${_url}/${frontUuid}/${sessionUuid}`;
 
                 // open new SSE connection and add event listeners
                 _source = new EventSource(url);

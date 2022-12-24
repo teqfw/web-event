@@ -1,5 +1,6 @@
 /**
  * Model encapsulates backend identity (UUID & public key). Model saves data internally (in variable).
+ * @deprecated use TeqFw_Web_Event_Front_Mod_Identity_Session
  */
 export default class TeqFw_Web_Event_Front_Mod_Identity_Back {
     constructor(spec) {
@@ -15,9 +16,10 @@ export default class TeqFw_Web_Event_Front_Mod_Identity_Back {
         // INSTANCE METHODS
 
         /**
-         * @param {TeqFw_Web_Event_Front_Dto_Identity_Back.Dto} data
+         * Get UUID for current backend.
+         * @return {string}
          */
-        this.set = (data) => _cache = data;
+        this.getBackUuid = () => _cache?.backUuid;
 
         /**
          * Get backend public key for asymmetric encryption.
@@ -26,10 +28,15 @@ export default class TeqFw_Web_Event_Front_Mod_Identity_Back {
         this.getPublicKey = () => _cache?.backKey;
 
         /**
-         * Get UUID for current backend.
+         * Get UUID for SSE stream to receive back-to-front events.
          * @return {string}
          */
-        this.getBackUuid = () => _cache?.backUuid;
+        this.getStreamUuid = () => _cache?.streamUuid;
+
+        /**
+         * @param {TeqFw_Web_Event_Front_Dto_Identity_Back.Dto} data
+         */
+        this.set = (data) => _cache = data;
 
     }
 }

@@ -58,6 +58,7 @@ export default class TeqFw_Web_Event_Front_Mod_Identity_Front {
         /**
          * Get backend public key for asymmetric encryption.
          * @return {string}
+         * TODO: remove unused methods
          */
         this.getBackKey = () => _cache?.backKeyPublic;
 
@@ -91,7 +92,7 @@ export default class TeqFw_Web_Event_Front_Mod_Identity_Front {
         this.getSecretKey = () => _cache?.frontKeys?.secret;
 
         /**
-         * Stream stream UUID for current session (tab in a browser).
+         * Server stream UUID for current session (tab in a browser).
          * @returns {string}
          */
         this.getStreamUuid = () => {
@@ -99,7 +100,7 @@ export default class TeqFw_Web_Event_Front_Mod_Identity_Front {
         }
 
         /**
-         * Stream stream UUID for current session (tab in a browser).
+         * Server stream UUID for current session (tab in a browser).
          * @param {string} uuid
          */
         this.setStreamUuid = (uuid) => {

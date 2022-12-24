@@ -7,12 +7,17 @@
             "front": {
               "comment": "Frontends registry contains UUIDs and public keys for a connected fronts.",
               "attr": {
-                "id": {"type": "id"},
+                "bid": {"type": "id"},
                 "uuid": {"comment": "Front UUID.", "type": "string"},
                 "date_created": {
-                  "comment": "Date-time for front registration.",
+                  "comment": "UTC date-time for front registration.",
                   "type": "datetime",
                   "default": "current"
+                },
+                "date_authenticated": {
+                  "comment": "UTC date-time for last authentication of the front.",
+                  "type": "datetime",
+                  "nullable": true
                 },
                 "key_pub": {
                   "comment": "Public key for encryption and authentication.",
@@ -36,7 +41,7 @@
               "relation": {
                 "front": {
                   "attrs": ["front_ref"],
-                  "ref": {"path": "/web/event/front", "attrs": ["id"]},
+                  "ref": {"path": "/web/event/front", "attrs": ["bid"]},
                   "action": {"delete": "cascade", "update": "cascade"}
                 }
               }

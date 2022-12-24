@@ -26,12 +26,12 @@ export default class TeqFw_Web_Event_Shared_Mod_Channel {
 
         // INSTANCE METHODS
 
-        this.createMessage = function () {
-            return dtoEvent.createDto();
+        this.createMessage = function ({data, meta} = {}) {
+            return dtoEvent.createDto({data, meta});
         }
 
         this.publish = async function (message) {
-            const eventName = message?.meta?.name;
+            const eventName = message?.meta?.name ?? message.data?.constructor?.namespace;
             if (Array.isArray(_sinks[eventName]))
                 for (const one of _sinks[eventName])
                     one(message)

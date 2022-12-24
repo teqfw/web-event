@@ -28,22 +28,18 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Direct {
         const logger = spec['TeqFw_Core_Shared_Api_ILogger$$']; // instance
         /** @type {TeqFw_Web_Back_App_Server_Respond.respond403|function} */
         const respond403 = spec['TeqFw_Web_Back_App_Server_Respond.respond403'];
+        /** @type {TeqFw_Web_Back_App_Server_Respond.respond404|function} */
+        const respond404 = spec['TeqFw_Web_Back_App_Server_Respond.respond404'];
         /** @type {TeqFw_Web_Back_App_Server_Respond.respond500|function} */
         const respond500 = spec['TeqFw_Web_Back_App_Server_Respond.respond500'];
         /** @type {TeqFw_Web_Event_Back_Mod_Channel} */
         const eventsBack = spec['TeqFw_Web_Event_Back_Mod_Channel$'];
         /** @type {TeqFw_Web_Event_Shared_Dto_Event} */
         const dtoEvent = spec['TeqFw_Web_Event_Shared_Dto_Event$'];
-        /** @type {TeqFw_Web_Event_Shared_Dto_Direct_Response} */
-        const dtoRes = spec['TeqFw_Web_Event_Shared_Dto_Direct_Response$'];
         /** @type {TeqFw_Web_Event_Back_Fact_Stamper} */
         const factStamper = spec['TeqFw_Web_Event_Back_Fact_Stamper$'];
-        /** @type {TeqFw_Core_Back_Mod_App_Uuid} */
-        const modBackUuid = spec['TeqFw_Core_Back_Mod_App_Uuid$'];
         /** @type {TeqFw_Web_Event_Back_Mod_Registry_Stream} */
         const modRegStream = spec['TeqFw_Web_Event_Back_Mod_Registry_Stream$'];
-        /** @type {TeqFw_Web_Shared_Dto_Log_Meta_Event} */
-        const dtoLogMeta = spec['TeqFw_Web_Shared_Dto_Log_Meta_Event$'];
 
         // MAIN
         Object.defineProperty(process, 'namespace', {value: NS});
@@ -59,15 +55,13 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Direct {
         async function process(req, res) {
             // FUNCS
             /**
-             * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta.Dto} meta
+             * Log error and send HTTP status 403.
+             * @param {module:http.ServerResponse|module:http2.Http2ServerResponse} res
+             * @param {string} msg
              */
-            function logEvent(meta) {
-                const logMeta = dtoLogMeta.createDto();
-                logMeta.backUuid = modBackUuid.get();
-                logMeta.eventName = meta.name;
-                logMeta.eventUuid = meta.uuid;
-                logMeta.streamUuid = meta.streamUuid;
-                logger.info(`${meta.streamUuid} => ${meta.name} (${meta.uuid}).`, logMeta);
+            function res403(res, msg) {
+                logger.error(`Front authentication is failed. ${msg}`);
+                respond403(res, msg);
             }
 
             // MAIN
@@ -76,37 +70,36 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Direct {
             if (!res.headersSent && !shares.get(DEF.MOD_WEB.SHARE_RES_STATUS)) {
                 const json = shares.get(DEF.MOD_WEB.SHARE_REQ_BODY_JSON);
                 const message = dtoEvent.createDto(json);
-                const meta = message?.meta;
-                const streamUuid = meta?.streamUuid;
+                // noinspection JSValidateTypes
+                /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans.Dto} */
+                const meta = message.meta;
+                const sessionUuid = meta?.sessionUuid;
                 const eventUuid = meta?.uuid;
                 try {
                     // try to load public key using front UUID then validate encryption stamp
-                    const stream = modRegStream.getActive(streamUuid);
-                    const stamper = await factStamper.create({frontUuid: stream.frontUuid});
-                    if (stamper) {
-                        const valid = stamper.verify(message.stamp, meta);
-                        if (valid) {
-                            // stamp is valid, log event then publish it to backend event bus
-                            logEvent(meta);
-                            eventsBack.publish(message);
-                            // respond as succeed
-                            res.setHeader(HTTP2_HEADER_CONTENT_TYPE, 'application/json');
-                            const eventRes = dtoRes.createDto();
-                            eventRes.success = true;
-                            shares.set(DEF.MOD_WEB.SHARE_RES_BODY, JSON.stringify(eventRes));
-                            shares.set(DEF.MOD_WEB.SHARE_RES_STATUS, HTTP_STATUS_OK);
-                        } else {
-                            const msg = `Cannot verify encryption stamp.`;
-                            logger.error(`Front authentication is failed. ${msg}`, meta);
-                            respond403(res, msg);
-                        }
+                    const stream = modRegStream.getBySessionUuid(sessionUuid);
+                    if (stream) {
+                        const stamper = await factStamper.create({frontUuid: stream.frontUuid});
+                        if (stamper) {
+                            const valid = stamper.verify(meta);
+                            if (valid) {
+                                // stamp is valid, log event then publish it to backend event bus
+                                logger.info(`${meta.name} (${meta.uuid}): ${meta.backUuid} => ${meta.frontUuid}/${meta.sessionUuid}`);
+                                eventsBack.publish(message).then();
+                                // respond as succeed
+                                res.setHeader(HTTP2_HEADER_CONTENT_TYPE, 'application/json');
+                                shares.set(DEF.MOD_WEB.SHARE_RES_BODY, JSON.stringify(true));
+                                shares.set(DEF.MOD_WEB.SHARE_RES_STATUS, HTTP_STATUS_OK);
+                            } else res403(res, 'Cannot verify encryption stamp.');
+                        } else
+                            res403(res, `Cannot found public key for front ${stream.frontUuid}/${stream.frontBid}.`);
                     } else {
-                        const msg = `Unknown front UUID: ${streamUuid}`;
-                        logger.error(`Front authentication is failed. ${msg}`, meta);
-                        respond403(res, msg);
+                        const err = `Unknown session UUID: ${sessionUuid}`;
+                        logger.error(err);
+                        respond404(res, err);
                     }
                 } catch (e) {
-                    logger.error(`Error for event #${streamUuid}/${eventUuid}: ${e?.message}`);
+                    logger.error(`Error for event #${eventUuid} (sess: ${sessionUuid}): ${e?.message}`);
                     respond500(res, e?.message);
                 }
             }

@@ -18,7 +18,7 @@ class Dto {
     /** @type {string} */
     backUuid;
     /**
-     * UUID for SSE stream to get back-to-front events.
+     * UUID for SSE stream to receive back-to-front events.
      * @type {string}
      */
     streamUuid;

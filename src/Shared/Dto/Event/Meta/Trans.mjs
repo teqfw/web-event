@@ -1,20 +1,20 @@
 /**
- * Meta-data for back-to-front transborder event messages.
+ * Metadata for transborder event messages.
  *
- * @namespace TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_FromBack
+ * @namespace TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans
  */
 // MODULE'S VARS
-const NS = 'TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_FromBack';
+const NS = 'TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans';
 
 // MODULE'S CLASSES
 /**
- * @memberOf TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_FromBack
+ * @memberOf TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans
  * @extends TeqFw_Web_Event_Shared_Dto_Event_Meta.Dto
  */
 class Dto {
     static namespace = NS;
     /**
-     * ID for event's producer (agent) that signs and encrypts message.
+     * Backend UUID to get keys for messages verification.
      * @type {string}
      */
     backUuid;
@@ -29,21 +29,27 @@ class Dto {
      */
     expired;
     /**
-     * ID for event's consumer (sink) that verifies and decrypts message.
+     * Frontend UUID to get keys for messages verification.
      * @type {string}
      */
     frontUuid;
     /**
-     * ID of the event stream (browser tab) on the front. If not set then this message will be sent to all streams
-     * of the front.
+     * ID for session on the front (tab in browser) that sends or receives messages.
+     * @type {string}
      */
-    streamUuid;
+    sessionUuid;
+    /**
+     * Encrypted and signed metadata (part of attributes) to verify message by sink.
+     * Is omitted if all data is encrypted (see `encrypted` attribute).
+     * @type {string}
+     */
+    stamp;
 }
 
 /**
  * @implements TeqFw_Core_Shared_Api_Factory_IDto
  */
-export default class TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_FromBack {
+export default class TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans {
     constructor(spec) {
         // DEPS
         /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta} */
@@ -57,20 +63,23 @@ export default class TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_FromBack {
 
         // INSTANCE METHODS
         /**
-         * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_FromBack.Dto} [data]
-         * @return {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_FromBack.Dto}
+         * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans.Dto} [data]
+         * @return {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans.Dto}
          */
         this.createDto = function (data = null) {
             // create DTO and copy input data to this DTO
             // noinspection JSValidateTypes
-            /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_FromBack.Dto} */
+            /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans.Dto} */
             const res = factBase.createDto(data);
             // cast data for known props
             res.backUuid = castString(data?.backUuid);
             res.encrypted = castBooleanIfExists(data?.encrypted);
-            res.expired = castDate(data?.expired);
+            // TODO: should we save events to queue by default? Set 'expired = undefined' if should not.
+            res.expired = data?.expired ? castDate(data?.expired)
+                : new Date((new Date()).getTime() + 60000); // 1 minute by default
             res.frontUuid = castString(data?.frontUuid);
-            res.streamUuid = castString(data?.streamUuid);
+            res.sessionUuid = castString(data?.sessionUuid);
+            res.stamp = castString(data?.stamp);
             return res;
         }
     }

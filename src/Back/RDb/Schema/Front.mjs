@@ -15,8 +15,9 @@ const ENTITY = '/web/event/front';
  * @type {Object}
  */
 const ATTR = {
+    BID: 'bid',
+    DATE_AUTHENTICATED: 'date_authenticated',
     DATE_CREATED: 'date_created',
-    ID: 'id',
     KEY_PUB: 'key_pub',
     UUID: 'uuid',
 };
@@ -27,10 +28,12 @@ const ATTR = {
  */
 class Dto {
     static namespace = NS;
+    /** @type {number} */
+    bid;
+    /** @type {Date} */
+    date_authenticated;
     /** @type {Date} */
     date_created;
-    /** @type {number} */
-    id;
     /** @type {string} */
     key_pub;
     /** @type {string} */
@@ -62,8 +65,9 @@ export default class TeqFw_Web_Event_Back_RDb_Schema_Front {
          */
         this.createDto = function (data) {
             const res = new Dto();
+            res.bid = castInt(data?.bid);
+            res.date_authenticated = castDate(data?.date_authenticated);
             res.date_created = castDate(data?.date_created);
-            res.id = castInt(data?.id);
             res.key_pub = castString(data?.key_pub);
             res.uuid = castString(data?.uuid);
             return res;
@@ -73,7 +77,7 @@ export default class TeqFw_Web_Event_Back_RDb_Schema_Front {
         return base.create(this,
             `${DEF.SHARED.NAME}${ENTITY}`,
             ATTR,
-            [ATTR.ID],
+            [ATTR.BID],
             Dto
         );
     }

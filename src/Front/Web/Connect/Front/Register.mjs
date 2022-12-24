@@ -33,6 +33,7 @@ export default function (spec) {
     /**
      * Don't call this function in VARS section, because config is not loaded yet.
      * @return {string}
+     * TODO: extract common code to util
      */
     function baseUrl() {
         if (!BASE) {

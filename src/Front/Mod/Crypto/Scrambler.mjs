@@ -19,7 +19,7 @@ export default class TeqFw_Web_Event_Front_Mod_Crypto_Scrambler {
 
         // INSTANCE METHODS
         this.decryptAndVerify = function (encrypted) {
-            let res = null;
+            let res;
             const messageWithNonceAsUint8Array = util.b642ab(encrypted);
             const nonce = messageWithNonceAsUint8Array.slice(0, box.nonceLength);
             const message = messageWithNonceAsUint8Array.slice(

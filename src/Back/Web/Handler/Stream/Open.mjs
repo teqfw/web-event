@@ -37,15 +37,18 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Stream_Open {
         async function process(req, res) {
             // FUNCS
             /**
-             * Extract and return UUID for front or 'null' otherwise (https://.../ebf/uuid).
+             * Extract and return UUIDs for front & session (https://.../ebf/frontUuid/sessionUuid).
              * Length of UUID v4 is 36 chars.
              * @param {string} url
-             * @return {string|null}
+             * @return {{frontUuid: string, sessionUuid: string}}
              */
-            function getFrontUuid(url) {
+            function getUuids(url) {
                 const parts = url.split('/');
-                const streamUuid = parts.pop();
-                return ((typeof streamUuid === 'string') && streamUuid.length === 36) ? streamUuid : null;
+                const sessionRaw = parts.pop();
+                const frontRaw = parts.pop();
+                const sessionUuid = ((typeof sessionRaw === 'string') && sessionRaw.length === 36) ? sessionRaw : null;
+                const frontUuid = ((typeof frontRaw === 'string') && frontRaw.length === 36) ? frontRaw : null;
+                return {sessionUuid, frontUuid};
             }
 
             // MAIN
@@ -53,9 +56,9 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Stream_Open {
             const shares = res[DEF.MOD_WEB.HNDL_SHARE];
             if (!res.headersSent && !shares.get(DEF.MOD_WEB.SHARE_RES_STATUS)) {
                 // extract front application UUID
-                const frontUuid = getFrontUuid(req.url);
+                const {sessionUuid, frontUuid} = getUuids(req.url);
                 // open new reverse stream (SSE) then authenticate front with public key
-                aOpenStream(res, frontUuid);
+                await aOpenStream(res, frontUuid, sessionUuid);
             }
         }
 

@@ -1,85 +1,121 @@
 /**
  * Transborder events port to departure events messages from back to front.
+ * @implements TeqFw_Web_Event_Shared_Api_Event_Portal
  */
 export default class TeqFw_Web_Event_Back_Mod_Portal_Front {
     constructor(spec) {
         // DEPS
         /** @type {TeqFw_Core_Shared_Api_ILogger} */
         const logger = spec['TeqFw_Core_Shared_Api_ILogger$$']; // instance
-        /** @type {TeqFw_Core_Back_Mod_App_Uuid} */
-        const backUuid = spec['TeqFw_Core_Back_Mod_App_Uuid$'];
+        /** @type {TeqFw_Core_Shared_Util_Cast.castDate|function} */
+        const castDate = spec['TeqFw_Core_Shared_Util_Cast.castDate'];
         /** @type {TeqFw_Web_Event_Back_Mod_Channel} */
         const eventsBack = spec['TeqFw_Web_Event_Back_Mod_Channel$'];
         /** @type {TeqFw_Web_Event_Back_Mod_Registry_Stream} */
         const registry = spec['TeqFw_Web_Event_Back_Mod_Registry_Stream$'];
+        /** @type {TeqFw_Web_Event_Back_Mod_Crypto_Scrambler.Factory} */
+        const factScrambler = spec['TeqFw_Web_Event_Shared_Api_Crypto_Scrambler.Factory$']; // interface
+        /** @type {TeqFw_Web_Event_Shared_Dto_Event} */
+        const factEvt = spec['TeqFw_Web_Event_Shared_Dto_Event$'];
+        /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans} */
+        const factMeta = spec['TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans$'];
         /** @type {TeqFw_Web_Event_Back_Mod_Queue} */
         const modQueue = spec['TeqFw_Web_Event_Back_Mod_Queue$'];
         /** @type {TeqFw_Core_Back_Mod_App_Uuid} */
         const modBackUuid = spec['TeqFw_Core_Back_Mod_App_Uuid$'];
-        /** @type {TeqFw_Web_Shared_Dto_Log_Meta_Event} */
-        const dtoLogMeta = spec['TeqFw_Web_Shared_Dto_Log_Meta_Event$'];
-        /** @type {TeqFw_Core_Shared_Util_Cast.castDate|function} */
-        const castDate = spec['TeqFw_Core_Shared_Util_Cast.castDate'];
+        /** @type {TeqFw_Web_Event_Back_Mod_Server_Key} */
+        const modServerKey = spec['TeqFw_Web_Event_Back_Mod_Server_Key$'];
+        /** @type {TeqFw_Web_Event_Shared_Mod_Stamper} */
+        const modStamper = spec['TeqFw_Web_Event_Shared_Mod_Stamper$'];
         /** @type {TeqFw_Web_Event_Back_Event_Msg_Republish_Delayed} */
         const ebRepublishDelayed = spec['TeqFw_Web_Event_Back_Event_Msg_Republish_Delayed$'];
-        /** @type {TeqFw_Web_Event_Shared_Dto_Event} */
-        const factEvt = spec['TeqFw_Web_Event_Shared_Dto_Event$'];
-        /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_FromBack} */
-        const factMeta = spec['TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_FromBack$'];
 
-
-        // MAIN
+        // VARS
         logger.setNamespace(this.constructor.name);
+        const _keyPub = modServerKey.getPublic();
+        const _keySec = modServerKey.getSecret();
+
 
         // INSTANCE METHODS
         /**
          * Create empty message for 'back-to-front' transborder event.
          * @returns {TeqFw_Web_Event_Shared_Dto_Event.Dto}
          */
-        this.createMessage = function () {
-            const res = factEvt.createDto();
-            res.meta = factMeta.createDto();
-            return res;
+        this.createMessage = function ({data, meta} = {}) {
+            const metaTrans = factMeta.createDto(meta);
+            return factEvt.createDto({data, meta: metaTrans});
         }
 
         /**
-         * @param {TeqFw_Web_Event_Shared_Dto_Event.Dto|*} event
-         * @return {Promise<boolean>}
+         * @param {TeqFw_Web_Event_Shared_Dto_Event.Dto} message
+         * @return {Promise<void>} return nothing or add comment if refactored
          */
-        this.publish = async function (event) {
+        this.publish = async function (message) {
+
             // FUNCS
             /**
-             * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_FromBack.Dto} meta
+             * Save event message to queue if message cannot be sent.
+             * @param {TeqFw_Web_Event_Shared_Dto_Event.Dto} msg
+             * @returns {Promise<void>}
              */
-            function logEvent(meta) {
-                const logMeta = dtoLogMeta.createDto();
-                logMeta.backUuid = modBackUuid.get();
-                logMeta.eventName = meta.name;
-                logMeta.eventUuid = meta.uuid;
-                logMeta.streamUuid = meta.streamUuid;
-                logger.info(`${meta.name} (${meta.uuid}): ${meta.backUuid} => ${meta.frontUuid}/${meta.streamUuid}`, logMeta);
+            async function saveToQueue(msg) {
+                // noinspection JSValidateTypes
+                /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans.Dto} */
+                const meta = msg.meta;
+                if (meta?.expired) {
+                    logger.info(`Event ${meta.name} (${meta.uuid}) cannot be published on offline front #${meta.frontUuid}. `);
+                    await modQueue.save(msg);
+                }
+            }
+
+            /**
+             * Send event message to front using existing SSE stream.
+             * @param {TeqFw_Web_Event_Shared_Dto_Event.Dto} msg
+             * @param {TeqFw_Web_Event_Back_Dto_Reverse_Stream.Dto} stream
+             * @returns {Promise<void>}
+             */
+            async function sendToStream(msg, stream) {
+                const data = msg.data;
+                // noinspection JSValidateTypes
+                /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans.Dto} */
+                const meta = msg.meta;
+
+                // encrypt or sign
+                if (meta.encrypted === true) {
+                    const scrambler = await factScrambler.create();
+                    scrambler.setKeys(stream.frontKeyPub, _keySec);
+                    msg.data = scrambler.encryptAndSign(JSON.stringify(data));
+                } else {
+                    modStamper.initKeys(stream.frontKeyPub, _keySec);
+                    meta.stamp = modStamper.create(meta);
+                }
+                if (stream.write(msg)) {
+                    logger.info(`${meta.name} (${meta.uuid}): ${meta.backUuid} => ${stream.frontUuid}/${stream.sessionUuid}`);
+                } else await saveToQueue(msg);
             }
 
             // MAIN
-            let res = false;
-            /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_FromBack.Dto} */
-            const meta = event?.meta;
-            const frontUuid = meta?.frontUuid;
-            const streamUuid = meta?.streamUuid;
-            const uuid = meta?.uuid;
-            meta.name = event?.data?.constructor?.namespace;
-            meta.backUuid = backUuid.get();
-            const conn = registry.getActive(streamUuid);
-            if (conn) {
-                if (conn.write(event)) {
-                    logEvent(meta);
-                    res = true;
-                } else await modQueue.save(event);
+            // noinspection JSValidateTypes
+            /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans.Dto} */
+            const meta = message.meta;
+            if (!meta.name) meta.name = message.data.constructor.namespace;
+            meta.backUuid = modBackUuid.get();
+            // define type of message: to session or to front?
+            if (meta.sessionUuid) {
+                // send event to tab in browser
+                const stream = registry.getBySessionUuid(meta.sessionUuid);
+                if (stream) await sendToStream(message, stream);
+                else await saveToQueue(message);
             } else {
-                logger.info(`Event ${meta.name} (${uuid}) cannot be published on offline front #${frontUuid}. `);
-                await modQueue.save(event);
+                // send this message to all sessions of the front
+                const streams = registry.getByFrontUuid(meta.frontUuid);
+                if (streams.length) {
+                    const all = [];
+                    for (const stream of streams)
+                        all.push(sendToStream(message, stream));
+                    await Promise.all(all);
+                } else await saveToQueue(message);
             }
-            return res;
         }
 
         /**
