@@ -12,8 +12,8 @@ const NS = 'TeqFw_Web_Event_Front_Act_Trans_Call';
  */
 export default function (spec) {
     // DEPS
-    /** @type {Dev_Front_Defaults} */
-    const DEF = spec['Dev_Front_Defaults$'];
+    /** @type {TeqFw_Web_Event_Front_Defaults} */
+    const DEF = spec['TeqFw_Web_Event_Front_Defaults$'];
     /** @type {TeqFw_Web_Event_Front_Mod_Channel} */
     const eventsFront = spec['TeqFw_Web_Event_Front_Mod_Channel$'];
     /** @type {TeqFw_Web_Event_Front_Mod_Portal_Back} */

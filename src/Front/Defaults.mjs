@@ -10,6 +10,8 @@ export default class TeqFw_Web_Event_Front_Defaults {
     STORE_REVERSE_BACK_UUID = `@teqfw/web-event/reverseBackUuid`;
     STORE_REVERSE_STREAM_UUID = `@teqfw/web-event/reverseStreamUuid`;
 
+    TIMEOUT_EVENT_RESPONSE = 8000; // default timeout for response events (transborder)
+
     constructor(spec) {
         // EXTRACT DEPS
         this.MOD_WEB = spec['TeqFw_Web_Front_Defaults$'];

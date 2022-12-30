@@ -17,8 +17,8 @@ export default class TeqFw_Web_Event_Back_Mod_Portal_Front {
         const factScrambler = spec['TeqFw_Web_Event_Shared_Api_Crypto_Scrambler.Factory$']; // interface
         /** @type {TeqFw_Web_Event_Shared_Dto_Event} */
         const factEvt = spec['TeqFw_Web_Event_Shared_Dto_Event$'];
-        /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans} */
-        const factMeta = spec['TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans$'];
+        /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_Response} */
+        const factMeta = spec['TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_Response$'];
         /** @type {TeqFw_Web_Event_Back_Mod_Queue} */
         const modQueue = spec['TeqFw_Web_Event_Back_Mod_Queue$'];
         /** @type {TeqFw_Core_Back_Mod_App_Uuid} */
@@ -34,9 +34,14 @@ export default class TeqFw_Web_Event_Back_Mod_Portal_Front {
 
 
         // INSTANCE METHODS
-        this.createMessage = function ({data, meta} = {}) {
-            const metaTrans = factMeta.createDto(meta);
-            return factEvt.createDto({data, meta: metaTrans});
+        /**
+         * @param {*} [data]
+         * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_Response.Dto} [metaIn]
+         * @returns {{data: *, meta: TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_Response.Dto}}
+         */
+        this.createMessage = function ({data: data, meta: metaIn} = {}) {
+            const meta = factMeta.createDto(metaIn);
+            return factEvt.createDto({data, meta: meta});
         }
 
         /**

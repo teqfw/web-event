@@ -6,7 +6,7 @@
  */
 export default class TeqFw_Web_Event_Shared_Api_Event_Portal {
     /**
-     * Create message DTO with meta-data corresponded to current channel.
+     * Create message DTO with metadata corresponded to current channel.
      * @param data
      * @param meta
      * @returns {TeqFw_Web_Event_Shared_Dto_Event.Dto}
