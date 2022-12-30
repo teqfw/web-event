@@ -13,8 +13,8 @@ export default class TeqFw_Web_Event_Front_Web_Connect_Direct {
         const modCfg = spec['TeqFw_Web_Front_Mod_Config$'];
         /** @type {TeqFw_Web_Front_Api_Mod_Server_Connect_IState} */
         const modConn = spec['TeqFw_Web_Front_Api_Mod_Server_Connect_IState$'];
-        /** @type {TeqFw_Web_Event_Front_Mod_Identity_Back} */
-        const modIdBack = spec['TeqFw_Web_Event_Front_Mod_Identity_Back$'];
+        /** @type {TeqFw_Web_Event_Front_Mod_Identity_Session} */
+        const modIdSession = spec['TeqFw_Web_Event_Front_Mod_Identity_Session$'];
         /** @type {TeqFw_Web_Event_Front_Mod_Identity_Front} */
         const modIdFront = spec['TeqFw_Web_Event_Front_Mod_Identity_Front$'];
         /** @type {TeqFw_Web_Event_Shared_Mod_Stamper} */
@@ -68,7 +68,7 @@ export default class TeqFw_Web_Event_Front_Web_Connect_Direct {
                     // logMeta.streamUuid = meta.streamUuid;
                     //
                     modConn.startActivity();
-                    const pub = modIdBack.getPublicKey();
+                    const pub = modIdSession.getBackKey();
                     const sec = modIdFront.getSecretKey();
                     // TODO: reset keys if front or back is changed
                     stamper.initKeys(pub, sec);
@@ -83,9 +83,7 @@ export default class TeqFw_Web_Event_Front_Web_Connect_Direct {
                         body: JSON.stringify(data)
                     });
                     if (res.status === 200) {
-                        /** @type {TeqFw_Web_Event_Shared_Dto_Direct_Response.Dto} */
-                        const success = await res.json();
-                        result = (success === true);
+                        result = await res.json();
                         logger.info(`${meta.name} (${meta.uuid}): ${meta.frontUuid}/${meta.sessionUuid} => ${meta.backUuid}`);
                     } else if (res.status === 403) {
                         const msg = await res.text();
@@ -100,6 +98,7 @@ export default class TeqFw_Web_Event_Front_Web_Connect_Direct {
                     }
                 } catch (e) {
                     // errHndl.error(e);
+                    logger.error(e);
                 } finally {
                     modConn.stopActivity();
                 }

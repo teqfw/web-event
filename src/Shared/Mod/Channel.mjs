@@ -26,8 +26,8 @@ export default class TeqFw_Web_Event_Shared_Mod_Channel {
 
         // INSTANCE METHODS
 
-        this.createMessage = function ({data, meta} = {}) {
-            return dtoEvent.createDto({data, meta});
+        this.createMessage = function (source) {
+            return dtoEvent.createDto(source);
         }
 
         this.publish = async function (message) {

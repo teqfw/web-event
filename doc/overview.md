@@ -109,8 +109,8 @@ https://.../wero/09895c45-8b25-47ea-84f7-cfa55045855d
 фронт (`TeqFw_Web_Event_Back_Web_Handler_Stream_Open_A_Stream.act.authenticateStream`).
 
 Фронт в методе `TeqFw_Web_Event_Front_Web_Connect_Stream_Open.act.onAuthenticate` принимает `backUuid` и публичный ключ
-сервера, расшифровывает `streamUuid` и сохраняет данные в модели `TeqFw_Web_Event_Front_Mod_Identity_Back`. После чего
-отправляет `streamUuid` обратно на бэк через коннектор `...` для активации обратного потока событий.
+сервера, расшифровывает `streamUuid` и сохраняет данные в модели `TeqFw_Web_Event_Front_Mod_Identity_Session`. После
+чего отправляет `streamUuid` обратно на бэк через коннектор `...` для активации обратного потока событий.
 
 Обработчик `TeqFw_Web_Event_Back_Web_Handler_Stream_Activate` по полученному `streamUuid` находит и активирует
 соответствующий поток (если он существует) и возвращает 'true' обратно.

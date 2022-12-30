@@ -29,6 +29,8 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Stream_Activate {
         const rdbFront = spec['TeqFw_Web_Event_Back_RDb_Schema_Front$'];
         /** @type {TeqFw_Web_Event_Back_Mod_Channel} */
         const eventsBack = spec['TeqFw_Web_Event_Back_Mod_Channel$'];
+        /** @type {TeqFw_Web_Event_Back_Mod_Portal_Front} */
+        const portalFront = spec['TeqFw_Web_Event_Back_Mod_Portal_Front$'];
         /** @type {TeqFw_Web_Event_Back_Event_Msg_Stream_Authenticated} */
         const ebAuth = spec['TeqFw_Web_Event_Back_Event_Msg_Stream_Authenticated$'];
         /** @type {TeqFw_Web_Event_Back_Mod_Registry_Stream} */
@@ -85,6 +87,8 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Stream_Activate {
                     logger.info(`Stream '${streamUuid}' is activated (front: ${frontUuid}/${found.sessionUuid}).`);
                     // update front data in RDB
                     updateFrontAuthDate(found.frontBid).then();
+                    // send delayed events
+                    await portalFront.sendDelayedEvents({uuid: found.frontUuid});
                     // produce local event
                     const data = ebAuth.createDto();
                     data.frontBid = found.frontBid;

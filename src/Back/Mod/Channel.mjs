@@ -4,7 +4,7 @@
 // noinspection JSClosureCompilerSyntax
 /**
  * @extends TeqFw_Web_Event_Shared_Mod_Channel
- * @implements TeqFw_Web_Event_Shared_Mod_Channel
+ * @implements TeqFw_Web_Event_Shared_Api_Event_Channel
  */
 export default class TeqFw_Web_Event_Back_Mod_Channel {
     constructor(spec) {

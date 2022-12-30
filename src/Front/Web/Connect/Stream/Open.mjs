@@ -38,8 +38,6 @@ export default function (spec) {
     const modConn = spec['TeqFw_Web_Front_Api_Mod_Server_Connect_IState$'];
     /** @type {TeqFw_Web_Event_Front_Mod_Identity_Front} */
     const modIdFront = spec['TeqFw_Web_Event_Front_Mod_Identity_Front$'];
-    /** @type {TeqFw_Web_Event_Front_Mod_Identity_Back} */
-    const modIdBack = spec['TeqFw_Web_Event_Front_Mod_Identity_Back$'];
     /** @type {TeqFw_Web_Event_Front_Mod_Identity_Session} */
     const modIdSess = spec['TeqFw_Web_Event_Front_Mod_Identity_Session$'];
     /** @type {TeqFw_Web_Event_Shared_Mod_Stamper} */
@@ -69,9 +67,9 @@ export default function (spec) {
             logger.info(`Reverse events stream connection is closed.`);
         }
         // generate local event
+        const data = efClosed.createDto();
         /** @type {TeqFw_Web_Event_Shared_Dto_Event.Dto} */
-        const msg = eventsFront.createMessage();
-        msg.data = efClosed.createDto();
+        const msg = eventsFront.createMessage({data});
         eventsFront.publish(msg)
             .then(modConn.setOffline); // update connection state
     }
@@ -103,7 +101,6 @@ export default function (spec) {
                 dataIdBack.backKey = dataAuth.backKey;
                 dataIdBack.backUuid = dataAuth.backUuid;
                 dataIdBack.streamUuid = streamUuid;
-                modIdBack.set(dataIdBack);
                 modIdSess.setIdBack(dataIdBack);
                 // publish confirmation to back
                 connActivate(modIdFront.getFrontUuid(), streamUuid);
@@ -147,6 +144,7 @@ export default function (spec) {
                 // MAIN
                 try {
                     const obj = JSON.parse(event.data);
+                    console.log(JSON.stringify(event.data));
                     /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans.Dto} */
                     const meta = obj.meta;
                     if (meta.encrypted) {

@@ -14,6 +14,8 @@ export default class TeqFw_Web_Event_Front_Mod_Portal_Back {
         const modIdFront = spec['TeqFw_Web_Event_Front_Mod_Identity_Front$'];
         /** @type {TeqFw_Web_Event_Front_Mod_Identity_Session} */
         const modIdSession = spec['TeqFw_Web_Event_Front_Mod_Identity_Session$'];
+        /** @type {TeqFw_Web_Front_Api_Mod_Server_Connect_IState} */
+        const modConn = spec['TeqFw_Web_Front_Api_Mod_Server_Connect_IState$'];
         /** @type {TeqFw_Web_Front_App_Store_IDB} */
         const idb = spec['TeqFw_Web_Event_Front_IDb$']; // plugin's local IDB
         /** @type {TeqFw_Web_Event_Front_IDb_Schema_Queue} */
@@ -83,12 +85,11 @@ export default class TeqFw_Web_Event_Front_Mod_Portal_Back {
             meta.frontUuid = modIdFront.getFrontUuid();
             // we have one only back for the moment
             meta.backUuid = modIdSession.getBackUuid();
-            meta.backUuid = modIdSession.getBackUuid();
             meta.sessionUuid = modIdSession.getSessionUuid();
-            const sent = await conn.send(message);
-            if (sent) {
-                res = meta.uuid
-                logger.info(`${meta.name} (${meta.uuid}): ${meta.frontUuid}/${meta.sessionUuid} => ${meta.backUuid}`);
+            if (modConn.isOnline()) {
+                const sent = await conn.send(message);
+                if (sent) res = meta.uuid
+                else await saveToQueue(message);
             } else await saveToQueue(message);
             return res;
         }
@@ -144,6 +145,7 @@ export default class TeqFw_Web_Event_Front_Mod_Portal_Back {
             const backUuid = modIdSession.getBackUuid();
             const sessionUuid = modIdSession.getSessionUuid();
             for (const event of events) {
+                // TODO: don't send expired events
                 // noinspection JSValidateTypes
                 /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans.Dto} */
                 const meta = event.meta;

@@ -1,5 +1,6 @@
 /**
  * Delayed events for some front app were re-published by back.
+ * TODO: remove it if not used
  */
 // MODULE'S VARS
 const NS = 'TeqFw_Web_Event_Back_Event_Msg_Republish_Delayed';

@@ -9,7 +9,7 @@ import {randomUUID} from 'node:crypto';
 
 // MODULE'S VARS
 const NS = 'TeqFw_Web_Event_Back_Web_Handler_Stream_Open_A_Stream';
-const RECONNECT_TIMEOUT = 500; // browser's reconnect timeout on connection loose
+const RECONNECT_TIMEOUT = 0; // browser's reconnect timeout (ms) on connection loose (reconnect in custom manager)
 const DISCONNECT_TIMEOUT = 10000; // disconnect stream if not authenticated in 10 sec.
 const {
     HTTP2_HEADER_CACHE_CONTROL,
@@ -113,12 +113,12 @@ export default function (spec) {
                     res.write(`event: ${DEF.SHARED.SSE_AUTHENTICATE}\n`);
                     res.write(`retry: ${RECONNECT_TIMEOUT}\n`);
                     res.write(`data: ${payload}\n\n`);
-                    logger.info(`Authentication request is sent to stream '${streamUuid}' for `
+                    logger.info(`Authentication request is sent to stream ${streamUuid} for `
                         + `front '${front.uuid}/${stream.sessionUuid}' from back '${_backUuid}'.`);
                 } catch (e) {
                     // encryption failed
                     logger.error(`Cannot encrypt authentication data for front '${front.uuid}' `
-                        + `in stream '${streamUuid}'. Close the stream.`);
+                        + `in stream ${streamUuid}. Close the stream.`);
                     modRegStream.delete(streamUuid);
                     res.end();
                 }
@@ -149,7 +149,7 @@ export default function (spec) {
             stream.sessionUuid = sessionUuid;
             stream.uuid = streamUuid;
             modRegStream.put(stream);
-            logger.info(`New stream '${streamUuid}' is opened for back-to-front events (front: ${front.uuid}/${sessionUuid}).`);
+            logger.info(`New stream ${streamUuid} is opened for back-to-front events (front: ${front.uuid}/${sessionUuid}).`);
             // set 'write' function to connection, response stream is pinned in closure
             stream.write = function (payload) {
                 if (res.writable) {
@@ -158,7 +158,7 @@ export default function (spec) {
                     res.write(`id: ${stream.messageId++}\n`);
                     return true;
                 } else {
-                    logger.error(`Events reverse stream '${streamUuid}' is not writable.`);
+                    logger.error(`Events reverse stream ${streamUuid} is not writable.`);
                     return false;
                 }
             };
@@ -166,17 +166,17 @@ export default function (spec) {
                 res.end();
             }
             stream.unauthenticatedCloseId = setTimeout(() => {
-                logger.error(`Reverse events stream '${streamUuid}' is not authenticated due timeout and is closed.`);
+                logger.error(`Reverse events stream ${streamUuid} is not authenticated due timeout and is closed.`);
                 res.end();
             }, DISCONNECT_TIMEOUT);
             // remove stream from registry on close
             res.addListener('close', () => {
                 modRegStream.delete(streamUuid);
-                logger.info(`Back-to-front events stream is closed (front: '${streamUuid}').`);
+                logger.info(`Back-to-front events stream is closed (stream: ${streamUuid}, front: ${front.uuid}/${sessionUuid}).`);
             });
             // log stream errors
             res.addListener('error', (e) => {
-                logger.error(`Error in reverse events stream (front: '${streamUuid}'): ${e}`);
+                logger.error(`Error in reverse events stream (stream: ${streamUuid}, front: ${front.uuid}/${sessionUuid}): ${e}`);
             });
             return streamUuid;
         }
