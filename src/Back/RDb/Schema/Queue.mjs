@@ -63,6 +63,11 @@ export default class TeqFw_Web_Event_Back_RDb_Schema_Queue {
             return res;
         }
 
+        /**
+         * @return {typeof TeqFw_Web_Event_Back_RDb_Schema_Queue.ATTR}
+         */
+        this.getAttributes = () => ATTR;
+        
         // MAIN
         return base.create(this,
             `${DEF.SHARED.NAME}${ENTITY}`,
