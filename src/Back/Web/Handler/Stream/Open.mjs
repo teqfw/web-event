@@ -71,7 +71,7 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Stream_Open {
 
         this.init = async function () {
             const space = DEF.SHARED.SPACE_STREAM_OPEN;
-            logger.info(`Initialize SSE connections handler for web requests (space: '${space}').`);
+            logger.info(`Initialize handler for SSE stream opening (space: '${space}').`);
         }
 
         // noinspection JSUnusedGlobalSymbols
