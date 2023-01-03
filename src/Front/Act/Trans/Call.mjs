@@ -24,7 +24,7 @@ export default function (spec) {
     /**
      * Result function.
      * @param {TeqFw_Web_Event_Shared_Dto_Event.Dto} reqDto
-     * @param {TeqFw_Core_Shared_Api_Factory_IDto} respFact
+     * @param {TeqFw_Core_Shared_Api_Factory_IDto} [respFact]
      * @param {number} timeout
      * @returns {Promise<Object>}
      * @memberOf TeqFw_Web_Event_Front_Act_Trans_Call
@@ -51,14 +51,17 @@ export default function (spec) {
             }
 
             // MAIN
-            // subscribe to response event from front
-            subs = eventsFront.subscribe(respFact, onResponse);
-            // calculate timeout for a waiting and set reject function
+            // calculate timeout for a response waiting
             const timeToWait = (timeout > 0) ? timeout : DEF.TIMEOUT_EVENT_RESPONSE;
-            idFail = setTimeout(() => {
-                eventsFront.unsubscribe(subs);
-                reject('Response timeout.');
-            }, timeToWait); // return nothing after timeout
+            if (respFact) {
+                // subscribe to response event from front
+                subs = eventsFront.subscribe(respFact, onResponse);
+                // set reject function
+                idFail = setTimeout(() => {
+                    eventsFront.unsubscribe(subs);
+                    reject('Response timeout.');
+                }, timeToWait); // return nothing after timeout
+            }
             // create transborder event message using source DTO
             const msg = portalBack.createMessage({data: reqDto});
             msg.meta.expired = new Date((new Date()).getTime() + timeToWait); // now + timeout

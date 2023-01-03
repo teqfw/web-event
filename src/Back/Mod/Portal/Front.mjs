@@ -78,7 +78,8 @@ export default class TeqFw_Web_Event_Back_Mod_Portal_Front {
                 // noinspection JSValidateTypes
                 /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans.Dto} */
                 const meta = msg.meta;
-
+                meta.frontUuid = stream.frontUuid;
+                meta.sessionUuid = stream.sessionUuid;
                 // encrypt or sign
                 if (meta.encrypted === true) {
                     const scrambler = await factScrambler.create();
