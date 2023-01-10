@@ -36,10 +36,10 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Direct {
         const eventsBack = spec['TeqFw_Web_Event_Back_Mod_Channel$'];
         /** @type {TeqFw_Web_Event_Shared_Dto_Event} */
         const dtoEvent = spec['TeqFw_Web_Event_Shared_Dto_Event$'];
-        /** @type {TeqFw_Web_Event_Back_Fact_Stamper} */
-        const factStamper = spec['TeqFw_Web_Event_Back_Fact_Stamper$'];
         /** @type {TeqFw_Web_Event_Back_Mod_Registry_Stream} */
         const modRegStream = spec['TeqFw_Web_Event_Back_Mod_Registry_Stream$'];
+        /** @type {TeqFw_Web_Event_Shared_Mod_Stamper} */
+        const stamper = spec['TeqFw_Web_Event_Shared_Mod_Stamper$'];
 
         // MAIN
         Object.defineProperty(process, 'namespace', {value: NS});
@@ -79,20 +79,16 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Direct {
                     // try to load public key using front UUID then validate encryption stamp
                     const stream = modRegStream.getBySessionUuid(sessionUuid);
                     if (stream) {
-                        const stamper = await factStamper.create({frontUuid: stream.frontUuid});
-                        if (stamper) {
-                            const valid = stamper.verify(meta);
-                            if (valid) {
-                                // stamp is valid, log event then publish it to backend event bus
-                                logger.info(`${meta.name} (${meta.uuid}): ${meta.backUuid} => ${meta.frontUuid}/${meta.sessionUuid}`);
-                                eventsBack.publish(message).then();
-                                // respond as succeed
-                                res.setHeader(HTTP2_HEADER_CONTENT_TYPE, 'application/json');
-                                shares.set(DEF.MOD_WEB.SHARE_RES_BODY, JSON.stringify(true));
-                                shares.set(DEF.MOD_WEB.SHARE_RES_STATUS, HTTP_STATUS_OK);
-                            } else res403(res, 'Cannot verify encryption stamp.');
-                        } else
-                            res403(res, `Cannot found public key for front ${stream.frontUuid}/${stream.frontBid}.`);
+                        const valid = stamper.verify(meta, stream.scrambler);
+                        if (valid) {
+                            // stamp is valid, log event then publish it to backend event bus
+                            logger.info(`${meta.name} (${meta.uuid}): ${meta.backUuid} => ${meta.frontUuid}/${meta.sessionUuid}`);
+                            eventsBack.publish(message).then();
+                            // respond as succeed
+                            res.setHeader(HTTP2_HEADER_CONTENT_TYPE, 'application/json');
+                            shares.set(DEF.MOD_WEB.SHARE_RES_BODY, JSON.stringify(true));
+                            shares.set(DEF.MOD_WEB.SHARE_RES_STATUS, HTTP_STATUS_OK);
+                        } else res403(res, 'Cannot verify encryption stamp.');
                     } else {
                         const err = `Unknown session UUID: ${sessionUuid}`;
                         logger.error(err);

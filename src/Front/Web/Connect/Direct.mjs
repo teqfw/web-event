@@ -15,10 +15,8 @@ export default class TeqFw_Web_Event_Front_Web_Connect_Direct {
         const modConn = spec['TeqFw_Web_Front_Api_Mod_Server_Connect_IState$'];
         /** @type {TeqFw_Web_Event_Front_Mod_Identity_Session} */
         const modIdSession = spec['TeqFw_Web_Event_Front_Mod_Identity_Session$'];
-        /** @type {TeqFw_Web_Event_Front_Mod_Identity_Front} */
-        const modIdFront = spec['TeqFw_Web_Event_Front_Mod_Identity_Front$'];
         /** @type {TeqFw_Web_Event_Shared_Mod_Stamper} */
-        const stamper = spec['TeqFw_Web_Event_Shared_Mod_Stamper$$']; // new instance
+        const modStamper = spec['TeqFw_Web_Event_Shared_Mod_Stamper$'];
 
         // VARS
         let BASE;
@@ -68,11 +66,7 @@ export default class TeqFw_Web_Event_Front_Web_Connect_Direct {
                     // logMeta.streamUuid = meta.streamUuid;
                     //
                     modConn.startActivity();
-                    const pub = modIdSession.getBackKey();
-                    const sec = modIdFront.getSecretKey();
-                    // TODO: reset keys if front or back is changed
-                    stamper.initKeys(pub, sec);
-                    meta.stamp = stamper.create(meta);
+                    meta.stamp = modStamper.create(meta, modIdSession.getScrambler());
                     logger.info(`${meta.frontUuid} => ${meta.name} (${meta.uuid}) (sent)`);
                     const urlBase = composeBaseUrl();
                     const res = await fetch(`${urlBase}${meta.name}`, {

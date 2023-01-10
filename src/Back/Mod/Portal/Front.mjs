@@ -13,8 +13,6 @@ export default class TeqFw_Web_Event_Back_Mod_Portal_Front {
         const eventsBack = spec['TeqFw_Web_Event_Back_Mod_Channel$'];
         /** @type {TeqFw_Web_Event_Back_Mod_Registry_Stream} */
         const registry = spec['TeqFw_Web_Event_Back_Mod_Registry_Stream$'];
-        /** @type {TeqFw_Web_Event_Back_Mod_Crypto_Scrambler.Factory} */
-        const factScrambler = spec['TeqFw_Web_Event_Shared_Api_Crypto_Scrambler.Factory$']; // interface
         /** @type {TeqFw_Web_Event_Shared_Dto_Event} */
         const factEvt = spec['TeqFw_Web_Event_Shared_Dto_Event$'];
         /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_Response} */
@@ -23,15 +21,11 @@ export default class TeqFw_Web_Event_Back_Mod_Portal_Front {
         const modQueue = spec['TeqFw_Web_Event_Back_Mod_Queue$'];
         /** @type {TeqFw_Core_Back_Mod_App_Uuid} */
         const modBackUuid = spec['TeqFw_Core_Back_Mod_App_Uuid$'];
-        /** @type {TeqFw_Web_Event_Back_Mod_Server_Key} */
-        const modServerKey = spec['TeqFw_Web_Event_Back_Mod_Server_Key$'];
         /** @type {TeqFw_Web_Event_Shared_Mod_Stamper} */
         const modStamper = spec['TeqFw_Web_Event_Shared_Mod_Stamper$'];
 
         // VARS
         logger.setNamespace(this.constructor.name);
-        const _keySec = modServerKey.getSecret();
-
 
         // INSTANCE METHODS
         /**
@@ -81,14 +75,11 @@ export default class TeqFw_Web_Event_Back_Mod_Portal_Front {
                 meta.frontUuid = stream.frontUuid;
                 meta.sessionUuid = stream.sessionUuid;
                 // encrypt or sign
-                if (meta.encrypted === true) {
-                    const scrambler = await factScrambler.create();
-                    scrambler.setKeys(stream.frontKeyPub, _keySec);
+                const scrambler = stream.scrambler;
+                if (meta.encrypted === true)
                     msg.data = scrambler.encryptAndSign(JSON.stringify(data));
-                } else {
-                    modStamper.initKeys(stream.frontKeyPub, _keySec);
-                    meta.stamp = modStamper.create(meta);
-                }
+                else
+                    meta.stamp = modStamper.create(meta, scrambler);
                 // send or save
                 if (stream.write(msg)) {
                     res = true;
@@ -152,13 +143,11 @@ export default class TeqFw_Web_Event_Back_Mod_Portal_Front {
                         const stream = registry.getBySessionUuid(meta.sessionUuid);
                         if (typeof stream.write === 'function') {
                             // encrypt or sign
+                            const scrambler = stream.scrambler;
                             if (meta.encrypted === true) {
-                                const scrambler = await factScrambler.create();
-                                scrambler.setKeys(stream.frontKeyPub, _keySec);
                                 event.data = scrambler.encryptAndSign(JSON.stringify(event.data));
                             } else {
-                                modStamper.initKeys(stream.frontKeyPub, _keySec);
-                                meta.stamp = modStamper.create(meta);
+                                meta.stamp = modStamper.create(meta, scrambler);
                             }
                             // write to stream
                             stream.write(event);
@@ -170,14 +159,12 @@ export default class TeqFw_Web_Event_Back_Mod_Portal_Front {
                         for (const stream of streams) {
                             if (typeof stream.write === 'function') {
                                 // encrypt or sign
+                                const scrambler = stream.scrambler;
                                 meta.sessionUuid = stream.sessionUuid;
                                 if (meta.encrypted === true) {
-                                    const scrambler = await factScrambler.create();
-                                    scrambler.setKeys(stream.frontKeyPub, _keySec);
                                     event.data = scrambler.encryptAndSign(JSON.stringify(event.data));
                                 } else {
-                                    modStamper.initKeys(stream.frontKeyPub, _keySec);
-                                    meta.stamp = modStamper.create(meta);
+                                    meta.stamp = modStamper.create(meta, scrambler);
                                 }
                                 // write to stream
                                 stream.write(event);

@@ -1,5 +1,7 @@
 /**
  * DTO for 'back-to-front' connection to send server events to a front.
+ *
+ * TODO: This is not pure DTO - it contains functions and functional Objects.
  */
 // MODULE'S VARS
 const NS = 'TeqFw_Web_Event_Back_Dto_Reverse_Stream';
@@ -21,11 +23,6 @@ class Dto {
      */
     frontBid;
     /**
-     * Public key for the front.
-     * @type {string}
-     */
-    frontKeyPub;
-    /**
      * Frontend application UUID (profile in browser).
      * @type {string}
      */
@@ -35,6 +32,10 @@ class Dto {
      * @type {number}
      */
     messageId;
+    /**
+     * @type {TeqFw_Web_Event_Back_Mod_Crypto_Scrambler}
+     */
+    scrambler;
     /**
      * Frontend session UUID (tab in browser).
      * @type {string}
@@ -91,6 +92,8 @@ export default class TeqFw_Web_Event_Back_Dto_Reverse_Stream {
             res.frontBid = castInt(data?.frontBid);
             res.frontUuid = castString(data?.frontUuid);
             res.messageId = castInt(data?.messageId) || 1;
+            res.scrambler = data?.scrambler; // this is not DTO
+            res.sessionUuid = castString(data?.sessionUuid);
             res.state = castString(data?.state) ?? STATE.OPENED;
             res.unauthenticatedCloseId = undefined; // don't init this property
             res.uuid = castString(data?.uuid);

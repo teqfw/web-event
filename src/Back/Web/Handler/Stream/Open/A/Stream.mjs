@@ -98,16 +98,16 @@ export default function (spec) {
                 // update frontBid in the stream
                 const stream = modRegStream.get(streamUuid);
                 stream.frontBid = front.bid;
-                // compose encrypted payload
-                const scrambler = await factScrambler.create();
                 try {
+                    // create scrambler for the stream
+                    stream.scrambler = await factScrambler.create();
                     const pub = front.key_pub;
-                    scrambler.setKeys(pub, _keySec);
+                    stream.scrambler.setKeys(pub, _keySec);
                     // we should use raw data for authentication (w/o event DTO)
                     const auth = dtoAuth.createDto();
                     auth.backUuid = _backUuid;
                     auth.backKey = _keyPub;
-                    auth.streamUuidEnc = scrambler.encryptAndSign(streamUuid);
+                    auth.streamUuidEnc = stream.scrambler.encryptAndSign(streamUuid);
                     // send to front using SSE
                     const payload = JSON.stringify(auth);
                     res.write(`event: ${DEF.SHARED.SSE_AUTHENTICATE}\n`);
@@ -144,7 +144,6 @@ export default function (spec) {
             // MAIN
             const stream = dtoStream.createDto();
             stream.frontBid = front.bid;
-            stream.frontKeyPub = front.key_pub;
             stream.frontUuid = front.uuid;
             stream.sessionUuid = sessionUuid;
             stream.uuid = streamUuid;

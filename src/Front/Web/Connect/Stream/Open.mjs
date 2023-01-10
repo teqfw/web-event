@@ -57,6 +57,11 @@ export default function (spec) {
     logger.setNamespace(NS);
     /** @type {EventSource} */
     let _source;
+    /**
+     * Scrambler for opened stream.
+     * @type {TeqFw_Web_Event_Front_Mod_Crypto_Scrambler}
+     */
+    let _scrambler;
     let _url = `./${DEF.SHARED.SPACE_STREAM_OPEN}`;
 
     // FUNCS
@@ -93,15 +98,16 @@ export default function (spec) {
                 // decrypt payload and extract back & stream UUIDs
                 const pub = dataAuth.backKey;
                 const sec = modIdFront.getSecretKey();
-                const scrambler = await factScrambler.create();
-                scrambler.setKeys(pub, sec);
-                const streamUuid = scrambler.decryptAndVerify(dataAuth.streamUuidEnc);
+                _scrambler = await factScrambler.create();
+                _scrambler.setKeys(pub, sec);
+                const streamUuid = _scrambler.decryptAndVerify(dataAuth.streamUuidEnc);
                 // compose backend identity
                 const dataIdBack = dtoIdBack.createDto();
                 dataIdBack.backKey = dataAuth.backKey;
                 dataIdBack.backUuid = dataAuth.backUuid;
                 dataIdBack.streamUuid = streamUuid;
                 modIdSess.setIdBack(dataIdBack);
+                modIdSess.setScrambler(_scrambler);
                 // publish confirmation to back
                 connActivate(modIdFront.getFrontUuid(), streamUuid);
                 logger.info(`Front authentication response is sent to back.`);
@@ -149,19 +155,15 @@ export default function (spec) {
                     const meta = obj.meta;
                     if (meta.encrypted) {
                         // decrypt and verify all data
-                        const scrambler = await factScrambler.create();
-                        scrambler.setKeys(modIdSess.getBackKey(), modIdFront.getSecretKey());
-                        const decrypted = scrambler.decryptAndVerify(obj.data);
+                        const decrypted = _scrambler.decryptAndVerify(obj.data);
                         obj.data = JSON.parse(decrypted);
                         const dto = dtoTransMsg.createDto(obj);
                         publish(dto);
                     } else {
                         // decrypt and verify stamp only
                         const dto = dtoTransMsg.createDto(obj);
-                        modStamper.initKeys(modIdSess.getBackKey(), modIdFront.getSecretKey());
-                        if (modStamper.verify(dto.meta)) {
-                            publish(dto);
-                        } else logger.error(`Wrong stamp for message '${dto.meta.name}' (uuid: ${dto.meta.uuid}).`);
+                        if (modStamper.verify(dto.meta, _scrambler)) publish(dto);
+                        else logger.error(`Wrong stamp for message '${dto.meta.name}' (uuid: ${dto.meta.uuid}).`);
                     }
                 } catch (e) {
                     logger.error(e);
@@ -201,7 +203,6 @@ export default function (spec) {
                 _source.addEventListener(DEF.SHARED.SSE_AUTHENTICATE, onAuthenticate);
             } else resolve(); // work offline
         });
-
     }
 
     Object.defineProperty(act, 'namespace', {value: NS});

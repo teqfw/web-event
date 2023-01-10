@@ -18,6 +18,8 @@ export default class TeqFw_Web_Event_Front_Mod_Identity_Session {
         let _backId;
         /** @type {string} */
         let _sessionUuid = initSession();
+        /** @type {TeqFw_Web_Event_Shared_Api_Crypto_Scrambler} */
+        let _scrambler;
 
         // FUNCS
         /**
@@ -48,6 +50,11 @@ export default class TeqFw_Web_Event_Front_Mod_Identity_Session {
         this.getBackKey = () => _backId?.backKey;
 
         /**
+         * @returns {TeqFw_Web_Event_Shared_Api_Crypto_Scrambler}
+         */
+        this.getScrambler = () => _scrambler;
+
+        /**
          * Get UUID for current session (tab in a browser).
          * @return {string}
          */
@@ -63,5 +70,10 @@ export default class TeqFw_Web_Event_Front_Mod_Identity_Session {
          * @param {TeqFw_Web_Event_Front_Dto_Identity_Back.Dto} data
          */
         this.setIdBack = (data) => _backId = data;
+
+        /**
+         * @param {TeqFw_Web_Event_Shared_Api_Crypto_Scrambler} data
+         */
+        this.setScrambler = (data) => _scrambler = data;
     }
 }

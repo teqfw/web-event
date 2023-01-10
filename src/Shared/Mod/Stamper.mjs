@@ -6,13 +6,8 @@ export default class TeqFw_Web_Event_Shared_Mod_Stamper {
         // DEPS
         /** @type {TeqFw_Core_Shared_Util_Cast.castDate|function} */
         const castDate = spec['TeqFw_Core_Shared_Util_Cast.castDate'];
-        /** @type {TeqFw_Web_Event_Shared_Api_Crypto_Scrambler} */
-        const scrambler = spec['TeqFw_Web_Event_Shared_Api_Crypto_Scrambler$$']; // instance
 
-        // VARS
-        let _isInitialized = false;
-
-        // VARS
+        // FUNCS
         /**
          * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans.Dto} meta event message metadata
          * @return {string} payload to encrypt/verify
@@ -24,24 +19,14 @@ export default class TeqFw_Web_Event_Shared_Mod_Stamper {
         }
 
         // INSTANCE METHODS
-        /**
-         * Initialize scrambler's keys if not initialized yet.
-         * @param {string} pub
-         * @param {string} sec
-         */
-        this.initKeys = (pub, sec) => {
-            if (!_isInitialized) {
-                scrambler.setKeys(pub, sec);
-                _isInitialized = true;
-            }
-        }
 
         /**
          * Concatenate data for encryption and encrypt it.
          * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans.Dto} meta event message metadata
+         * @param {TeqFw_Web_Event_Shared_Api_Crypto_Scrambler} scrambler
          * @return {string} stamp (encrypted data)
          */
-        this.create = function (meta) {
+        this.create = function (meta, scrambler) {
             const plain = composePayload(meta)
             return scrambler.encryptAndSign(plain);
         }
@@ -49,9 +34,10 @@ export default class TeqFw_Web_Event_Shared_Mod_Stamper {
         /**
          * Decrypt stamp and compare with expected data.
          * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans.Dto} meta event message metadata
+         * @param {TeqFw_Web_Event_Shared_Api_Crypto_Scrambler} scrambler
          * @return {boolean}
          */
-        this.verify = function (meta) {
+        this.verify = function (meta, scrambler) {
             const expect = composePayload(meta);
             const actual = scrambler.decryptAndVerify(meta.stamp);
             return (actual === expect);
