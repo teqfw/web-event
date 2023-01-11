@@ -122,8 +122,8 @@ export default function (spec) {
                 if (event.eventPhase !== EventSource.CLOSED) {
                     logger.error(`Error in 'back-to-front event stream' (event: ${JSON.stringify(event)}).`);
                 }
-                closeStream();
-                reject();
+                closeStream(); // close stream if not closed then emmit local event
+                reject(new Error(`Cannot open back-to-front event stream.`));
             }
 
             /**

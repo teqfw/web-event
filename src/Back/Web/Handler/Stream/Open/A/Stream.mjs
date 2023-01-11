@@ -44,6 +44,8 @@ export default function (spec) {
     const dtoAuth = spec['TeqFw_Web_Event_Shared_Dto_Stream_Auth$'];
     /** @type {TeqFw_Web_Event_Back_Act_Front_ReadByUuid.act|function} */
     const actReadFront = spec['TeqFw_Web_Event_Back_Act_Front_ReadByUuid$'];
+    /** @type {TeqFw_Web_Back_App_Server_Respond.respond404|function} */
+    const respond404 = spec['TeqFw_Web_Back_App_Server_Respond.respond404'];
 
     // VARS
     logger.setNamespace(NS);
@@ -200,7 +202,9 @@ export default function (spec) {
             startStreaming(res); // respond with headers only to start events stream
             authenticateStream(streamUuid, front, res).then();
         } else {
-            // TODO: report error 404
+            const msg = `SSE connection error: front '${frontUuid}' is not registered and cannot be authenticated.`;
+            logger.error(msg);
+            respond404(res, msg);
         }
     }
 
