@@ -8,6 +8,8 @@ export default class TeqFw_Web_Event_Back_Mod_Queue {
         // DEPS
         /** @type {TeqFw_Core_Shared_Api_ILogger} */
         const logger = spec['TeqFw_Core_Shared_Api_ILogger$$']; // instance
+        /** @type {TeqFw_Db_Back_Util.dateUtc|function} */
+        const dateUtc = spec['TeqFw_Db_Back_Util.dateUtc'];
         /** @type {TeqFw_Db_Back_RDb_IConnect} */
         const rdb = spec['TeqFw_Db_Back_RDb_IConnect$'];
         /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
@@ -25,6 +27,19 @@ export default class TeqFw_Web_Event_Back_Mod_Queue {
         logger.setNamespace(this.constructor.name);
 
         // INSTANCE METHODS
+
+        this.cleanUpExpired = async function () {
+            const trx = await rdb.startTransaction();
+            try {
+                const where = (builder) => builder.where(A_QUEUE.DATE_EXPIRED, '<=', dateUtc(new Date()));
+                const res = await crud.deleteSet(trx, rdbQueue, where);
+                await trx.commit();
+                return res;
+            } catch (e) {
+                await trx.rollback();
+            }
+            return 0;
+        }
 
         /**
          * Save event to RDB.
@@ -44,8 +59,9 @@ export default class TeqFw_Web_Event_Back_Mod_Queue {
             try {
                 const {id: frontId} = await actGetIdByUuid({trx, uuid: meta.frontUuid});
                 const dto = rdbQueue.createDto();
-                dto.message = JSON.stringify(event);
+                dto.date_expired = meta.expired;
                 dto.front_ref = frontId;
+                dto.message = JSON.stringify(event);
                 const pk = await crud.create(trx, rdbQueue, dto);
                 logger.info(`Event message #${meta.uuid} is saved to backend queue as #${pk[A_QUEUE.ID]}.`);
                 await trx.commit();
@@ -54,6 +70,7 @@ export default class TeqFw_Web_Event_Back_Mod_Queue {
                 logger.error(`Cannot save event #${meta?.uuid} to queue. Error: ${e.message}`);
             }
         }
+
         /**
          * Get all delayed events by front UUID.
          * @param {string} uuid

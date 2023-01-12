@@ -13,6 +13,8 @@ export default function (spec) {
     const logger = spec['TeqFw_Core_Shared_Api_ILogger$$']; // instance
     /** @type {TeqFw_Web_Event_Back_Mod_Server_Key} */
     const modServerKey = spec['TeqFw_Web_Event_Back_Mod_Server_Key$'];
+    /** @type {TeqFw_Web_Event_Back_Cron_Queue_Clean} */
+    const cronClean = spec['TeqFw_Web_Event_Back_Cron_Queue_Clean$'];
 
     // FUNCS
     /**
@@ -22,6 +24,8 @@ export default function (spec) {
     async function action() {
         // load or generate asymmetric keys for server to use in event processing
         await modServerKey.init();
+        // run scheduled tasks
+        cronClean.start().then();
         logger.info(`Plugin '${DEF.SHARED.NAME}' is initialized.`)
     }
 

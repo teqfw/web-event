@@ -9,8 +9,6 @@ export default class TeqFw_Web_Event_Back_Mod_Portal_Front {
         const logger = spec['TeqFw_Core_Shared_Api_ILogger$$']; // instance
         /** @type {TeqFw_Core_Shared_Util_Cast.castDate|function} */
         const castDate = spec['TeqFw_Core_Shared_Util_Cast.castDate'];
-        /** @type {TeqFw_Web_Event_Back_Mod_Channel} */
-        const eventsBack = spec['TeqFw_Web_Event_Back_Mod_Channel$'];
         /** @type {TeqFw_Web_Event_Back_Mod_Registry_Stream} */
         const registry = spec['TeqFw_Web_Event_Back_Mod_Registry_Stream$'];
         /** @type {TeqFw_Web_Event_Shared_Dto_Event} */
@@ -28,6 +26,11 @@ export default class TeqFw_Web_Event_Back_Mod_Portal_Front {
         logger.setNamespace(this.constructor.name);
 
         // INSTANCE METHODS
+
+        this.cleanDelayedEvents = async function () {
+            return await modQueue.cleanUpExpired();
+        }
+
         /**
          * @param {*} [data]
          * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_Response.Dto} [metaIn]
@@ -175,17 +178,6 @@ export default class TeqFw_Web_Event_Back_Mod_Portal_Front {
                     }
                 }
             }
-            // TODO: use it or remove it
-            // if (count > 0) {
-            //     logger.info(`Total ${count} delayed events were processed for front #${uuid}.`);
-            //     const data = ebRepublishDelayed.createDto();
-            //     data.count = count;
-            //     // data.frontId = frontId; // we have no frontBid here
-            //     data.frontUuid = uuid;
-            //     const msg = eventsBack.createMessage();
-            //     msg.data = data;
-            //     eventsBack.publish(msg).then();
-            // }
         }
     }
 }
