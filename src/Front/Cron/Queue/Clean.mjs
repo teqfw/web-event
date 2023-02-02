@@ -8,8 +8,8 @@ const TIMEOUT_LOOP = 300000; // launch clean up every 5 min
 export default class TeqFw_Web_Event_Front_Cron_Queue_Clean {
     constructor(spec) {
         // DEPS
-        /** @type {TeqFw_Core_Shared_Api_ILogger} */
-        const logger = spec['TeqFw_Core_Shared_Api_ILogger$$']; // instance
+        /** @type {TeqFw_Core_Shared_Api_Logger} */
+        const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
         /** @type {TeqFw_Web_Event_Front_Mod_Portal_Back} */
         const portalBack = spec['TeqFw_Web_Event_Front_Mod_Portal_Back$'];
 

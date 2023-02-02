@@ -9,8 +9,8 @@ const NS = 'TeqFw_Web_Event_Back_Act_Front_Create';
 // MODULE'S FUNCTIONS
 export default function (spec) {
     // DEPS
-    /** @type {TeqFw_Core_Shared_Api_ILogger} */
-    const logger = spec['TeqFw_Core_Shared_Api_ILogger$$']; // instance
+    /** @type {TeqFw_Core_Shared_Api_Logger} */
+    const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
     /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
     const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
     /** @type {TeqFw_Web_Event_Back_RDb_Schema_Front} */

@@ -9,8 +9,8 @@ const KEY = '@teqfw/web-event/sessionUuid';
 export default class TeqFw_Web_Event_Front_Mod_Identity_Session {
     constructor(spec) {
         // DEPS
-        /** @type {TeqFw_Core_Shared_Api_ILogger} */
-        const logger = spec['TeqFw_Core_Shared_Api_ILogger$$']; // instance
+        /** @type {TeqFw_Core_Shared_Api_Logger} */
+        const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
 
         // VARS
         logger.setNamespace(this.constructor.name);

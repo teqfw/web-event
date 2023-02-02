@@ -14,7 +14,7 @@ class Dto {
 }
 
 /**
- * @implements TeqFw_Core_Shared_Api_Factory_IDto
+ * @implements TeqFw_Core_Shared_Api_Factory_Dto
  */
 export default class TeqFw_Web_Event_Front_Event_Msg_Stream_Opened {
     constructor() {

@@ -6,8 +6,8 @@
 export default class TeqFw_Web_Event_Back_Mod_Queue {
     constructor(spec) {
         // DEPS
-        /** @type {TeqFw_Core_Shared_Api_ILogger} */
-        const logger = spec['TeqFw_Core_Shared_Api_ILogger$$']; // instance
+        /** @type {TeqFw_Core_Shared_Api_Logger} */
+        const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
         /** @type {TeqFw_Db_Back_Util.dateUtc|function} */
         const dateUtc = spec['TeqFw_Db_Back_Util.dateUtc'];
         /** @type {TeqFw_Db_Back_RDb_IConnect} */

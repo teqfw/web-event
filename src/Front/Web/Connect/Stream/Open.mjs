@@ -26,8 +26,8 @@ export default function (spec) {
     // DEPS
     /** @type {TeqFw_Web_Event_Front_Defaults} */
     const DEF = spec['TeqFw_Web_Event_Front_Defaults$'];
-    /** @type {TeqFw_Core_Shared_Api_ILogger} */
-    const logger = spec['TeqFw_Core_Shared_Api_ILogger$$']; // instance
+    /** @type {TeqFw_Core_Shared_Api_Logger} */
+    const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
     /** @type {TeqFw_Web_Event_Front_Mod_Channel} */
     const eventsFront = spec['TeqFw_Web_Event_Front_Mod_Channel$'];
     /** @type {TeqFw_Web_Event_Front_Event_Msg_Stream_Closed} */

@@ -24,7 +24,7 @@ export default function (spec) {
     /**
      * Result function.
      * @param {TeqFw_Web_Event_Shared_Dto_Event.Dto} reqDto
-     * @param {TeqFw_Core_Shared_Api_Factory_IDto} respFact
+     * @param {TeqFw_Core_Shared_Api_Factory_Dto} respFact
      * @param {number} timeout
      * @param {string} sessionUuid
      * @param {string} frontUuid

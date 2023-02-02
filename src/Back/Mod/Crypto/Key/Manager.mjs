@@ -14,8 +14,8 @@ export default class TeqFw_Web_Event_Back_Mod_Crypto_Key_Manager {
         // DEPS
         /** @type {TeqFw_Web_Event_Shared_Dto_Identity_Keys} */
         const dtoKeys = spec['TeqFw_Web_Event_Shared_Dto_Identity_Keys$'];
-        /** @type {TeqFw_Core_Shared_Api_Util_ICodec} */
-        const util = spec['TeqFw_Core_Shared_Api_Util_ICodec$'];
+        /** @type {TeqFw_Core_Shared_Api_Util_Codec} */
+        const util = spec['TeqFw_Core_Shared_Api_Util_Codec$'];
 
         // INSTANCE METHODS
         this.generateAsyncKeys = async function () {

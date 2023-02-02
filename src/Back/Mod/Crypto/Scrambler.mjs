@@ -16,8 +16,8 @@ const NS = 'TeqFw_Web_Event_Back_Mod_Crypto_Scrambler';
 export default class TeqFw_Web_Event_Back_Mod_Crypto_Scrambler {
     constructor(spec) {
         // DEPS
-        /** @type {TeqFw_Core_Shared_Api_Util_ICodec} */
-        const util = spec['TeqFw_Core_Shared_Api_Util_ICodec$'];
+        /** @type {TeqFw_Core_Shared_Api_Util_Codec} */
+        const util = spec['TeqFw_Core_Shared_Api_Util_Codec$'];
 
         // VARS
         let _keyShared;
@@ -59,7 +59,7 @@ export default class TeqFw_Web_Event_Back_Mod_Crypto_Scrambler {
 }
 
 /**
- * @implements TeqFw_Core_Shared_Api_Factory_IAsync
+ * @implements TeqFw_Core_Shared_Api_Factory_Async
  * @memberOf TeqFw_Web_Event_Back_Mod_Crypto_Scrambler
  */
 export class Factory {

@@ -26,7 +26,7 @@ class Dto {
 }
 
 /**
- * @implements TeqFw_Core_Shared_Api_Factory_IDto
+ * @implements TeqFw_Core_Shared_Api_Factory_Dto
  */
 export default class TeqFw_Web_Event_Back_Event_Msg_Republish_Delayed {
     constructor(spec) {

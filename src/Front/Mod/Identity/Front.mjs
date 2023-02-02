@@ -7,8 +7,8 @@ export default class TeqFw_Web_Event_Front_Mod_Identity_Front {
         // DEPS
         /** @type {TeqFw_Web_Event_Front_Defaults} */
         const DEF = spec['TeqFw_Web_Event_Front_Defaults$'];
-        /** @type {TeqFw_Core_Shared_Api_ILogger} */
-        const logger = spec['TeqFw_Core_Shared_Api_ILogger$$']; // instance
+        /** @type {TeqFw_Core_Shared_Api_Logger} */
+        const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
         /** @type {TeqFw_Web_Front_Mod_Store_Singleton} */
         const storeSingleton = spec['TeqFw_Web_Front_Mod_Store_Singleton$'];
         /** @type {TeqFw_Web_Event_Front_Dto_Identity_Front} */
