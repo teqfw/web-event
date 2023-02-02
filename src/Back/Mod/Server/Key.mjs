@@ -46,7 +46,7 @@ export default class TeqFw_Web_Event_Back_Mod_Server_Key {
          * Load server's keys from the file or generate new ones.
          */
         this.init = async function () {
-            const root = config.getBoot().projectRoot;
+            const root = config.getPathToRoot();
             const path = join(root, DEF.FILE_CRYPTO_KEYS);
             if (!(existsSync(path))) {
                 _keys = await mgrKey.generateAsyncKeys();
