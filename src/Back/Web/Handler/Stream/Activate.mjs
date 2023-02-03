@@ -72,18 +72,18 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Stream_Activate {
             }
 
             // MAIN
-            /** @type {TeqFw_Core_Shared_Mod_Map} */
+            /** @type {Object} */
             const shares = res[DEF.MOD_WEB.HNDL_SHARE];
-            if (!res.headersSent && !shares.get(DEF.MOD_WEB.SHARE_RES_STATUS)) {
+            if (!res.headersSent && !shares[DEF.MOD_WEB.SHARE_RES_STATUS]) {
                 /** @type {TeqFw_Web_Event_Shared_Dto_Stream_Act.Dto} */
-                const dataIn = shares.get(DEF.MOD_WEB.SHARE_REQ_BODY_JSON);
+                const dataIn = shares[DEF.MOD_WEB.SHARE_REQ_BODY_JSON];
                 const frontUuid = dataIn.frontUuid;
                 const streamUuid = dataIn.streamUuid;
                 const found = modReg.get(streamUuid);
                 if (found && (found.frontUuid === frontUuid)) {
                     found.state = STATE.ACTIVE;
                     clearTimeout(found.unauthenticatedCloseId);
-                    shares.set(DEF.MOD_WEB.SHARE_RES_BODY, JSON.stringify(true));
+                    shares[DEF.MOD_WEB.SHARE_RES_BODY]=JSON.stringify(true);
                     logger.info(`Stream '${streamUuid}' is activated (front: ${frontUuid}/${found.sessionUuid}).`);
                     // update front data in RDB
                     updateFrontAuthDate(found.frontBid).then();

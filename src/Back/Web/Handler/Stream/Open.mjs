@@ -52,9 +52,9 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Stream_Open {
             }
 
             // MAIN
-            /** @type {TeqFw_Core_Shared_Mod_Map} */
+            /** @type {Object} */
             const shares = res[DEF.MOD_WEB.HNDL_SHARE];
-            if (!res.headersSent && !shares.get(DEF.MOD_WEB.SHARE_RES_STATUS)) {
+            if (!res.headersSent && !shares[DEF.MOD_WEB.SHARE_RES_STATUS]) {
                 // extract front application UUID
                 const {sessionUuid, frontUuid} = getUuids(req.url);
                 // open new reverse stream (SSE) then authenticate front with public key

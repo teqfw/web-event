@@ -59,14 +59,14 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Front_Register {
             }
 
             // MAIN
-            /** @type {TeqFw_Core_Shared_Mod_Map} */
+            /** @type {Object} */
             const shares = res[DEF.MOD_WEB.HNDL_SHARE];
-            if (!res.headersSent && !shares.get(DEF.MOD_WEB.SHARE_RES_STATUS)) {
+            if (!res.headersSent && !shares[DEF.MOD_WEB.SHARE_RES_STATUS]) {
                 // register UUID & public key for a new front in RDB
                 /** @type {TeqFw_Web_Event_Shared_Dto_Register_Request.Dto} */
-                const dataIn = shares.get(DEF.MOD_WEB.SHARE_REQ_BODY_JSON);
+                const dataIn = shares[DEF.MOD_WEB.SHARE_REQ_BODY_JSON];
                 const frontBid = await saveFront(dataIn.frontUuid, dataIn.publicKey);
-                if (frontBid) shares.set(DEF.MOD_WEB.SHARE_RES_BODY, JSON.stringify(frontBid));
+                if (frontBid) shares[DEF.MOD_WEB.SHARE_RES_BODY] = JSON.stringify(frontBid);
             }
         }
 

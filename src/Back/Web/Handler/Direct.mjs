@@ -3,7 +3,7 @@
  * Handler verifies stamps of the event messages and publishes their to backend event bus.
  */
 // MODULE'S IMPORT
-import {constants as H2} from 'http2';
+import {constants as H2} from 'node:http2';
 
 // MODULE'S VARS
 const NS = 'TeqFw_Web_Event_Back_Web_Handler_Direct';
@@ -65,10 +65,10 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Direct {
             }
 
             // MAIN
-            /** @type {TeqFw_Core_Shared_Mod_Map} */
+            /** @type {Object} */
             const shares = res[DEF.MOD_WEB.HNDL_SHARE];
-            if (!res.headersSent && !shares.get(DEF.MOD_WEB.SHARE_RES_STATUS)) {
-                const json = shares.get(DEF.MOD_WEB.SHARE_REQ_BODY_JSON);
+            if (!res.headersSent && !shares[DEF.MOD_WEB.SHARE_RES_STATUS]) {
+                const json = shares[DEF.MOD_WEB.SHARE_REQ_BODY_JSON];
                 const message = dtoEvent.createDto(json);
                 // noinspection JSValidateTypes
                 /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans.Dto} */
@@ -86,8 +86,8 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Direct {
                             eventsBack.publish(message).then();
                             // respond as succeed
                             res.setHeader(HTTP2_HEADER_CONTENT_TYPE, 'application/json');
-                            shares.set(DEF.MOD_WEB.SHARE_RES_BODY, JSON.stringify(true));
-                            shares.set(DEF.MOD_WEB.SHARE_RES_STATUS, HTTP_STATUS_OK);
+                            shares[DEF.MOD_WEB.SHARE_RES_BODY] = JSON.stringify(true);
+                            shares[DEF.MOD_WEB.SHARE_RES_STATUS] = HTTP_STATUS_OK;
                         } else res403(res, 'Cannot verify encryption stamp.');
                     } else {
                         const err = `Unknown session UUID: ${sessionUuid}`;
