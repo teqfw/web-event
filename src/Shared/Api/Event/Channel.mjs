@@ -22,13 +22,13 @@ export default class TeqFw_Web_Event_Shared_Api_Event_Channel {
      * Add event listener to the channel.
      * @param {Class|string} event Event DTO factory or event's name
      * @param {function} handler
-     * @return {TeqFw_Core_Shared_Mod_Event_Subscription}
+     * @return {TeqFw_Web_Event_Shared_Api_Event_Subscription}
      */
     subscribe(event, handler) { }
 
     /**
      * Remove subscription.
-     * @param {TeqFw_Core_Shared_Mod_Event_Subscription} subscription
+     * @param {TeqFw_Web_Event_Shared_Api_Event_Subscription} subscription
      */
     unsubscribe(subscription) { }
 }

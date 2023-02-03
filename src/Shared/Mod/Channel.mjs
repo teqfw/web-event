@@ -12,8 +12,8 @@ export default class TeqFw_Web_Event_Shared_Mod_Channel {
         // DEPS
         /** @type {TeqFw_Core_Shared_Api_Logger} */
         const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
-        /** @type {typeof TeqFw_Core_Shared_Mod_Event_Subscription} */
-        const Subscription = spec['TeqFw_Core_Shared_Mod_Event_Subscription#'];
+        /** @type {typeof TeqFw_Web_Event_Shared_Api_Event_Subscription} */
+        const Subscription = spec['TeqFw_Web_Event_Shared_Mod_Subscription#'];
         /** @type {TeqFw_Web_Event_Shared_Dto_Event} */
         const dtoEvent = spec['TeqFw_Web_Event_Shared_Dto_Event$'];
 
