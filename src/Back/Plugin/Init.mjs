@@ -7,10 +7,6 @@ const NS = 'TeqFw_Web_Event_Back_Plugin_Init';
 
 export default function (spec) {
     // EXTRACT DEPS
-    /** @type {TeqFw_Web_Event_Back_Defaults} */
-    const DEF = spec['TeqFw_Web_Event_Back_Defaults$'];
-    /** @type {TeqFw_Core_Shared_Api_Logger} */
-    const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
     /** @type {TeqFw_Web_Event_Back_Mod_Server_Key} */
     const modServerKey = spec['TeqFw_Web_Event_Back_Mod_Server_Key$'];
     /** @type {TeqFw_Web_Event_Back_Cron_Queue_Clean} */
@@ -26,11 +22,9 @@ export default function (spec) {
         await modServerKey.init();
         // run scheduled tasks
         cronClean.start().then();
-        logger.info(`Plugin '${DEF.SHARED.NAME}' is initialized.`)
     }
 
     // MAIN
-    logger.setNamespace(NS);
     Object.defineProperty(action, 'namespace', {value: NS});
     return action;
 }
