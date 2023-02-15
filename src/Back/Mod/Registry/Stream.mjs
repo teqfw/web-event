@@ -120,7 +120,7 @@ export default class TeqFw_Web_Event_Back_Mod_Registry_Stream {
             if ((_bySession[stream.sessionUuid]) && (_bySession[stream.sessionUuid] !== uuid)) {
                 // close 'deprecated' stream
                 const old = _store[_bySession[stream.sessionUuid]];
-                if (typeof old.finalize === 'function') old.finalize();
+                if (typeof old?.finalize === 'function') old.finalize();
             }
             _bySession[stream.sessionUuid] = uuid;
         }
