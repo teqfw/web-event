@@ -117,6 +117,11 @@ export default class TeqFw_Web_Event_Back_Mod_Registry_Stream {
             if (!Array.isArray(_byFront[stream.frontUuid])) _byFront[stream.frontUuid] = [];
             _byFront[stream.frontUuid].push(uuid);
             // map by sessionUuid
+            if ((_bySession[stream.sessionUuid]) && (_bySession[stream.sessionUuid] !== uuid)) {
+                // close 'deprecated' stream
+                const old = _store[_bySession[stream.sessionUuid]];
+                if (typeof old.finalize === 'function') old.finalize();
+            }
             _bySession[stream.sessionUuid] = uuid;
         }
 
