@@ -150,7 +150,6 @@ export default function (spec) {
                 // MAIN
                 try {
                     const obj = JSON.parse(event.data);
-                    console.log(JSON.stringify(event.data));
                     /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans.Dto} */
                     const meta = obj.meta;
                     if (meta.encrypted) {
