@@ -28,8 +28,6 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Direct {
         const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
         /** @type {TeqFw_Web_Back_App_Server_Respond.respond403|function} */
         const respond403 = spec['TeqFw_Web_Back_App_Server_Respond.respond403'];
-        /** @type {TeqFw_Web_Back_App_Server_Respond.respond404|function} */
-        const respond404 = spec['TeqFw_Web_Back_App_Server_Respond.respond404'];
         /** @type {TeqFw_Web_Back_App_Server_Respond.respond500|function} */
         const respond500 = spec['TeqFw_Web_Back_App_Server_Respond.respond500'];
         /** @type {TeqFw_Web_Event_Back_Mod_Channel} */
@@ -88,11 +86,15 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Direct {
                             res.setHeader(HTTP2_HEADER_CONTENT_TYPE, 'application/json');
                             shares[DEF.MOD_WEB.SHARE_RES_BODY] = JSON.stringify(true);
                             shares[DEF.MOD_WEB.SHARE_RES_STATUS] = HTTP_STATUS_OK;
-                        } else res403(res, 'Cannot verify encryption stamp.');
+                        } else {
+                            const msg = 'Cannot verify encryption stamp.';
+                            logger.error(msg);
+                            res403(res, msg);
+                        }
                     } else {
-                        const err = `Unknown session UUID: ${sessionUuid}`;
-                        logger.error(err);
-                        respond404(res, err);
+                        const msg = `Unknown session UUID: ${sessionUuid}`;
+                        logger.error(msg);
+                        res403(res, msg);
                     }
                 } catch (e) {
                     logger.error(`Error for event #${eventUuid} (sess: ${sessionUuid}): ${e?.message}`);

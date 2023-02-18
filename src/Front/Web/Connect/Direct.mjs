@@ -49,10 +49,11 @@ export default class TeqFw_Web_Event_Front_Web_Connect_Direct {
 
         /**
          * @param {TeqFw_Web_Event_Shared_Dto_Event.Dto} data
-         * @return {Promise<boolean>}
+         * @returns {Promise<{success: boolean, status:number}>} 'true' if
          */
         this.send = async function (data) {
-            let result = false;
+            let success = false;
+            let status;
             if (modConn.isOnline())
                 try {
                     // noinspection JSValidateTypes
@@ -76,10 +77,11 @@ export default class TeqFw_Web_Event_Front_Web_Connect_Direct {
                         },
                         body: JSON.stringify(data)
                     });
-                    if (res.status === 200) {
-                        result = await res.json();
+                    status = res.status;
+                    if (status === 200) {
+                        success = await res.json();
                         logger.info(`${meta.name} (${meta.uuid}): ${meta.frontUuid}/${meta.sessionUuid} => ${meta.backUuid}`);
-                    } else if (res.status === 403) {
+                    } else if ((status === 403) || (status === 404)) {
                         const msg = await res.text();
                         logger.info(msg);
                         if (meta.backUuid) {
@@ -87,7 +89,7 @@ export default class TeqFw_Web_Event_Front_Web_Connect_Direct {
                             logger.error(msg);
                         }
                     } else {
-                        const msg = `Event request error. Status: ${res.status}.`;
+                        const msg = `Event request error. Status: ${status}.`;
                         logger.error(msg);
                     }
                 } catch (e) {
@@ -96,7 +98,7 @@ export default class TeqFw_Web_Event_Front_Web_Connect_Direct {
                 } finally {
                     modConn.stopActivity();
                 }
-            return result;
+            return {success, status};
         }
 
     }

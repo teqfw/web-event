@@ -87,9 +87,13 @@ export default class TeqFw_Web_Event_Front_Mod_Portal_Back {
             meta.backUuid = modIdSession.getBackUuid();
             meta.sessionUuid = modIdSession.getSessionUuid();
             if (modConn.isOnline()) {
-                const sent = await conn.send(message);
-                if (sent) res = meta.uuid
-                else await saveToQueue(message);
+                const {success, status} = await conn.send(message);
+                if (success) res = meta.uuid
+                else if ((status !== 403) && (status !== 404)) {
+                    await saveToQueue(message);
+                    // TODO: probably condition: "status === undefined"?
+                    debugger
+                }
             } else await saveToQueue(message);
             return res;
         }
@@ -151,8 +155,8 @@ export default class TeqFw_Web_Event_Front_Mod_Portal_Back {
                 const meta = event.meta;
                 meta.backUuid = backUuid;
                 meta.sessionUuid = sessionUuid;
-                const sent = await conn.send(event);
-                if (sent) await removeFromQueue(meta.uuid);
+                const {success} = await conn.send(event);
+                if (success) await removeFromQueue(meta.uuid);
             }
         }
     }

@@ -1,5 +1,5 @@
 /**
- * Action to open new back-to-front events stream and to authenticate frontend's public key.
+ * Action to open new back-to-front events stream and to authenticate front-end's public key.
  *
  * @namespace TeqFw_Web_Event_Back_Web_Handler_Stream_Open_A_Stream
  */
