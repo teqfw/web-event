@@ -7,7 +7,8 @@
 * **Session**:  a separate browser tab that has its own session store, which is separate from the session store of other
   tabs and can be used to store data specific to that tab.
 * **Direct Stream**: flow of event messages sent from the front-end to the back-end over the HTTP(S) connection.
-* **Reverse Stream**: flow of event messages sent from the back-end to the front-end over the SSE connection.
+* **Reverse Stream**: flow of event messages sent from the back-end to the certain tab of the front-end over the SSE
+  connection.
 
 ## Identification: Front and Session
 
@@ -78,15 +79,15 @@ https://origin/web-event-stream-open/{frontUuid}/{sessUuid}
 
 Back-end handler for opening requests: `TeqFw_Web_Event_Back_Web_Handler_Stream_Open`. This handler creates new stream
 object (`TeqFw_Web_Event_Back_Dto_Reverse_Stream`) for every SSE connection and registers all streams
-in `TeqFw_Web_Event_Back_Mod_Registry_Stream`. The registry provides access to saved streams both by `frontUuid` and
-by `sessionUuid`.
+in `TeqFw_Web_Event_Back_Mod_Registry_Stream`. The registry provides access to saved streams both by `frontUuid` (to set
+of streams) and by `sessionUuid` (to single stream).
 
 ## Reverse Stream Activation
 
 The first message from back-end to newly connected front-end is authentication
 request (`TeqFw_Web_Event_Back_Web_Handler_Stream_Open_A_Stream.act.authenticateStream`). Back-end sends own UUID and
-public key to front-end. Additionally, back-end appends `streamUuid` that is encrypted by this front-end's `publicKey`
-stored on back-end (been registered previously):
+own public key to the front-end. Additionally, the back-end appends `streamUuid` that is encrypted by this
+front-end's `publicKey` stored on back-end (been registered previously):
 
 ```json
 {
@@ -112,7 +113,9 @@ to send event messages to the front-end.
 
 ## Session expiration
 
+TODO
 
+# Deprecated content
 
 Если фронт находится offline, то все сообщения фронта пишутся в очередь (IDB). При восстановлении соединения с бэком
 сообщения из очереди отправляются на бэк. Проблема в том, что все сессии фронта пишут свои сообщения в IDB, а UUID
@@ -121,14 +124,4 @@ to send event messages to the front-end.
 Такая же проблема есть и на бэке - бэк сохраняет сообщения с номером сессии/потока в очередь (RDB), а после
 восстановления соединения UUID сессии изменяется.
 
-Что такое сессия на фронте? Фронт-сессия - это идентификатор определённой вкладки браузера по отношению к
-фронт-приложению, загруженному с определённого origin. У каждой вкладки для каждого origin имеется свой собственный
-Session Storage. Пока вкладка не закрыта, все запросы на открытие обратного канала для получения сообщений о событиях
-должны сопровождаться этим sessionUuid'ом:
 
-```text
-https://origin/web-event-stream-open/frontUuid/sessUuid
-```
-
-Этот `sessionUuid` сохраняется в реестре открытых потоков (`TeqFw_Web_Event_Back_Mod_Registry_Stream`) и используется,
-если на бэке возникает необходимость отправить сообщение для конкретной вкладки.
