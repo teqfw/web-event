@@ -67,7 +67,11 @@ export default function (spec) {
             msg.meta.expired = new Date((new Date()).getTime() + timeToWait); // now + timeout
             // store outgoing message UUID and publish message to back
             requestUuid = msg.meta.uuid;
-            portalBack.publish(msg).then();
+            portalBack.publish(msg)
+                // inform caller if HTTP response status is not 'Success'
+                .then(({uuid, status} = {}) => {
+                    if (status !== 200) reject({status, uuid});
+                });
         });
     }
 

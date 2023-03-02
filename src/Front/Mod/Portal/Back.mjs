@@ -41,7 +41,7 @@ export default class TeqFw_Web_Event_Front_Mod_Portal_Back {
 
         /**
          * @param {TeqFw_Web_Event_Shared_Dto_Event.Dto} message
-         * @return {Promise<string>} UUID of the event
+         * @return {Promise<{uuid: string, status: number}>} UUID of the event and HTTP status of back-end response
          */
         this.publish = async function (message) {
             // FUNCS
@@ -77,7 +77,10 @@ export default class TeqFw_Web_Event_Front_Mod_Portal_Back {
             }
 
             // MAIN
-            let res;
+            /** @type {string} */
+            let uuid;
+            /** @type {number} */
+            let status;
             // noinspection JSValidateTypes
             /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans.Dto} */
             const meta = message.meta;
@@ -87,15 +90,16 @@ export default class TeqFw_Web_Event_Front_Mod_Portal_Back {
             meta.backUuid = modIdSession.getBackUuid();
             meta.sessionUuid = modIdSession.getSessionUuid();
             if (modConn.isOnline()) {
-                const {success, status} = await conn.send(message);
-                if (success) res = meta.uuid
+                const {success, status: sendStatus} = await conn.send(message);
+                status = sendStatus;
+                if (success) uuid = meta.uuid
                 else if ((status !== 403) && (status !== 404)) {
                     await saveToQueue(message);
                     // TODO: probably condition: "status === undefined"?
                     debugger
                 }
             } else await saveToQueue(message);
-            return res;
+            return {uuid, status};
         }
 
         this.cleanDelayedEvents = async function () {

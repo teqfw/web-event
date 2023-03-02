@@ -50,6 +50,42 @@
                 }
               }
             }
+          },
+          "package": {
+            "front": {
+              "entity": {
+                "session": {
+                  "comment": "Registry for front-end sessions.",
+                  "attr": {
+                    "bid": {"type": "id"},
+                    "uuid": {
+                      "type": "string", "comment": "Universal Unique Identifier as session ID (generated in browser)."
+                    },
+                    "date_created": {
+                      "type": "datetime",
+                      "default": "current",
+                      "comment": "UTC date when session was established the first time."
+                    },
+                    "date_connected": {
+                      "type": "datetime",
+                      "default": "current",
+                      "comment": "UTC date when session was established the last time."
+                    },
+                    "front_ref": {"type": "ref", "comment": "Front to which this session belongs."}
+                  },
+                  "index": {
+                    "uuid": {"type": "unique", "attrs": ["uuid"]}
+                  },
+                  "relation": {
+                    "front": {
+                      "attrs": ["front_ref"],
+                      "ref": {"path": "/web/event/front", "attrs": ["bid"]},
+                      "action": {"delete": "cascade", "update": "cascade"}
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
