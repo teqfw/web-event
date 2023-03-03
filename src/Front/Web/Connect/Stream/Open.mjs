@@ -109,8 +109,8 @@ export default function (spec) {
                 modIdSess.setIdBack(dataIdBack);
                 modIdSess.setScrambler(_scrambler);
                 // publish confirmation to back
-                connActivate(modIdFront.getFrontUuid(), streamUuid);
-                logger.info(`Front authentication response is sent to back.`);
+                await connActivate(modIdFront.getFrontUuid(), streamUuid);
+                logger.info(`Reverse event stream ${streamUuid} is opened and activated.`);
                 resolve();
             }
 
@@ -194,6 +194,7 @@ export default function (spec) {
 
                 // open new SSE connection and add event listeners
                 _source = new EventSource(url);
+                logger.info(`Open new SSE connection for back-to-front events (front: ${frontUuid}/${sessionUuid}).`);
                 _source.addEventListener('open', onOpen);
                 _source.addEventListener('error', onError);
                 // on 'message' (repeat backend event emission on the front)

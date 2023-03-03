@@ -1,6 +1,6 @@
 /**
- * Web server handler to activate established SSE connection with front.
- * Front sends decrypted streamUuid back to server.
+ * Web server handler to activate established SSE connection with front when front sends decrypted streamUuid
+ * back to server.
  */
 // MODULE'S IMPORT
 import {constants as H2} from 'node:http2';
@@ -27,6 +27,8 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Stream_Activate {
         const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
         /** @type {TeqFw_Web_Event_Back_RDb_Schema_Front} */
         const rdbFront = spec['TeqFw_Web_Event_Back_RDb_Schema_Front$'];
+        /** @type {TeqFw_Web_Event_Back_RDb_Schema_Front_Session} */
+        const rdbFrontSess = spec['TeqFw_Web_Event_Back_RDb_Schema_Front_Session$'];
         /** @type {TeqFw_Web_Event_Back_Mod_Channel} */
         const eventsBack = spec['TeqFw_Web_Event_Back_Mod_Channel$'];
         /** @type {TeqFw_Web_Event_Back_Mod_Portal_Front} */
@@ -40,6 +42,7 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Stream_Activate {
 
         // MAIN
         logger.setNamespace(this.constructor.name);
+        const A_SESS = rdbFrontSess.getAttributes();
 
         // FUNCS
 
@@ -53,20 +56,42 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Stream_Activate {
             // FUNCS
 
             /**
-             * Update authenticated data in RDB.
-             * @param {number} bid backend ID for updated frontend
+             * Update data in RDB: front authentication date and session data (uuid & connection date).
+             * @param {number} frontBid backend ID for front
+             * @param {string} sessUuid session UUID received from the front
              * @returns {Promise<void>}
              */
-            async function updateFrontAuthDate(bid) {
+            async function updateRdb(frontBid, sessUuid) {
                 const trx = await conn.startTransaction();
                 try {
-                    const dto = rdbFront.createDto();
-                    dto.bid = bid;
-                    dto.date_authenticated = new Date();
-                    await crud.updateOne(trx, rdbFront, dto);
+                    const now = new Date();
+                    // update front's authentication date
+                    const dtoFront = rdbFront.createDto();
+                    dtoFront.bid = frontBid;
+                    dtoFront.date_authenticated = now;
+                    await crud.updateOne(trx, rdbFront, dtoFront);
+                    // handle session data
+                    const key = {[A_SESS.UUID]: sessUuid, [A_SESS.FRONT_REF]: frontBid};
+                    /** @type {TeqFw_Web_Event_Back_RDb_Schema_Front_Session.Dto} */
+                    const found = await crud.readOne(trx, rdbFrontSess, key);
+                    if (found) {
+                        // update data for existing session
+                        found.date_connected = now;
+                        await crud.updateOne(trx, rdbFrontSess, found);
+                        logger.info(`Update the last connected date for event session #${found.bid} (front #${frontBid}).`);
+                    } else {
+                        // register new session
+                        const dtoSess = rdbFrontSess.createDto();
+                        dtoSess.uuid = sessUuid;
+                        dtoSess.date_created = now;
+                        dtoSess.date_connected = now;
+                        dtoSess.front_ref = frontBid;
+                        const {[A_SESS.BID]: sessBid} = await crud.create(trx, rdbFrontSess, dtoSess);
+                        logger.info(`New event session #${sessBid} is registered for front #${frontBid}.`);
+                    }
                     await trx.commit();
                 } catch (e) {
-                    logger.error(`Cannot set authenticated date for front #${bid}. Error: ${e?.message}`);
+                    logger.error(`Cannot set authenticated date for front #${frontBid}. Error: ${e?.message}`);
                     await trx.rollback();
                 }
             }
@@ -81,19 +106,21 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Stream_Activate {
                 const streamUuid = dataIn.streamUuid;
                 const found = modReg.get(streamUuid);
                 if (found && (found.frontUuid === frontUuid)) {
+                    const frontBid = found.frontBid;
+                    const sessUuid = found.sessionUuid;
                     found.state = STATE.ACTIVE;
                     clearTimeout(found.unauthenticatedCloseId);
-                    shares[DEF.MOD_WEB.SHARE_RES_BODY]=JSON.stringify(true);
-                    logger.info(`Stream '${streamUuid}' is activated (front: ${frontUuid}/${found.sessionUuid}).`);
+                    shares[DEF.MOD_WEB.SHARE_RES_BODY] = JSON.stringify(true);
+                    logger.info(`Stream '${streamUuid}' is activated (front: ${frontUuid}/${sessUuid}).`);
                     // update front data in RDB
-                    updateFrontAuthDate(found.frontBid).then();
+                    updateRdb(frontBid, sessUuid).then();
                     // send delayed events
                     await portalFront.sendDelayedEvents({uuid: found.frontUuid});
                     // produce local event
                     const data = ebAuth.createDto();
-                    data.frontBid = found.frontBid;
-                    data.frontUuid = found.frontUuid;
-                    data.sessionUuid = found.sessionUuid;
+                    data.frontBid = frontBid;
+                    data.frontUuid = frontUuid;
+                    data.sessionUuid = sessUuid;
                     data.streamUuid = found.uuid;
                     const msg = eventsBack.createMessage({data});
                     eventsBack.publish(msg).then();

@@ -10,10 +10,13 @@ export default class TeqFw_Web_Event_Back_Mod_Registry_Stream {
 
     constructor(spec) {
         // DEPS
+        /** @type {TeqFw_Core_Shared_Api_Logger} */
+        const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
         /** @type {typeof TeqFw_Web_Event_Back_Enum_Stream_State} */
         const STATE = spec['TeqFw_Web_Event_Back_Enum_Stream_State$'];
 
         // VARS
+        logger.setNamespace(this.constructor.name);
         /** @type {Object<string, TeqFw_Web_Event_Back_Dto_Reverse_Stream.Dto>} */
         const _store = {}; // internal store for connection objects (stream UUID is the key)
         /** @type {Object<string, string[]>} */
@@ -40,6 +43,7 @@ export default class TeqFw_Web_Event_Back_Mod_Registry_Stream {
                 delete _store[sessionUuid];
                 // delete stream data
                 delete _store[streamUuid];
+                logger.info(`Reverse events stream '${streamUuid}' is deleted from registry.`);
             }
         }
 
@@ -97,11 +101,15 @@ export default class TeqFw_Web_Event_Back_Mod_Registry_Stream {
         /**
          * Get active stream by front session UUID (tab in a browser).
          * @param {string} uuid
+         * @param {boolean} [inactive]
          * @return {TeqFw_Web_Event_Back_Dto_Reverse_Stream.Dto}
          */
-        this.getBySessionUuid = function (uuid) {
-            if (_bySession[uuid]) return this.getActive(_bySession[uuid]);
-            else return null;
+        this.getBySessionUuid = function (uuid, inactive = false) {
+            if (_bySession[uuid])
+                return (inactive)
+                    ? this.get(_bySession[uuid]) : this.getActive(_bySession[uuid]);
+            else
+                return null;
         }
 
         /**
@@ -110,19 +118,26 @@ export default class TeqFw_Web_Event_Back_Mod_Registry_Stream {
          */
         this.put = function (stream) {
             const uuid = stream.uuid;
+            const frontUuid = stream.frontUuid;
+            const sessUuid = stream.sessionUuid;
             if (_store[uuid])
                 throw new Error(`Cannot registry reverse stream with duplicated UUID: ${uuid}.`);
             _store[uuid] = stream;
             // map by frontUuid
-            if (!Array.isArray(_byFront[stream.frontUuid])) _byFront[stream.frontUuid] = [];
-            _byFront[stream.frontUuid].push(uuid);
+            if (!Array.isArray(_byFront[frontUuid])) _byFront[frontUuid] = [];
+            _byFront[frontUuid].push(uuid);
             // map by sessionUuid
-            if ((_bySession[stream.sessionUuid]) && (_bySession[stream.sessionUuid] !== uuid)) {
+            if ((_bySession[sessUuid]) && (_bySession[sessUuid] !== uuid)) {
+                const oldUuid = _bySession[sessUuid];
                 // close 'deprecated' stream
-                const old = _store[_bySession[stream.sessionUuid]];
+                logger.info(`Event stream '${oldUuid}' for session '${sessUuid}' is deprecated.`);
+                const old = _store[oldUuid];
+                if (old?.finalize === stream.finalize) {
+                    debugger
+                }
                 if (typeof old?.finalize === 'function') old.finalize();
             }
-            _bySession[stream.sessionUuid] = uuid;
+            _bySession[sessUuid] = uuid;
         }
 
     }

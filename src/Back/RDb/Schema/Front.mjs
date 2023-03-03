@@ -30,7 +30,10 @@ class Dto {
     static namespace = NS;
     /** @type {number} */
     bid;
-    /** @type {Date} */
+    /**
+     * TODO: do we really need this date - every session has own connection date?
+     * @type {Date}
+     */
     date_authenticated;
     /** @type {Date} */
     date_created;

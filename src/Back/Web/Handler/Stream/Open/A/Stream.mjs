@@ -150,7 +150,8 @@ export default function (spec) {
             stream.sessionUuid = sessionUuid;
             stream.uuid = streamUuid;
             modRegStream.put(stream);
-            logger.info(`New stream ${streamUuid} is opened for back-to-front events (front: ${front.uuid}/${sessionUuid}).`);
+            const fid = `${front.uuid}/${sessionUuid}`;
+            logger.info(`New stream ${streamUuid} is opened for back-to-front events (front: ${fid}).`);
             // set 'write' function to connection, response stream is pinned in closure
             stream.write = function (payload) {
                 if (res.writable) {
@@ -173,12 +174,13 @@ export default function (spec) {
             // remove stream from registry on close
             res.addListener('close', () => {
                 modRegStream.delete(streamUuid);
-                logger.info(`Back-to-front events stream is closed (stream: ${streamUuid}, front: ${front.uuid}/${sessionUuid}).`);
+                logger.info(`Back-to-front events stream is closed (stream: ${streamUuid}, front: ${fid}).`);
             });
             // log stream errors
             res.addListener('error', (e) => {
-                logger.error(`Error in reverse events stream (stream: ${streamUuid}, front: ${front.uuid}/${sessionUuid}): ${e}`);
+                logger.error(`Error in reverse events stream (stream: ${streamUuid}, front: ${fid}): ${e}`);
             });
+            logger.info(`New reverse event stream ${streamUuid} is created for front ${fid}.`);
             return streamUuid;
         }
 

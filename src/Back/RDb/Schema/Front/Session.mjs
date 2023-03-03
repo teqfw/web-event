@@ -34,7 +34,7 @@ class Dto {
     date_connected;
     /** @type {Date} */
     date_created;
-    /** @type {string} */
+    /** @type {number} */
     front_ref;
     /** @type {string} */
     uuid;

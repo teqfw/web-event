@@ -92,7 +92,7 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Direct {
                             res403(res, msg);
                         }
                     } else {
-                        const msg = `Unknown session UUID: ${sessionUuid}`;
+                        const msg = `Unknown event session UUID: ${sessionUuid}. Perhaps SSE stream was closed.`;
                         logger.error(msg);
                         res403(res, msg);
                     }
