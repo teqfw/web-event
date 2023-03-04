@@ -25,8 +25,6 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Stream_Activate {
         const conn = spec['TeqFw_Db_Back_RDb_IConnect$'];
         /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
         const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
-        /** @type {TeqFw_Web_Event_Back_RDb_Schema_Front} */
-        const rdbFront = spec['TeqFw_Web_Event_Back_RDb_Schema_Front$'];
         /** @type {TeqFw_Web_Event_Back_RDb_Schema_Front_Session} */
         const rdbFrontSess = spec['TeqFw_Web_Event_Back_RDb_Schema_Front_Session$'];
         /** @type {TeqFw_Web_Event_Back_Mod_Channel} */
@@ -65,11 +63,6 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Stream_Activate {
                 const trx = await conn.startTransaction();
                 try {
                     const now = new Date();
-                    // update front's authentication date
-                    const dtoFront = rdbFront.createDto();
-                    dtoFront.bid = frontBid;
-                    dtoFront.date_authenticated = now;
-                    await crud.updateOne(trx, rdbFront, dtoFront);
                     // handle session data
                     const key = {[A_SESS.UUID]: sessUuid, [A_SESS.FRONT_REF]: frontBid};
                     /** @type {TeqFw_Web_Event_Back_RDb_Schema_Front_Session.Dto} */

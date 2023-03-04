@@ -14,11 +14,6 @@
                   "type": "datetime",
                   "default": "current"
                 },
-                "date_authenticated": {
-                  "comment": "UTC date-time for last authentication of the front.",
-                  "type": "datetime",
-                  "nullable": true
-                },
                 "key_pub": {
                   "comment": "Public key for encryption and authentication.",
                   "type": "string"

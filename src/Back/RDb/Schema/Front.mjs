@@ -16,7 +16,6 @@ const ENTITY = '/web/event/front';
  */
 const ATTR = {
     BID: 'bid',
-    DATE_AUTHENTICATED: 'date_authenticated',
     DATE_CREATED: 'date_created',
     KEY_PUB: 'key_pub',
     UUID: 'uuid',
@@ -30,11 +29,6 @@ class Dto {
     static namespace = NS;
     /** @type {number} */
     bid;
-    /**
-     * TODO: do we really need this date - every session has own connection date?
-     * @type {Date}
-     */
-    date_authenticated;
     /** @type {Date} */
     date_created;
     /** @type {string} */
@@ -69,7 +63,6 @@ export default class TeqFw_Web_Event_Back_RDb_Schema_Front {
         this.createDto = function (data) {
             const res = new Dto();
             res.bid = castInt(data?.bid);
-            res.date_authenticated = castDate(data?.date_authenticated);
             res.date_created = castDate(data?.date_created);
             res.key_pub = castString(data?.key_pub);
             res.uuid = castString(data?.uuid);
