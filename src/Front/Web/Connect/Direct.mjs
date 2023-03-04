@@ -68,7 +68,6 @@ export default class TeqFw_Web_Event_Front_Web_Connect_Direct {
                     //
                     modConn.startActivity();
                     meta.stamp = modStamper.create(meta, modIdSession.getScrambler());
-                    logger.info(`${meta.frontUuid} => ${meta.name} (${meta.uuid}) (sent)`);
                     const urlBase = composeBaseUrl();
                     const res = await fetch(`${urlBase}${meta.name}`, {
                         method: 'POST',
@@ -78,19 +77,19 @@ export default class TeqFw_Web_Event_Front_Web_Connect_Direct {
                         body: JSON.stringify(data)
                     });
                     status = res.status;
+                    const signature = `${meta.name} (${meta.uuid}): ${meta.frontUuid}/${meta.sessionUuid} => ${meta.backUuid}`;
                     if (status === 200) {
                         success = await res.json();
-                        logger.info(`${meta.name} (${meta.uuid}): ${meta.frontUuid}/${meta.sessionUuid} => ${meta.backUuid}`);
+                        logger.info(`${signature}: success`);
                     } else if ((status === 403) || (status === 404)) {
+                        // TODO: smell code, add normal error processing on the server side and here
                         const msg = await res.text();
-                        logger.info(msg);
-                        if (meta.backUuid) {
-                            const msg = `Front '${meta.frontUuid}' it is not found on back '${meta.backUuid}'.`;
-                            logger.error(msg);
-                        }
+                        logger.error(`${msg}: ${msg}`);
+                        if (meta.backUuid)
+                            logger.error(`Front '${meta.frontUuid}' it is not found on back '${meta.backUuid}'.`);
                     } else {
-                        const msg = `Event request error. Status: ${status}.`;
-                        logger.error(msg);
+                        const msg = ` HTTP status = ${status}`;
+                        logger.error(`${signature}: ${msg}`);
                     }
                 } catch (e) {
                     // errHndl.error(e);

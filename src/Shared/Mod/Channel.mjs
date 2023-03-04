@@ -34,12 +34,7 @@ export default class TeqFw_Web_Event_Shared_Mod_Channel {
             const eventName = message?.meta?.name ?? message.data?.constructor?.namespace;
             if (Array.isArray(_sinks[eventName]))
                 for (const one of _sinks[eventName])
-                    one(message)
-                        ?.catch((e) => {
-                            // catch error in event processor (listener)
-                            logger.error(e);
-                            debugger;
-                        });
+                    one(message)?.catch(logger.error);
         }
 
         this.subscribe = function (event, handler) {

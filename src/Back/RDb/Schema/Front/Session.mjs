@@ -1,5 +1,5 @@
 /**
- *  Registry for front-end sessions.
+ *  Registry for events sessions (browser's tabs on a front-end).
  *  @namespace TeqFw_Web_Event_Back_RDb_Schema_Front_Session
  */
 // MODULE'S VARS
@@ -36,8 +36,6 @@ class Dto {
     date_created;
     /** @type {number} */
     front_ref;
-    /** @type {string} */
-    uuid;
 }
 
 // noinspection JSClosureCompilerSyntax
