@@ -1,5 +1,5 @@
 /**
- *  Metadata for '/web/event/front' entity (front apps registry).
+ *  Registry for events fronts (browser's profiles).
  *  @namespace TeqFw_Web_Event_Back_RDb_Schema_Front
  */
 // MODULE'S VARS

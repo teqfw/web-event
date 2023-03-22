@@ -1,5 +1,5 @@
 /**
- *  Metadata for '/web/event/queue' entity (delayed events registry).
+ *  Registry for delayed events.
  *  @namespace TeqFw_Web_Event_Back_RDb_Schema_Queue
  */
 // MODULE'S VARS
