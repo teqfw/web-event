@@ -9,8 +9,8 @@ const NS = 'TeqFw_Web_Event_Back_Act_Front_GetIdByUuid';
 // MODULE'S FUNCTIONS
 export default function (spec) {
     // DEPS
-    /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
-    const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
+    /** @type {TeqFw_Db_Back_Api_RDb_CrudEngine} */
+    const crud = spec['TeqFw_Db_Back_Api_RDb_CrudEngine$'];
     /** @type {TeqFw_Web_Event_Back_RDb_Schema_Front} */
     const rdbFront = spec['TeqFw_Web_Event_Back_RDb_Schema_Front$'];
 

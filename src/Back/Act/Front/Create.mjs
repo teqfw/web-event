@@ -11,8 +11,8 @@ export default function (spec) {
     // DEPS
     /** @type {TeqFw_Core_Shared_Api_Logger} */
     const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
-    /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
-    const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
+    /** @type {TeqFw_Db_Back_Api_RDb_CrudEngine} */
+    const crud = spec['TeqFw_Db_Back_Api_RDb_CrudEngine$'];
     /** @type {TeqFw_Web_Event_Back_RDb_Schema_Front} */
     const rdbFront = spec['TeqFw_Web_Event_Back_RDb_Schema_Front$'];
 

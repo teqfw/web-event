@@ -12,8 +12,8 @@ export default class TeqFw_Web_Event_Back_Mod_Queue {
         const dateUtc = spec['TeqFw_Db_Back_Util.dateUtc'];
         /** @type {TeqFw_Db_Back_RDb_IConnect} */
         const rdb = spec['TeqFw_Db_Back_RDb_IConnect$'];
-        /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
-        const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
+        /** @type {TeqFw_Db_Back_Api_RDb_CrudEngine} */
+        const crud = spec['TeqFw_Db_Back_Api_RDb_CrudEngine$'];
         /** @type {TeqFw_Web_Event_Back_RDb_Schema_Queue} */
         const rdbQueue = spec['TeqFw_Web_Event_Back_RDb_Schema_Queue$'];
         /** @type {TeqFw_Web_Event_Back_Act_Front_GetIdByUuid.act|function} */
