@@ -31,7 +31,7 @@ export default function (spec) {
     /** @type {TeqFw_Db_Back_RDb_IConnect} */
     const conn = spec['TeqFw_Db_Back_RDb_IConnect$'];
     /** @type {TeqFw_Web_Event_Back_Mod_Crypto_Scrambler.Factory} */
-    const factScrambler = spec['TeqFw_Web_Event_Shared_Api_Crypto_Scrambler.Factory$']; // interface
+    // const factScrambler = spec['TeqFw_Web_Event_Shared_Api_Crypto_Scrambler.Factory$']; // interface
     /** @type {TeqFw_Core_Back_Mod_App_Uuid} */
     const modAppUuid = spec['TeqFw_Core_Back_Mod_App_Uuid$'];
     /** @type {TeqFw_Web_Event_Back_Mod_Server_Key} */
