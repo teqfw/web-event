@@ -20,11 +20,15 @@ export default class TeqFw_Web_Event_Back_Cron_Queue_Clean {
         // FUNCS
 
         async function iteration() {
-            const num = await portalFront.cleanDelayedEvents();
-            if (num)
-                logger.info(`Total '${num} events are deleted from queue.`);
-            // setup next iteration
-            _idTimeout = setTimeout(iteration, TIMEOUT_LOOP);
+            try {
+                const num = await portalFront.cleanDelayedEvents();
+                if (num)
+                    logger.info(`Total '${num} events are deleted from queue.`);
+                // setup next iteration
+                _idTimeout = setTimeout(iteration, TIMEOUT_LOOP);
+            } catch (e) {
+                logger.error(`Cron iteration for delayed events cleaner is failed, iterations are aborted. Error: ${e?.message}`);
+            }
         }
 
         // INSTANCE METHODS
