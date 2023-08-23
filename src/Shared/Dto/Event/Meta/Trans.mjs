@@ -50,17 +50,19 @@ class Dto {
  * @implements TeqFw_Core_Shared_Api_Factory_Dto
  */
 export default class TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans {
-    constructor(spec) {
-        // DEPS
-        /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta} */
-        const factBase = spec['TeqFw_Web_Event_Shared_Dto_Event_Meta$'];
-        /** @type {TeqFw_Core_Shared_Util_Cast.castBooleanIfExists|function} */
-        const castBooleanIfExists = spec['TeqFw_Core_Shared_Util_Cast.castBooleanIfExists'];
-        /** @type {TeqFw_Core_Shared_Util_Cast.castDate|function} */
-        const castDate = spec['TeqFw_Core_Shared_Util_Cast.castDate'];
-        /** @type {TeqFw_Core_Shared_Util_Cast.castString|function} */
-        const castString = spec['TeqFw_Core_Shared_Util_Cast.castString'];
-
+    /**
+     * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta} factBase
+     * @param {TeqFw_Core_Shared_Util_Cast.castBooleanIfExists|function} castBooleanIfExists
+     * @param {TeqFw_Core_Shared_Util_Cast.castDate|function} castDate
+     * @param {TeqFw_Core_Shared_Util_Cast.castString|function} castString
+     */
+    constructor(
+        {
+            TeqFw_Web_Event_Shared_Dto_Event_Meta$: factBase,
+            'TeqFw_Core_Shared_Util_Cast.castBooleanIfExists': castBooleanIfExists,
+            'TeqFw_Core_Shared_Util_Cast.castDate': castDate,
+            'TeqFw_Core_Shared_Util_Cast.castString': castString,
+        }) {
         // INSTANCE METHODS
         /**
          * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans.Dto} [data]

@@ -12,14 +12,18 @@ Launch `TeqFw_Web_Event_Front_Mod_Identity_Front.init` method before any other a
 
 ```js
 export default class Dev_Front_App {
-    constructor(spec) {
-        /** @type {TeqFw_Web_Event_Front_Mod_Identity_Front} */
-        const modIdentity = spec['TeqFw_Web_Event_Front_Mod_Identity_Front$'];
-
+    /**
+     * @param {TeqFw_Web_Event_Front_Mod_Identity_Front} modIdentity
+     */
+    constructor(
+        {
+            TeqFw_Web_Event_Front_Mod_Identity_Front$: modIdentity,
+        }
+    ) {
         this.init = async function (fnPrintout) {
             await modIdentity.init();
             // ...
-        }
+        };
     }
 }
 ```
@@ -55,15 +59,19 @@ Action `TeqFw_Web_Event_Front_Web_Connect_Stream_Open.act` is used in the front 
 
 ```js
 export default class Dev_Front_App {
-    constructor(spec) {
-        /** @type {TeqFw_Web_Event_Front_Web_Connect_Stream_Open.act|function} */
-        const connReverseOpen = spec['TeqFw_Web_Event_Front_Web_Connect_Stream_Open$'];
-
+    /**
+     * @param {TeqFw_Web_Event_Front_Web_Connect_Stream_Open.act|function} connReverseOpen
+     */
+    constructor(
+        {
+            TeqFw_Web_Event_Front_Web_Connect_Stream_Open$: connReverseOpen,
+        }
+    ) {
         this.init = async function (fnPrintout) {
             await modIdentity.init();
             await connReverseOpen();
             // ...
-        }
+        };
     }
 }
 ```

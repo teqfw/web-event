@@ -67,18 +67,20 @@ class Dto {
  * @implements TeqFw_Core_Shared_Api_Factory_Dto
  */
 export default class TeqFw_Web_Event_Back_Dto_Reverse_Stream {
+    /**
+     * @param {TeqFw_Core_Shared_Util_Cast.castInt|function} castInt
+     * @param {TeqFw_Core_Shared_Util_Cast.castFunction|function} castFunction
+     * @param {TeqFw_Core_Shared_Util_Cast.castString|function} castString
+     * @param {typeof TeqFw_Web_Event_Back_Enum_Stream_State} STATE
+     */
 
-    constructor(spec) {
-        // DEPS
-        /** @type {TeqFw_Core_Shared_Util_Cast.castInt|function} */
-        const castInt = spec['TeqFw_Core_Shared_Util_Cast.castInt'];
-        /** @type {TeqFw_Core_Shared_Util_Cast.castFunction|function} */
-        const castFunction = spec['TeqFw_Core_Shared_Util_Cast.castFunction'];
-        /** @type {TeqFw_Core_Shared_Util_Cast.castString|function} */
-        const castString = spec['TeqFw_Core_Shared_Util_Cast.castString'];
-        /** @type {typeof TeqFw_Web_Event_Back_Enum_Stream_State} */
-        const STATE = spec['TeqFw_Web_Event_Back_Enum_Stream_State$'];
-
+    constructor(
+        {
+            'TeqFw_Core_Shared_Util_Cast.castInt': castInt,
+            'TeqFw_Core_Shared_Util_Cast.castFunction': castFunction,
+            'TeqFw_Core_Shared_Util_Cast.castString': castString,
+            TeqFw_Web_Event_Back_Enum_Stream_State$: STATE,
+        }) {
         // INSTANCE METHODS
         /**
          * @param {TeqFw_Web_Event_Back_Dto_Reverse_Stream.Dto} [data]

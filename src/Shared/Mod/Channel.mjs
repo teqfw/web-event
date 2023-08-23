@@ -8,15 +8,17 @@
  * @implements TeqFw_Web_Event_Shared_Api_Event_Channel
  */
 export default class TeqFw_Web_Event_Shared_Mod_Channel {
-    constructor(spec) {
-        // DEPS
-        /** @type {TeqFw_Core_Shared_Api_Logger} */
-        const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
-        /** @type {typeof TeqFw_Web_Event_Shared_Api_Event_Subscription} */
-        const Subscription = spec['TeqFw_Web_Event_Shared_Mod_Subscription#'];
-        /** @type {TeqFw_Web_Event_Shared_Dto_Event} */
-        const dtoEvent = spec['TeqFw_Web_Event_Shared_Dto_Event$'];
-
+    /**
+     * @param {TeqFw_Core_Shared_Api_Logger} logger -  instance
+     * @param {typeof TeqFw_Web_Event_Shared_Api_Event_Subscription} Subscription
+     * @param {TeqFw_Web_Event_Shared_Dto_Event} dtoEvent
+     */
+    constructor(
+        {
+            TeqFw_Core_Shared_Api_Logger$$: logger,
+            'TeqFw_Web_Event_Shared_Mod_Subscription#': Subscription,
+            TeqFw_Web_Event_Shared_Dto_Event$: dtoEvent,
+        }) {
         // VARS
         /** @type {Object<string, function[]>} */
         const _sinks = {};

@@ -9,12 +9,15 @@ const IDB_VERSION = 2;
  * @param spec
  * @return {TeqFw_Web_Front_App_Store_IDB}
  */
-export default function (spec) {
-    /** @type {TeqFw_Web_Front_App_Store_IDB} */
-    const idb = spec['TeqFw_Web_Front_App_Store_IDB$$']; // new instance
-    /** @type {TeqFw_Web_Event_Front_IDb_Schema_Queue} */
-    const idbDelayed = spec['TeqFw_Web_Event_Front_IDb_Schema_Queue$'];
-
+/**
+ * @param {TeqFw_Web_Front_App_Store_IDB} idb -  new instance
+ * @param {TeqFw_Web_Event_Front_IDb_Schema_Queue} idbDelayed
+ */
+export default function (
+    {
+        TeqFw_Web_Front_App_Store_IDB$$: idb,
+        TeqFw_Web_Event_Front_IDb_Schema_Queue$: idbDelayed,
+    }) {
     // VARS
     const A_DELAYED = idbDelayed.getAttributes();
     const E_DELAYED = idbDelayed.getName();

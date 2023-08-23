@@ -22,37 +22,39 @@ const SSE_STATE = {
  * Default export is a factory to create result function in working environment (with deps).
  * @param {TeqFw_Di_Shared_SpecProxy} spec
  */
-export default function (spec) {
-    // DEPS
-    /** @type {TeqFw_Web_Event_Front_Defaults} */
-    const DEF = spec['TeqFw_Web_Event_Front_Defaults$'];
-    /** @type {TeqFw_Core_Shared_Api_Logger} */
-    const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
-    /** @type {TeqFw_Web_Event_Front_Mod_Channel} */
-    const eventsFront = spec['TeqFw_Web_Event_Front_Mod_Channel$'];
-    /** @type {TeqFw_Web_Event_Front_Event_Msg_Stream_Closed} */
-    const efClosed = spec['TeqFw_Web_Event_Front_Event_Msg_Stream_Closed$'];
-    /** @type {TeqFw_Web_Event_Front_Event_Msg_Stream_Opened} */
-    const efOpened = spec['TeqFw_Web_Event_Front_Event_Msg_Stream_Opened$'];
-    /** @type {TeqFw_Web_Front_Api_Mod_Server_Connect_IState} */
-    const modConn = spec['TeqFw_Web_Front_Api_Mod_Server_Connect_IState$'];
-    /** @type {TeqFw_Web_Event_Front_Mod_Identity_Front} */
-    const modIdFront = spec['TeqFw_Web_Event_Front_Mod_Identity_Front$'];
-    /** @type {TeqFw_Web_Event_Front_Mod_Identity_Session} */
-    const modIdSess = spec['TeqFw_Web_Event_Front_Mod_Identity_Session$'];
-    /** @type {TeqFw_Web_Event_Shared_Mod_Stamper} */
-    const modStamper = spec['TeqFw_Web_Event_Shared_Mod_Stamper$'];
-    /** @type {TeqFw_Web_Event_Shared_Dto_Event} */
-    const dtoTransMsg = spec['TeqFw_Web_Event_Shared_Dto_Event$'];
-    /** @type {TeqFw_Web_Event_Shared_Dto_Stream_Auth} */
-    const dtoAuth = spec['TeqFw_Web_Event_Shared_Dto_Stream_Auth$'];
-    /** @type {TeqFw_Web_Event_Front_Dto_Identity_Back} */
-    const dtoIdBack = spec['TeqFw_Web_Event_Front_Dto_Identity_Back$'];
-    /** @type {TeqFw_Web_Event_Front_Web_Connect_Stream_Activate.act|function} */
-    const connActivate = spec['TeqFw_Web_Event_Front_Web_Connect_Stream_Activate$'];
-    /** @type {TeqFw_Web_Event_Front_Mod_Crypto_Scrambler.Factory} */
-    const factScrambler = spec['TeqFw_Web_Event_Front_Mod_Crypto_Scrambler.Factory$'];
-
+/**
+ * @param {TeqFw_Web_Event_Front_Defaults} DEF
+ * @param {TeqFw_Core_Shared_Api_Logger} logger -  instance
+ * @param {TeqFw_Web_Event_Front_Mod_Channel} eventsFront
+ * @param {TeqFw_Web_Event_Front_Event_Msg_Stream_Closed} efClosed
+ * @param {TeqFw_Web_Event_Front_Event_Msg_Stream_Opened} efOpened
+ * @param {TeqFw_Web_Front_Api_Mod_Server_Connect_IState} modConn
+ * @param {TeqFw_Web_Event_Front_Mod_Identity_Front} modIdFront
+ * @param {TeqFw_Web_Event_Front_Mod_Identity_Session} modIdSess
+ * @param {TeqFw_Web_Event_Shared_Mod_Stamper} modStamper
+ * @param {TeqFw_Web_Event_Shared_Dto_Event} dtoTransMsg
+ * @param {TeqFw_Web_Event_Shared_Dto_Stream_Auth} dtoAuth
+ * @param {TeqFw_Web_Event_Front_Dto_Identity_Back} dtoIdBack
+ * @param {TeqFw_Web_Event_Front_Web_Connect_Stream_Activate.act|function} connActivate
+ * @param {TeqFw_Web_Event_Front_Mod_Crypto_Scrambler.Factory} factScrambler
+ */
+export default function (
+    {
+        TeqFw_Web_Event_Front_Defaults$: DEF,
+        TeqFw_Core_Shared_Api_Logger$$: logger,
+        TeqFw_Web_Event_Front_Mod_Channel$: eventsFront,
+        TeqFw_Web_Event_Front_Event_Msg_Stream_Closed$: efClosed,
+        TeqFw_Web_Event_Front_Event_Msg_Stream_Opened$: efOpened,
+        TeqFw_Web_Front_Api_Mod_Server_Connect_IState$: modConn,
+        TeqFw_Web_Event_Front_Mod_Identity_Front$: modIdFront,
+        TeqFw_Web_Event_Front_Mod_Identity_Session$: modIdSess,
+        TeqFw_Web_Event_Shared_Mod_Stamper$: modStamper,
+        TeqFw_Web_Event_Shared_Dto_Event$: dtoTransMsg,
+        TeqFw_Web_Event_Shared_Dto_Stream_Auth$: dtoAuth,
+        TeqFw_Web_Event_Front_Dto_Identity_Back$: dtoIdBack,
+        TeqFw_Web_Event_Front_Web_Connect_Stream_Activate$: connActivate,
+        'TeqFw_Web_Event_Front_Mod_Crypto_Scrambler.Factory$': factScrambler,
+    }) {
     // VARS
     logger.setNamespace(NS);
     /** @type {EventSource} */

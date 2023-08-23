@@ -4,29 +4,31 @@
  * @implements TeqFw_Web_Event_Shared_Api_Event_Portal
  */
 export default class TeqFw_Web_Event_Front_Mod_Portal_Back {
-    constructor(spec) {
-        // DEPS
-        /** @type {TeqFw_Core_Shared_Api_Logger} */
-        const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
-        /** @type {TeqFw_Web_Event_Front_Web_Connect_Direct} */
-        const conn = spec['TeqFw_Web_Event_Front_Web_Connect_Direct$'];
-        /** @type {TeqFw_Web_Event_Front_Mod_Identity_Front} */
-        const modIdFront = spec['TeqFw_Web_Event_Front_Mod_Identity_Front$'];
-        /** @type {TeqFw_Web_Event_Front_Mod_Identity_Session} */
-        const modIdSession = spec['TeqFw_Web_Event_Front_Mod_Identity_Session$'];
-        /** @type {TeqFw_Web_Front_Api_Mod_Server_Connect_IState} */
-        const modConn = spec['TeqFw_Web_Front_Api_Mod_Server_Connect_IState$'];
-        /** @type {TeqFw_Web_Front_App_Store_IDB} */
-        const idb = spec['TeqFw_Web_Event_Front_IDb$']; // plugin's local IDB
-        /** @type {TeqFw_Web_Event_Front_IDb_Schema_Queue} */
-        const idbQueue = spec['TeqFw_Web_Event_Front_IDb_Schema_Queue$'];
-        /** @type {TeqFw_Core_Shared_Util_Cast.castDate|function} */
-        const castDate = spec['TeqFw_Core_Shared_Util_Cast.castDate'];
-        /** @type {TeqFw_Web_Event_Shared_Dto_Event} */
-        const factEvt = spec['TeqFw_Web_Event_Shared_Dto_Event$'];
-        /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans} */
-        const factMeta = spec['TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans$'];
-
+    /**
+     * @param {TeqFw_Core_Shared_Api_Logger} logger -  instance
+     * @param {TeqFw_Web_Event_Front_Web_Connect_Direct} conn
+     * @param {TeqFw_Web_Event_Front_Mod_Identity_Front} modIdFront
+     * @param {TeqFw_Web_Event_Front_Mod_Identity_Session} modIdSession
+     * @param {TeqFw_Web_Front_Api_Mod_Server_Connect_IState} modConn
+     * @param {TeqFw_Web_Front_App_Store_IDB} idb -  plugin's local IDB
+     * @param {TeqFw_Web_Event_Front_IDb_Schema_Queue} idbQueue
+     * @param {TeqFw_Core_Shared_Util_Cast.castDate|function} castDate
+     * @param {TeqFw_Web_Event_Shared_Dto_Event} factEvt
+     * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans} factMeta
+     */
+    constructor(
+        {
+            TeqFw_Core_Shared_Api_Logger$$: logger,
+            TeqFw_Web_Event_Front_Web_Connect_Direct$: conn,
+            TeqFw_Web_Event_Front_Mod_Identity_Front$: modIdFront,
+            TeqFw_Web_Event_Front_Mod_Identity_Session$: modIdSession,
+            TeqFw_Web_Front_Api_Mod_Server_Connect_IState$: modConn,
+            TeqFw_Web_Event_Front_IDb$: idb,
+            TeqFw_Web_Event_Front_IDb_Schema_Queue$: idbQueue,
+            'TeqFw_Core_Shared_Util_Cast.castDate': castDate,
+            TeqFw_Web_Event_Shared_Dto_Event$: factEvt,
+            TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans$: factMeta,
+        }) {
         // VARS
         const I_QUEUE = idbQueue.getIndexes();
 

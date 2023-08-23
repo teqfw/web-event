@@ -25,15 +25,18 @@ class Dto {
  * @implements TeqFw_Core_Shared_Api_Factory_Dto
  */
 export default class TeqFw_Web_Event_Front_Dto_Identity_Front {
+    /**
+     * @param {TeqFw_Core_Shared_Util_Cast.castInt|function} castInt
+     * @param {TeqFw_Core_Shared_Util_Cast.castString|function} castString
+     * @param {TeqFw_Web_Event_Shared_Dto_Identity_Keys} dtoKeys
+     */
 
-    constructor(spec) {
-        /** @type {TeqFw_Core_Shared_Util_Cast.castInt|function} */
-        const castInt = spec['TeqFw_Core_Shared_Util_Cast.castInt'];
-        /** @type {TeqFw_Core_Shared_Util_Cast.castString|function} */
-        const castString = spec['TeqFw_Core_Shared_Util_Cast.castString'];
-        /** @type {TeqFw_Web_Event_Shared_Dto_Identity_Keys} */
-        const dtoKeys = spec['TeqFw_Web_Event_Shared_Dto_Identity_Keys$'];
-
+    constructor(
+        {
+            'TeqFw_Core_Shared_Util_Cast.castInt': castInt,
+            'TeqFw_Core_Shared_Util_Cast.castString': castString,
+            TeqFw_Web_Event_Shared_Dto_Identity_Keys$: dtoKeys,
+        }) {
         // INSTANCE METHODS
         /**
          * @param {TeqFw_Web_Event_Front_Dto_Identity_Front.Dto} [data]

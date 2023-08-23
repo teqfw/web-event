@@ -2,9 +2,10 @@
   "@teqfw/di": {
     "autoload": {
       "ns": "TeqFw_Web_Event",
-      "path": "./src"
+      "path": "./src",
+      "ext": "mjs"
     },
-    "replace": {
+    "replaces": {
       "TeqFw_Web_Event_Shared_Api_Crypto_Scrambler": {
         "back": "TeqFw_Web_Event_Back_Mod_Crypto_Scrambler",
         "front": "TeqFw_Web_Event_Front_Mod_Crypto_Scrambler"

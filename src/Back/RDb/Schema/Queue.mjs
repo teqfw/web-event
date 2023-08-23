@@ -42,19 +42,21 @@ class Dto {
  * @implements TeqFw_Db_Back_RDb_Meta_IEntity
  */
 export default class TeqFw_Web_Event_Back_RDb_Schema_Queue {
-    constructor(spec) {
-        // DEPS
-        /** @type {TeqFw_Web_Event_Back_Defaults} */
-        const DEF = spec['TeqFw_Web_Event_Back_Defaults$'];
-        /** @type {TeqFw_Db_Back_RDb_Schema_EntityBase} */
-        const base = spec['TeqFw_Db_Back_RDb_Schema_EntityBase$'];
-        /** @type {TeqFw_Core_Shared_Util_Cast.castDate|function} */
-        const castDate = spec['TeqFw_Core_Shared_Util_Cast.castDate'];
-        /** @type {TeqFw_Core_Shared_Util_Cast.castInt|function} */
-        const castInt = spec['TeqFw_Core_Shared_Util_Cast.castInt'];
-        /** @type {TeqFw_Core_Shared_Util_Cast.castString|function} */
-        const castString = spec['TeqFw_Core_Shared_Util_Cast.castString'];
-
+    /**
+     * @param {TeqFw_Web_Event_Back_Defaults} DEF
+     * @param {TeqFw_Db_Back_RDb_Schema_EntityBase} base
+     * @param {TeqFw_Core_Shared_Util_Cast.castDate|function} castDate
+     * @param {TeqFw_Core_Shared_Util_Cast.castInt|function} castInt
+     * @param {TeqFw_Core_Shared_Util_Cast.castString|function} castString
+     */
+    constructor(
+        {
+            TeqFw_Web_Event_Back_Defaults$: DEF,
+            TeqFw_Db_Back_RDb_Schema_EntityBase$: base,
+            'TeqFw_Core_Shared_Util_Cast.castDate': castDate,
+            'TeqFw_Core_Shared_Util_Cast.castInt': castInt,
+            'TeqFw_Core_Shared_Util_Cast.castString': castString,
+        }) {
         // INSTANCE METHODS
         /**
          * @param {TeqFw_Web_Event_Back_RDb_Schema_Queue.Dto} [data]

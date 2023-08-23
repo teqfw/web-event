@@ -12,10 +12,19 @@ export default class TeqFw_Web_Event_Front_Defaults {
 
     TIMEOUT_EVENT_RESPONSE = 8000; // default timeout for response events (transborder)
 
-    constructor(spec) {
+    /**
+     * @param {TeqFw_Web_Front_Defaults} MOD_WEB
+     * @param {TeqFw_Web_Event_Shared_Defaults} SHARED
+     */
+    constructor(
+        {
+            TeqFw_Web_Front_Defaults$: MOD_WEB,
+            TeqFw_Web_Event_Shared_Defaults$: SHARED,
+        }
+    ) {
         // EXTRACT DEPS
-        this.MOD_WEB = spec['TeqFw_Web_Front_Defaults$'];
-        this.SHARED = spec['TeqFw_Web_Event_Shared_Defaults$'];
+        this.MOD_WEB = MOD_WEB;
+        this.SHARED = SHARED;
 
         // MAIN FUNCTIONALITY
         Object.freeze(this);

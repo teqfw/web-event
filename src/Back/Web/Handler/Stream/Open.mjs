@@ -14,15 +14,17 @@ const {
  * @implements TeqFw_Web_Back_Api_Dispatcher_IHandler
  */
 export default class TeqFw_Web_Event_Back_Web_Handler_Stream_Open {
-    constructor(spec) {
-        // DEPS
-        /** @type {TeqFw_Web_Event_Back_Defaults} */
-        const DEF = spec['TeqFw_Web_Event_Back_Defaults$'];
-        /** @type {TeqFw_Core_Shared_Api_Logger} */
-        const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
-        /** @type {TeqFw_Web_Event_Back_Web_Handler_Stream_Open_A_Stream.act|function} */
-        const aOpenStream = spec['TeqFw_Web_Event_Back_Web_Handler_Stream_Open_A_Stream$'];
-
+    /**
+     * @param {TeqFw_Web_Event_Back_Defaults} DEF
+     * @param {TeqFw_Core_Shared_Api_Logger} logger -  instance
+     * @param {TeqFw_Web_Event_Back_Web_Handler_Stream_Open_A_Stream.act|function} aOpenStream
+     */
+    constructor(
+        {
+            TeqFw_Web_Event_Back_Defaults$: DEF,
+            TeqFw_Core_Shared_Api_Logger$$: logger,
+            TeqFw_Web_Event_Back_Web_Handler_Stream_Open_A_Stream$: aOpenStream,
+        }) {
         // MAIN
         logger.setNamespace(this.constructor.name);
 

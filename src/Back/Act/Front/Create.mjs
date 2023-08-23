@@ -7,15 +7,17 @@
 const NS = 'TeqFw_Web_Event_Back_Act_Front_Create';
 
 // MODULE'S FUNCTIONS
-export default function (spec) {
-    // DEPS
-    /** @type {TeqFw_Core_Shared_Api_Logger} */
-    const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
-    /** @type {TeqFw_Db_Back_Api_RDb_CrudEngine} */
-    const crud = spec['TeqFw_Db_Back_Api_RDb_CrudEngine$'];
-    /** @type {TeqFw_Web_Event_Back_RDb_Schema_Front} */
-    const rdbFront = spec['TeqFw_Web_Event_Back_RDb_Schema_Front$'];
-
+/**
+ * @param {TeqFw_Core_Shared_Api_Logger} logger -  instance
+ * @param {TeqFw_Db_Back_Api_RDb_CrudEngine} crud
+ * @param {TeqFw_Web_Event_Back_RDb_Schema_Front} rdbFront
+ */
+export default function (
+    {
+        TeqFw_Core_Shared_Api_Logger$$: logger,
+        TeqFw_Db_Back_Api_RDb_CrudEngine$: crud,
+        TeqFw_Web_Event_Back_RDb_Schema_Front$: rdbFront,
+    }) {
     // VARS
     logger.setNamespace(NS);
     /** @type {typeof TeqFw_Web_Event_Back_RDb_Schema_Front.ATTR} */

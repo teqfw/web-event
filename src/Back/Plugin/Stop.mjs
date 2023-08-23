@@ -4,14 +4,16 @@
  */
 // MODULE'S VARS
 const NS = 'TeqFw_Web_Event_Back_Plugin_Stop';
+/**
+ * @param {TeqFw_Core_Shared_Api_Logger} logger -  instance
+ * @param {TeqFw_Web_Event_Back_Cron_Queue_Clean} cronClean
+ */
 
-export default function (spec) {
-    // EXTRACT DEPS
-    /** @type {TeqFw_Core_Shared_Api_Logger} */
-    const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
-    /** @type {TeqFw_Web_Event_Back_Cron_Queue_Clean} */
-    const cronClean = spec['TeqFw_Web_Event_Back_Cron_Queue_Clean$'];
-
+export default function (
+    {
+        TeqFw_Core_Shared_Api_Logger$$: logger,
+        TeqFw_Web_Event_Back_Cron_Queue_Clean$: cronClean,
+    }) {
     // FUNCS
     /**
      * @return {Promise<void>}

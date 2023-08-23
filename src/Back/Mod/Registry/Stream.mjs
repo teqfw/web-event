@@ -7,14 +7,16 @@
  * @namespace TeqFw_Web_Event_Back_Mod_Registry_Stream
  */
 export default class TeqFw_Web_Event_Back_Mod_Registry_Stream {
+    /**
+     * @param {TeqFw_Core_Shared_Api_Logger} logger -  instance
+     * @param {typeof TeqFw_Web_Event_Back_Enum_Stream_State} STATE
+     */
 
-    constructor(spec) {
-        // DEPS
-        /** @type {TeqFw_Core_Shared_Api_Logger} */
-        const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
-        /** @type {typeof TeqFw_Web_Event_Back_Enum_Stream_State} */
-        const STATE = spec['TeqFw_Web_Event_Back_Enum_Stream_State$'];
-
+    constructor(
+        {
+            TeqFw_Core_Shared_Api_Logger$$: logger,
+            TeqFw_Web_Event_Back_Enum_Stream_State$: STATE,
+        }) {
         // VARS
         logger.setNamespace(this.constructor.name);
         /** @type {Object<string, TeqFw_Web_Event_Back_Dto_Reverse_Stream.Dto>} */

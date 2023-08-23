@@ -10,15 +10,17 @@ const NS = 'TeqFw_Web_Event_Back_Act_Trans_Call';
 /**
  * @param {TeqFw_Di_Shared_SpecProxy} spec
  */
-export default function (spec) {
-    // DEPS
-    /** @type {Dev_Back_Defaults} */
-    const DEF = spec['Dev_Back_Defaults$'];
-    /** @type {TeqFw_Web_Event_Back_Mod_Channel} */
-    const eventsBack = spec['TeqFw_Web_Event_Back_Mod_Channel$'];
-    /** @type {TeqFw_Web_Event_Back_Mod_Portal_Front} */
-    const portalFront = spec['TeqFw_Web_Event_Back_Mod_Portal_Front$'];
-
+/**
+ * @param {Dev_Back_Defaults} DEF
+ * @param {TeqFw_Web_Event_Back_Mod_Channel} eventsBack
+ * @param {TeqFw_Web_Event_Back_Mod_Portal_Front} portalFront
+ */
+export default function (
+    {
+        Dev_Back_Defaults$: DEF,
+        TeqFw_Web_Event_Back_Mod_Channel$: eventsBack,
+        TeqFw_Web_Event_Back_Mod_Portal_Front$: portalFront,
+    }) {
     // FUNCS
 
     /**

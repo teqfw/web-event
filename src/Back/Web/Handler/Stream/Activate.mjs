@@ -15,29 +15,31 @@ const {
  * @implements TeqFw_Web_Back_Api_Dispatcher_IHandler
  */
 export default class TeqFw_Web_Event_Back_Web_Handler_Stream_Activate {
-    constructor(spec) {
-        // DEPS
-        /** @type {TeqFw_Web_Event_Back_Defaults} */
-        const DEF = spec['TeqFw_Web_Event_Back_Defaults$'];
-        /** @type {TeqFw_Core_Shared_Api_Logger} */
-        const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
-        /** @type {TeqFw_Db_Back_RDb_IConnect} */
-        const conn = spec['TeqFw_Db_Back_RDb_IConnect$'];
-        /** @type {TeqFw_Db_Back_Api_RDb_CrudEngine} */
-        const crud = spec['TeqFw_Db_Back_Api_RDb_CrudEngine$'];
-        /** @type {TeqFw_Web_Event_Back_RDb_Schema_Front_Session} */
-        const rdbFrontSess = spec['TeqFw_Web_Event_Back_RDb_Schema_Front_Session$'];
-        /** @type {TeqFw_Web_Event_Back_Mod_Channel} */
-        const eventsBack = spec['TeqFw_Web_Event_Back_Mod_Channel$'];
-        /** @type {TeqFw_Web_Event_Back_Mod_Portal_Front} */
-        const portalFront = spec['TeqFw_Web_Event_Back_Mod_Portal_Front$'];
-        /** @type {TeqFw_Web_Event_Back_Event_Msg_Stream_Authenticated} */
-        const ebAuth = spec['TeqFw_Web_Event_Back_Event_Msg_Stream_Authenticated$'];
-        /** @type {TeqFw_Web_Event_Back_Mod_Registry_Stream} */
-        const modReg = spec['TeqFw_Web_Event_Back_Mod_Registry_Stream$'];
-        /** @type {typeof TeqFw_Web_Event_Back_Enum_Stream_State} */
-        const STATE = spec['TeqFw_Web_Event_Back_Enum_Stream_State$'];
-
+    /**
+     * @param {TeqFw_Web_Event_Back_Defaults} DEF
+     * @param {TeqFw_Core_Shared_Api_Logger} logger -  instance
+     * @param {TeqFw_Db_Back_RDb_IConnect} conn
+     * @param {TeqFw_Db_Back_Api_RDb_CrudEngine} crud
+     * @param {TeqFw_Web_Event_Back_RDb_Schema_Front_Session} rdbFrontSess
+     * @param {TeqFw_Web_Event_Back_Mod_Channel} eventsBack
+     * @param {TeqFw_Web_Event_Back_Mod_Portal_Front} portalFront
+     * @param {TeqFw_Web_Event_Back_Event_Msg_Stream_Authenticated} ebAuth
+     * @param {TeqFw_Web_Event_Back_Mod_Registry_Stream} modReg
+     * @param {typeof TeqFw_Web_Event_Back_Enum_Stream_State} STATE
+     */
+    constructor(
+        {
+            TeqFw_Web_Event_Back_Defaults$: DEF,
+            TeqFw_Core_Shared_Api_Logger$$: logger,
+            TeqFw_Db_Back_RDb_IConnect$: conn,
+            TeqFw_Db_Back_Api_RDb_CrudEngine$: crud,
+            TeqFw_Web_Event_Back_RDb_Schema_Front_Session$: rdbFrontSess,
+            TeqFw_Web_Event_Back_Mod_Channel$: eventsBack,
+            TeqFw_Web_Event_Back_Mod_Portal_Front$: portalFront,
+            TeqFw_Web_Event_Back_Event_Msg_Stream_Authenticated$: ebAuth,
+            TeqFw_Web_Event_Back_Mod_Registry_Stream$: modReg,
+            TeqFw_Web_Event_Back_Enum_Stream_State$: STATE,
+        }) {
         // MAIN
         logger.setNamespace(this.constructor.name);
         const A_SESS = rdbFrontSess.getAttributes();

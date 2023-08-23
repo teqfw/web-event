@@ -22,31 +22,33 @@ const {
  * Default export is a factory to create result function in working environment (with deps).
  * @param {TeqFw_Di_Shared_SpecProxy} spec
  */
-export default function (spec) {
-    // DEPS
-    /** @type {TeqFw_Web_Event_Back_Defaults} */
-    const DEF = spec['TeqFw_Web_Event_Back_Defaults$'];
-    /** @type {TeqFw_Core_Shared_Api_Logger} */
-    const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
-    /** @type {TeqFw_Db_Back_RDb_IConnect} */
-    const conn = spec['TeqFw_Db_Back_RDb_IConnect$'];
-    /** @type {TeqFw_Web_Event_Back_Mod_Crypto_Scrambler.Factory} */
-    const factScrambler = spec['TeqFw_Web_Event_Shared_Api_Crypto_Scrambler.Factory$']; // interface
-    /** @type {TeqFw_Core_Back_Mod_App_Uuid} */
-    const modAppUuid = spec['TeqFw_Core_Back_Mod_App_Uuid$'];
-    /** @type {TeqFw_Web_Event_Back_Mod_Server_Key} */
-    const modServerKey = spec['TeqFw_Web_Event_Back_Mod_Server_Key$'];
-    /** @type {TeqFw_Web_Event_Back_Mod_Registry_Stream} */
-    const modRegStream = spec['TeqFw_Web_Event_Back_Mod_Registry_Stream$'];
-    /** @type {TeqFw_Web_Event_Back_Dto_Reverse_Stream} */
-    const dtoStream = spec['TeqFw_Web_Event_Back_Dto_Reverse_Stream$'];
-    /** @type {TeqFw_Web_Event_Shared_Dto_Stream_Auth} */
-    const dtoAuth = spec['TeqFw_Web_Event_Shared_Dto_Stream_Auth$'];
-    /** @type {TeqFw_Web_Event_Back_Act_Front_ReadByUuid.act|function} */
-    const actReadFront = spec['TeqFw_Web_Event_Back_Act_Front_ReadByUuid$'];
-    /** @type {TeqFw_Web_Back_App_Server_Respond.respond404|function} */
-    const respond404 = spec['TeqFw_Web_Back_App_Server_Respond.respond404'];
-
+/**
+ * @param {TeqFw_Web_Event_Back_Defaults} DEF
+ * @param {TeqFw_Core_Shared_Api_Logger} logger -  instance
+ * @param {TeqFw_Db_Back_RDb_IConnect} conn
+ * @param {TeqFw_Web_Event_Back_Mod_Crypto_Scrambler.Factory} factScrambler -  interface
+ * @param {TeqFw_Core_Back_Mod_App_Uuid} modAppUuid
+ * @param {TeqFw_Web_Event_Back_Mod_Server_Key} modServerKey
+ * @param {TeqFw_Web_Event_Back_Mod_Registry_Stream} modRegStream
+ * @param {TeqFw_Web_Event_Back_Dto_Reverse_Stream} dtoStream
+ * @param {TeqFw_Web_Event_Shared_Dto_Stream_Auth} dtoAuth
+ * @param {TeqFw_Web_Event_Back_Act_Front_ReadByUuid.act|function} actReadFront
+ * @param {TeqFw_Web_Back_App_Server_Respond.respond404|function} respond404
+ */
+export default function (
+    {
+        TeqFw_Web_Event_Back_Defaults$: DEF,
+        TeqFw_Core_Shared_Api_Logger$$: logger,
+        TeqFw_Db_Back_RDb_IConnect$: conn,
+        'TeqFw_Web_Event_Shared_Api_Crypto_Scrambler.Factory$': factScrambler,
+        TeqFw_Core_Back_Mod_App_Uuid$: modAppUuid,
+        TeqFw_Web_Event_Back_Mod_Server_Key$: modServerKey,
+        TeqFw_Web_Event_Back_Mod_Registry_Stream$: modRegStream,
+        TeqFw_Web_Event_Back_Dto_Reverse_Stream$: dtoStream,
+        TeqFw_Web_Event_Shared_Dto_Stream_Auth$: dtoAuth,
+        TeqFw_Web_Event_Back_Act_Front_ReadByUuid$: actReadFront,
+        'TeqFw_Web_Back_App_Server_Respond.respond404': respond404,
+    }) {
     // VARS
     logger.setNamespace(NS);
     /**

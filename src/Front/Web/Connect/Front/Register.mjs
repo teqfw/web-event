@@ -11,11 +11,13 @@ const NS = 'TeqFw_Web_Event_Front_Web_Connect_Front_Register';
  * Default export is a factory to create result function in working environment (with deps).
  * @param {TeqFw_Di_Shared_SpecProxy} spec
  */
-export default function (spec) {
-    // DEPS
-    /** @type {TeqFw_Web_Event_Front_Defaults} */
-    const DEF = spec['TeqFw_Web_Event_Front_Defaults$'];
-    // TODO: move error handler to web-plugin
+/**
+ * @param {TeqFw_Web_Event_Front_Defaults} DEF
+ */
+export default function (
+    {
+        TeqFw_Web_Event_Front_Defaults$: DEF,
+    }) {
     /** @type {TeqFw_Web_Front_Api_Gate_IErrorHandler} */
     const errHndl = spec['TeqFw_Web_Front_Api_Gate_IErrorHandler$'];
     /** @type {TeqFw_Web_Front_Api_Mod_Server_Connect_IState} */

@@ -11,25 +11,27 @@ const NS = 'TeqFw_Web_Event_Front_Web_Connect_Stream_Activate';
  * Default export is a factory to create result function in working environment (with deps).
  * @param {TeqFw_Di_Shared_SpecProxy} spec
  */
-export default function (spec) {
-    // DEPS
-    /** @type {TeqFw_Web_Event_Front_Defaults} */
-    const DEF = spec['TeqFw_Web_Event_Front_Defaults$'];
-    /** @type {TeqFw_Core_Shared_Api_Logger} */
-    const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
-    /** @type {TeqFw_Web_Event_Front_Mod_Channel} */
-    const eventsFront = spec['TeqFw_Web_Event_Front_Mod_Channel$'];
-    /** @type {TeqFw_Web_Event_Front_Mod_Portal_Back} */
-    const portalBack = spec['TeqFw_Web_Event_Front_Mod_Portal_Back$'];
-    /** @type {TeqFw_Web_Event_Front_Event_Msg_Stream_Authenticated} */
-    const efAuth = spec['TeqFw_Web_Event_Front_Event_Msg_Stream_Authenticated$'];
-    /** @type {TeqFw_Web_Front_Mod_Config} */
-    const modCfg = spec['TeqFw_Web_Front_Mod_Config$'];
-    /** @type {TeqFw_Web_Front_Api_Mod_Server_Connect_IState} */
-    const modState = spec['TeqFw_Web_Front_Api_Mod_Server_Connect_IState$'];
-    /** @type {TeqFw_Web_Event_Shared_Dto_Stream_Act} */
-    const dtoAct = spec['TeqFw_Web_Event_Shared_Dto_Stream_Act$'];
-
+/**
+ * @param {TeqFw_Web_Event_Front_Defaults} DEF
+ * @param {TeqFw_Core_Shared_Api_Logger} logger -  instance
+ * @param {TeqFw_Web_Event_Front_Mod_Channel} eventsFront
+ * @param {TeqFw_Web_Event_Front_Mod_Portal_Back} portalBack
+ * @param {TeqFw_Web_Event_Front_Event_Msg_Stream_Authenticated} efAuth
+ * @param {TeqFw_Web_Front_Mod_Config} modCfg
+ * @param {TeqFw_Web_Front_Api_Mod_Server_Connect_IState} modState
+ * @param {TeqFw_Web_Event_Shared_Dto_Stream_Act} dtoAct
+ */
+export default function (
+    {
+        TeqFw_Web_Event_Front_Defaults$: DEF,
+        TeqFw_Core_Shared_Api_Logger$$: logger,
+        TeqFw_Web_Event_Front_Mod_Channel$: eventsFront,
+        TeqFw_Web_Event_Front_Mod_Portal_Back$: portalBack,
+        TeqFw_Web_Event_Front_Event_Msg_Stream_Authenticated$: efAuth,
+        TeqFw_Web_Front_Mod_Config$: modCfg,
+        TeqFw_Web_Front_Api_Mod_Server_Connect_IState$: modState,
+        TeqFw_Web_Event_Shared_Dto_Stream_Act$: dtoAct,
+    }) {
     // VARS
     logger.setNamespace(NS);
     let BASE;

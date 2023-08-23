@@ -5,15 +5,17 @@
  * @implements TeqFw_Web_Event_Shared_Api_Crypto_Scrambler
  */
 export default class TeqFw_Web_Event_Front_Mod_Crypto_Scrambler {
-    constructor(spec) {
-        // DEPS
-        /** @type {TeqFw_Web_Event_Front_Ext_Nacl.box} */
-        const box = spec['TeqFw_Web_Event_Front_Ext_Nacl.box'];
-        /** @type {TeqFw_Web_Event_Front_Ext_Nacl.randomBytes|function} */
-        const randomBytes = spec['TeqFw_Web_Event_Front_Ext_Nacl.randomBytes'];
-        /** @type {TeqFw_Core_Shared_Api_Util_Codec} */
-        const util = spec['TeqFw_Core_Shared_Api_Util_Codec$'];
-
+    /**
+     * @param {TeqFw_Web_Event_Front_Ext_Nacl.box} box
+     * @param {TeqFw_Web_Event_Front_Ext_Nacl.randomBytes|function} randomBytes
+     * @param {TeqFw_Core_Shared_Api_Util_Codec} util
+     */
+    constructor(
+        {
+            'TeqFw_Web_Event_Front_Ext_Nacl.box': box,
+            'TeqFw_Web_Event_Front_Ext_Nacl.randomBytes': randomBytes,
+            TeqFw_Core_Shared_Api_Util_Codec$: util,
+        }) {
         // VARS
         let _keyShared;
 
@@ -57,11 +59,14 @@ export default class TeqFw_Web_Event_Front_Mod_Crypto_Scrambler {
  * @memberOf TeqFw_Web_Event_Front_Mod_Crypto_Scrambler
  */
 export class Factory {
-    constructor(spec) {
-        // DEPS
-        /** @type {TeqFw_Di_Shared_Container} */
-        const container = spec['TeqFw_Di_Shared_Container$'];
-
+    /**
+     * @param {TeqFw_Di_Container} container
+     */
+    constructor(
+        {
+            container
+        }
+    ) {
         // INSTANCE METHODS
         /**
          *
@@ -71,6 +76,6 @@ export class Factory {
         this.create = async function (opts) {
             // return new instance
             return container.get('TeqFw_Web_Event_Front_Mod_Crypto_Scrambler$$');
-        }
+        };
     }
 }

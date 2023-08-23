@@ -7,11 +7,13 @@
  * @implements TeqFw_Web_Event_Shared_Api_Event_Channel
  */
 export default class TeqFw_Web_Event_Front_Mod_Channel {
-    constructor(spec) {
-        // DEPS
-        /** @type {TeqFw_Web_Event_Shared_Mod_Channel} */
-        const base = spec['TeqFw_Web_Event_Shared_Mod_Channel$$']; // instance
-
+    /**
+     * @param {TeqFw_Web_Event_Shared_Mod_Channel} base -  instance
+     */
+    constructor(
+        {
+            TeqFw_Web_Event_Shared_Mod_Channel$$: base,
+        }) {
         // MAIN
         Object.assign(this, base); // new base instance for every current instance
     }

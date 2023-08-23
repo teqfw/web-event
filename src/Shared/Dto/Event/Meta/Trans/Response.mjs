@@ -24,13 +24,15 @@ class Dto {
  * @implements TeqFw_Core_Shared_Api_Factory_Dto
  */
 export default class TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_Response {
-    constructor(spec) {
-        // DEPS
-        /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans} */
-        const factBase = spec['TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans$'];
-        /** @type {TeqFw_Core_Shared_Util_Cast.castString|function} */
-        const castString = spec['TeqFw_Core_Shared_Util_Cast.castString'];
-
+    /**
+     * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans} factBase
+     * @param {TeqFw_Core_Shared_Util_Cast.castString|function} castString
+     */
+    constructor(
+        {
+            TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans$: factBase,
+            'TeqFw_Core_Shared_Util_Cast.castString': castString,
+        }) {
         // INSTANCE METHODS
         /**
          * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_Response.Dto} [data]

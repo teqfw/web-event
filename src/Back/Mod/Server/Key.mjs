@@ -4,24 +4,26 @@
  * @namespace TeqFw_Web_Event_Back_Mod_Server_Key
  */
 // MODULE'S IMPORT
-import {join} from "node:path";
+import {join} from 'node:path';
 import {existsSync, writeFileSync} from 'node:fs';
 
 // MODULE'S CLASSES
 export default class TeqFw_Web_Event_Back_Mod_Server_Key {
-    constructor(spec) {
-        // DEPS
-        /** @type {TeqFw_Web_Event_Back_Defaults} */
-        const DEF = spec['TeqFw_Web_Event_Back_Defaults$'];
-        /** @type {TeqFw_Core_Shared_Api_Logger} */
-        const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
-        /** @type {TeqFw_Core_Back_Config} */
-        const config = spec['TeqFw_Core_Back_Config$'];
-        /** @type {TeqFw_Core_Back_Util.readJson|function} */
-        const readJson = spec['TeqFw_Core_Back_Util.readJson'];
-        /** @type {TeqFw_Web_Event_Shared_Api_Crypto_Key_Manager} */
-        const mgrKey = spec['TeqFw_Web_Event_Shared_Api_Crypto_Key_Manager$'];
-
+    /**
+     * @param {TeqFw_Web_Event_Back_Defaults} DEF
+     * @param {TeqFw_Core_Shared_Api_Logger} logger -  instance
+     * @param {TeqFw_Core_Back_Config} config
+     * @param {TeqFw_Core_Back_Util.readJson|function} readJson
+     * @param {TeqFw_Web_Event_Shared_Api_Crypto_Key_Manager} mgrKey
+     */
+    constructor(
+        {
+            TeqFw_Web_Event_Back_Defaults$: DEF,
+            TeqFw_Core_Shared_Api_Logger$$: logger,
+            TeqFw_Core_Back_Config$: config,
+            'TeqFw_Core_Back_Util.readJson': readJson,
+            TeqFw_Web_Event_Shared_Api_Crypto_Key_Manager$: mgrKey,
+        }) {
         // VARS
         logger.setNamespace(this.constructor.name);
         /** @type {TeqFw_Web_Event_Shared_Dto_Identity_Keys.Dto} */

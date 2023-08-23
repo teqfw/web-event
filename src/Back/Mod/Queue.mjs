@@ -4,21 +4,23 @@
  * @namespace TeqFw_Web_Event_Back_Mod_Queue
  */
 export default class TeqFw_Web_Event_Back_Mod_Queue {
-    constructor(spec) {
-        // DEPS
-        /** @type {TeqFw_Core_Shared_Api_Logger} */
-        const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
-        /** @type {TeqFw_Db_Back_Util.dateUtc|function} */
-        const dateUtc = spec['TeqFw_Db_Back_Util.dateUtc'];
-        /** @type {TeqFw_Db_Back_RDb_IConnect} */
-        const rdb = spec['TeqFw_Db_Back_RDb_IConnect$'];
-        /** @type {TeqFw_Db_Back_Api_RDb_CrudEngine} */
-        const crud = spec['TeqFw_Db_Back_Api_RDb_CrudEngine$'];
-        /** @type {TeqFw_Web_Event_Back_RDb_Schema_Queue} */
-        const rdbQueue = spec['TeqFw_Web_Event_Back_RDb_Schema_Queue$'];
-        /** @type {TeqFw_Web_Event_Back_Act_Front_GetIdByUuid.act|function} */
-        const actGetIdByUuid = spec['TeqFw_Web_Event_Back_Act_Front_GetIdByUuid$'];
-
+    /**
+     * @param {TeqFw_Core_Shared_Api_Logger} logger -  instance
+     * @param {TeqFw_Db_Back_Util.dateUtc|function} dateUtc
+     * @param {TeqFw_Db_Back_RDb_IConnect} rdb
+     * @param {TeqFw_Db_Back_Api_RDb_CrudEngine} crud
+     * @param {TeqFw_Web_Event_Back_RDb_Schema_Queue} rdbQueue
+     * @param {TeqFw_Web_Event_Back_Act_Front_GetIdByUuid.act|function} actGetIdByUuid
+     */
+    constructor(
+        {
+            TeqFw_Core_Shared_Api_Logger$$: logger,
+            'TeqFw_Db_Back_Util.dateUtc': dateUtc,
+            TeqFw_Db_Back_RDb_IConnect$: rdb,
+            TeqFw_Db_Back_Api_RDb_CrudEngine$: crud,
+            TeqFw_Web_Event_Back_RDb_Schema_Queue$: rdbQueue,
+            TeqFw_Web_Event_Back_Act_Front_GetIdByUuid$: actGetIdByUuid,
+        }) {
         // VARS
         /** @type {typeof TeqFw_Web_Event_Back_RDb_Schema_Queue.ATTR} */
         const A_QUEUE = rdbQueue.getAttributes();

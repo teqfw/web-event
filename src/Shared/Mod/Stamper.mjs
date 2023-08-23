@@ -2,11 +2,13 @@
  * Create & verify stamps for event messages between a pair of addressees (front & back).
  */
 export default class TeqFw_Web_Event_Shared_Mod_Stamper {
-    constructor(spec) {
-        // DEPS
-        /** @type {TeqFw_Core_Shared_Util_Cast.castDate|function} */
-        const castDate = spec['TeqFw_Core_Shared_Util_Cast.castDate'];
-
+    /**
+     * @param {TeqFw_Core_Shared_Util_Cast.castDate|function} castDate
+     */
+    constructor(
+        {
+            'TeqFw_Core_Shared_Util_Cast.castDate': castDate,
+        }) {
         // FUNCS
         /**
          * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans.Dto} meta event message metadata

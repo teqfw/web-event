@@ -3,21 +3,23 @@
  * Contains connection UUID and uses SSE state model to reflect changes in connection state.
  */
 export default class TeqFw_Web_Event_Front_Web_Connect_Direct {
-    constructor(spec) {
-        // DEPS
-        /** @type {TeqFw_Web_Event_Front_Defaults} */
-        const DEF = spec['TeqFw_Web_Event_Front_Defaults$'];
-        /** @type {TeqFw_Core_Shared_Api_Logger} */
-        const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
-        /** @type {TeqFw_Web_Front_Mod_Config} */
-        const modCfg = spec['TeqFw_Web_Front_Mod_Config$'];
-        /** @type {TeqFw_Web_Front_Api_Mod_Server_Connect_IState} */
-        const modConn = spec['TeqFw_Web_Front_Api_Mod_Server_Connect_IState$'];
-        /** @type {TeqFw_Web_Event_Front_Mod_Identity_Session} */
-        const modIdSession = spec['TeqFw_Web_Event_Front_Mod_Identity_Session$'];
-        /** @type {TeqFw_Web_Event_Shared_Mod_Stamper} */
-        const modStamper = spec['TeqFw_Web_Event_Shared_Mod_Stamper$'];
-
+    /**
+     * @param {TeqFw_Web_Event_Front_Defaults} DEF
+     * @param {TeqFw_Core_Shared_Api_Logger} logger -  instance
+     * @param {TeqFw_Web_Front_Mod_Config} modCfg
+     * @param {TeqFw_Web_Front_Api_Mod_Server_Connect_IState} modConn
+     * @param {TeqFw_Web_Event_Front_Mod_Identity_Session} modIdSession
+     * @param {TeqFw_Web_Event_Shared_Mod_Stamper} modStamper
+     */
+    constructor(
+        {
+            TeqFw_Web_Event_Front_Defaults$: DEF,
+            TeqFw_Core_Shared_Api_Logger$$: logger,
+            TeqFw_Web_Front_Mod_Config$: modCfg,
+            TeqFw_Web_Front_Api_Mod_Server_Connect_IState$: modConn,
+            TeqFw_Web_Event_Front_Mod_Identity_Session$: modIdSession,
+            TeqFw_Web_Event_Shared_Mod_Stamper$: modStamper,
+        }) {
         // VARS
         let BASE;
 

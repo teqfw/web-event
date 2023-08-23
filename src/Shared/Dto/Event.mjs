@@ -21,13 +21,15 @@ class Dto {
  * @implements TeqFw_Core_Shared_Api_Factory_Dto
  */
 export default class TeqFw_Web_Event_Shared_Dto_Event {
-    constructor(spec) {
-        // DEPS
-        /** @type {TeqFw_Core_Shared_Dto_Any} */
-        const factData = spec['TeqFw_Core_Shared_Dto_Any$'];
-        /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta} */
-        const factMeta = spec['TeqFw_Web_Event_Shared_Dto_Event_Meta$'];
-
+    /**
+     * @param {TeqFw_Core_Shared_Dto_Any} factData
+     * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta} factMeta
+     */
+    constructor(
+        {
+            TeqFw_Core_Shared_Dto_Any$: factData,
+            TeqFw_Web_Event_Shared_Dto_Event_Meta$: factMeta,
+        }) {
         // INSTANCE METHODS
 
         this.createDto = function (dto) {

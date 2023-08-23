@@ -3,25 +3,27 @@
  * @implements TeqFw_Web_Event_Shared_Api_Event_Portal
  */
 export default class TeqFw_Web_Event_Back_Mod_Portal_Front {
-    constructor(spec) {
-        // DEPS
-        /** @type {TeqFw_Core_Shared_Api_Logger} */
-        const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
-        /** @type {TeqFw_Core_Shared_Util_Cast.castDate|function} */
-        const castDate = spec['TeqFw_Core_Shared_Util_Cast.castDate'];
-        /** @type {TeqFw_Web_Event_Back_Mod_Registry_Stream} */
-        const registry = spec['TeqFw_Web_Event_Back_Mod_Registry_Stream$'];
-        /** @type {TeqFw_Web_Event_Shared_Dto_Event} */
-        const factEvt = spec['TeqFw_Web_Event_Shared_Dto_Event$'];
-        /** @type {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_Response} */
-        const factMeta = spec['TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_Response$'];
-        /** @type {TeqFw_Web_Event_Back_Mod_Queue} */
-        const modQueue = spec['TeqFw_Web_Event_Back_Mod_Queue$'];
-        /** @type {TeqFw_Core_Back_Mod_App_Uuid} */
-        const modBackUuid = spec['TeqFw_Core_Back_Mod_App_Uuid$'];
-        /** @type {TeqFw_Web_Event_Shared_Mod_Stamper} */
-        const modStamper = spec['TeqFw_Web_Event_Shared_Mod_Stamper$'];
-
+    /**
+     * @param {TeqFw_Core_Shared_Api_Logger} logger -  instance
+     * @param {TeqFw_Core_Shared_Util_Cast.castDate|function} castDate
+     * @param {TeqFw_Web_Event_Back_Mod_Registry_Stream} registry
+     * @param {TeqFw_Web_Event_Shared_Dto_Event} factEvt
+     * @param {TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_Response} factMeta
+     * @param {TeqFw_Web_Event_Back_Mod_Queue} modQueue
+     * @param {TeqFw_Core_Back_Mod_App_Uuid} modBackUuid
+     * @param {TeqFw_Web_Event_Shared_Mod_Stamper} modStamper
+     */
+    constructor(
+        {
+            TeqFw_Core_Shared_Api_Logger$$: logger,
+            'TeqFw_Core_Shared_Util_Cast.castDate': castDate,
+            TeqFw_Web_Event_Back_Mod_Registry_Stream$: registry,
+            TeqFw_Web_Event_Shared_Dto_Event$: factEvt,
+            TeqFw_Web_Event_Shared_Dto_Event_Meta_Trans_Response$: factMeta,
+            TeqFw_Web_Event_Back_Mod_Queue$: modQueue,
+            TeqFw_Core_Back_Mod_App_Uuid$: modBackUuid,
+            TeqFw_Web_Event_Shared_Mod_Stamper$: modStamper,
+        }) {
         // VARS
         logger.setNamespace(this.constructor.name);
 
@@ -29,7 +31,7 @@ export default class TeqFw_Web_Event_Back_Mod_Portal_Front {
 
         this.cleanDelayedEvents = async function () {
             return await modQueue.cleanUpExpired();
-        }
+        };
 
         /**
          * @param {*} [data]

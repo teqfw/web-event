@@ -14,17 +14,19 @@ const {
  * @implements TeqFw_Web_Back_Api_Dispatcher_IHandler
  */
 export default class TeqFw_Web_Event_Back_Web_Handler_Front_Register {
-    constructor(spec) {
-        // DEPS
-        /** @type {TeqFw_Web_Event_Back_Defaults} */
-        const DEF = spec['TeqFw_Web_Event_Back_Defaults$'];
-        /** @type {TeqFw_Core_Shared_Api_Logger} */
-        const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
-        /** @type {TeqFw_Db_Back_RDb_IConnect} */
-        const conn = spec['TeqFw_Db_Back_RDb_IConnect$'];
-        /** @type {TeqFw_Web_Event_Back_Act_Front_Create.act|function} */
-        const actCreate = spec['TeqFw_Web_Event_Back_Act_Front_Create$'];
-
+    /**
+     * @param {TeqFw_Web_Event_Back_Defaults} DEF
+     * @param {TeqFw_Core_Shared_Api_Logger} logger -  instance
+     * @param {TeqFw_Db_Back_RDb_IConnect} conn
+     * @param {TeqFw_Web_Event_Back_Act_Front_Create.act|function} actCreate
+     */
+    constructor(
+        {
+            TeqFw_Web_Event_Back_Defaults$: DEF,
+            TeqFw_Core_Shared_Api_Logger$$: logger,
+            TeqFw_Db_Back_RDb_IConnect$: conn,
+            TeqFw_Web_Event_Back_Act_Front_Create$: actCreate,
+        }) {
         // MAIN
         logger.setNamespace(this.constructor.name);
 

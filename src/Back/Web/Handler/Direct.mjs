@@ -20,25 +20,27 @@ const {
  * @implements TeqFw_Web_Back_Api_Dispatcher_IHandler
  */
 export default class TeqFw_Web_Event_Back_Web_Handler_Direct {
-    constructor(spec) {
-        // DEPS
-        /** @type {TeqFw_Web_Event_Back_Defaults} */
-        const DEF = spec['TeqFw_Web_Event_Back_Defaults$'];
-        /** @type {TeqFw_Core_Shared_Api_Logger} */
-        const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
-        /** @type {TeqFw_Web_Back_App_Server_Respond.respond403|function} */
-        const respond403 = spec['TeqFw_Web_Back_App_Server_Respond.respond403'];
-        /** @type {TeqFw_Web_Back_App_Server_Respond.respond500|function} */
-        const respond500 = spec['TeqFw_Web_Back_App_Server_Respond.respond500'];
-        /** @type {TeqFw_Web_Event_Back_Mod_Channel} */
-        const eventsBack = spec['TeqFw_Web_Event_Back_Mod_Channel$'];
-        /** @type {TeqFw_Web_Event_Shared_Dto_Event} */
-        const dtoEvent = spec['TeqFw_Web_Event_Shared_Dto_Event$'];
-        /** @type {TeqFw_Web_Event_Back_Mod_Registry_Stream} */
-        const modRegStream = spec['TeqFw_Web_Event_Back_Mod_Registry_Stream$'];
-        /** @type {TeqFw_Web_Event_Shared_Mod_Stamper} */
-        const stamper = spec['TeqFw_Web_Event_Shared_Mod_Stamper$'];
-
+    /**
+     * @param {TeqFw_Web_Event_Back_Defaults} DEF
+     * @param {TeqFw_Core_Shared_Api_Logger} logger -  instance
+     * @param {TeqFw_Web_Back_App_Server_Respond.respond403|function} respond403
+     * @param {TeqFw_Web_Back_App_Server_Respond.respond500|function} respond500
+     * @param {TeqFw_Web_Event_Back_Mod_Channel} eventsBack
+     * @param {TeqFw_Web_Event_Shared_Dto_Event} dtoEvent
+     * @param {TeqFw_Web_Event_Back_Mod_Registry_Stream} modRegStream
+     * @param {TeqFw_Web_Event_Shared_Mod_Stamper} stamper
+     */
+    constructor(
+        {
+            TeqFw_Web_Event_Back_Defaults$: DEF,
+            TeqFw_Core_Shared_Api_Logger$$: logger,
+            'TeqFw_Web_Back_App_Server_Respond.respond403': respond403,
+            'TeqFw_Web_Back_App_Server_Respond.respond500': respond500,
+            TeqFw_Web_Event_Back_Mod_Channel$: eventsBack,
+            TeqFw_Web_Event_Shared_Dto_Event$: dtoEvent,
+            TeqFw_Web_Event_Back_Mod_Registry_Stream$: modRegStream,
+            TeqFw_Web_Event_Shared_Mod_Stamper$: stamper,
+        }) {
         // MAIN
         Object.defineProperty(process, 'namespace', {value: NS});
         logger.setNamespace(this.constructor.name);
