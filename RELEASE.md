@@ -1,7 +1,8 @@
 # @teqfw/web-event: releases
 
-## x.x.x
+## 0.20.0
 
+* These changes are related to the new architecture of the `@teqfw/di` package.
 * Catch errors in `TeqFw_Web_Event_Back_Cron_Queue_Clean.iteration`.
 
 ## 0.1.1
