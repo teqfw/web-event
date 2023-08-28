@@ -9,23 +9,22 @@ const NS = 'TeqFw_Web_Event_Front_Web_Connect_Front_Register';
 // MODULE'S FUNCS
 /**
  * Default export is a factory to create result function in working environment (with deps).
- * @param {TeqFw_Di_Shared_SpecProxy} spec
- */
-/**
+ *
  * @param {TeqFw_Web_Event_Front_Defaults} DEF
+ * @param {TeqFw_Web_Front_Api_Gate_IErrorHandler} errHndl
+ * @param {TeqFw_Web_Front_Api_Mod_Server_Connect_IState} modState
+ * @param {TeqFw_Web_Front_Mod_Config} modCfg
+ * @param {TeqFw_Web_Event_Shared_Dto_Register_Request} dtoReq
+ * @return {function(string, string): Promise<number>}
  */
 export default function (
     {
         TeqFw_Web_Event_Front_Defaults$: DEF,
+        TeqFw_Web_Front_Api_Gate_IErrorHandler$: errHndl,
+        TeqFw_Web_Front_Api_Mod_Server_Connect_IState$: modState,
+        TeqFw_Web_Front_Mod_Config$: modCfg,
+        TeqFw_Web_Event_Shared_Dto_Register_Request$: dtoReq,
     }) {
-    /** @type {TeqFw_Web_Front_Api_Gate_IErrorHandler} */
-    const errHndl = spec['TeqFw_Web_Front_Api_Gate_IErrorHandler$'];
-    /** @type {TeqFw_Web_Front_Api_Mod_Server_Connect_IState} */
-    const modState = spec['TeqFw_Web_Front_Api_Mod_Server_Connect_IState$'];
-    /** @type {TeqFw_Web_Front_Mod_Config} */
-    const modCfg = spec['TeqFw_Web_Front_Mod_Config$'];
-    /** @type {TeqFw_Web_Event_Shared_Dto_Register_Request} */
-    const dtoReq = spec['TeqFw_Web_Event_Shared_Dto_Register_Request$'];
 
     // VARS
     let BASE;
