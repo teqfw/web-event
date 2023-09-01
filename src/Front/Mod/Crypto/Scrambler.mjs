@@ -60,7 +60,7 @@ export default class TeqFw_Web_Event_Front_Mod_Crypto_Scrambler {
  */
 export class Factory {
     /**
-     * @param {TeqFw_Di_Container} container
+     * @param {TeqFw_Di_Api_Container} container
      */
     constructor(
         {
