@@ -24,7 +24,6 @@ export default function (
     }
 
     // MAIN
-    logger.setNamespace(NS);
     Object.defineProperty(action, 'namespace', {value: NS});
     return action;
 }

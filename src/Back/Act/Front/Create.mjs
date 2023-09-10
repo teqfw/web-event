@@ -19,7 +19,6 @@ export default function (
         TeqFw_Web_Event_Back_RDb_Schema_Front$: rdbFront,
     }) {
     // VARS
-    logger.setNamespace(NS);
     /** @type {typeof TeqFw_Web_Event_Back_RDb_Schema_Front.ATTR} */
     const ATTR = rdbFront.getAttributes();
 

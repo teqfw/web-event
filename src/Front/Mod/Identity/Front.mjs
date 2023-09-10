@@ -21,7 +21,6 @@ export default class TeqFw_Web_Event_Front_Mod_Identity_Front {
             TeqFw_Web_Event_Front_Web_Connect_Front_Register$: connRegFront,
         }) {
         // VARS
-        logger.setNamespace(this.constructor.name);
         const KEY_IDENTITY = `${DEF.SHARED.NAME}/identity`;
         /** @type {TeqFw_Web_Event_Front_Dto_Identity_Front.Dto} */
         let _cache;

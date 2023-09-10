@@ -32,9 +32,6 @@ export default class TeqFw_Web_Event_Front_Mod_Portal_Back {
         // VARS
         const I_QUEUE = idbQueue.getIndexes();
 
-        // MAIN
-        logger.setNamespace(this.constructor.name);
-
         // INSTANCE METHODS
         this.createMessage = function ({data, meta} = {}) {
             const metaTrans = factMeta.createDto(meta);

@@ -16,8 +16,6 @@ export default function (
         TeqFw_Web_Event_Back_Mod_Server_Key$: modServerKey,
         TeqFw_Web_Event_Back_Cron_Queue_Clean$: cronClean,
     }) {
-    // VARS
-    logger.setNamespace(NS);
 
     // FUNCS
     /**

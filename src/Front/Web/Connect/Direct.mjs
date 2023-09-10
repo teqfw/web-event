@@ -23,9 +23,6 @@ export default class TeqFw_Web_Event_Front_Web_Connect_Direct {
         // VARS
         let BASE;
 
-        // MAIN
-        logger.setNamespace(this.constructor.name);
-
         // FUNCS
         /**
          * Don't call this function in VARS section, because config is not loaded yet.

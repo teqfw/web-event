@@ -25,7 +25,6 @@ export default class TeqFw_Web_Event_Back_Mod_Server_Key {
             TeqFw_Web_Event_Shared_Api_Crypto_Key_Manager$: mgrKey,
         }) {
         // VARS
-        logger.setNamespace(this.constructor.name);
         /** @type {TeqFw_Web_Event_Shared_Dto_Identity_Keys.Dto} */
         let _keys;
 

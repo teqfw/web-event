@@ -18,7 +18,6 @@ export default class TeqFw_Web_Event_Back_Mod_Registry_Stream {
             TeqFw_Web_Event_Back_Enum_Stream_State$: STATE,
         }) {
         // VARS
-        logger.setNamespace(this.constructor.name);
         /** @type {Object<string, TeqFw_Web_Event_Back_Dto_Reverse_Stream.Dto>} */
         const _store = {}; // internal store for connection objects (stream UUID is the key)
         /** @type {Object<string, string[]>} */

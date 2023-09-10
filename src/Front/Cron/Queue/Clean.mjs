@@ -16,7 +16,6 @@ export default class TeqFw_Web_Event_Front_Cron_Queue_Clean {
             TeqFw_Web_Event_Front_Mod_Portal_Back$: portalBack,
         }) {
         // VARS
-        logger.setNamespace(this.constructor.name);
         let _idTimeout;
 
         // FUNCS

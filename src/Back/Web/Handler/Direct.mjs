@@ -43,7 +43,6 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Direct {
         }) {
         // MAIN
         Object.defineProperty(process, 'namespace', {value: NS});
-        logger.setNamespace(this.constructor.name);
 
         // FUNCS
         /**

@@ -15,7 +15,6 @@ export default class TeqFw_Web_Event_Front_Mod_Identity_Session {
             TeqFw_Core_Shared_Api_Logger$$: logger,
         }) {
         // VARS
-        logger.setNamespace(this.constructor.name);
         /** @type {TeqFw_Web_Event_Front_Dto_Identity_Back.Dto} */
         let _backId;
         /** @type {string} */

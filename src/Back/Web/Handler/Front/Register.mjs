@@ -27,9 +27,6 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Front_Register {
             TeqFw_Db_Back_RDb_IConnect$: conn,
             TeqFw_Web_Event_Back_Act_Front_Create$: actCreate,
         }) {
-        // MAIN
-        logger.setNamespace(this.constructor.name);
-
         // FUNCS
 
         /**

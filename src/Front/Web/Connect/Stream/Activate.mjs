@@ -33,7 +33,6 @@ export default function (
         TeqFw_Web_Event_Shared_Dto_Stream_Act$: dtoAct,
     }) {
     // VARS
-    logger.setNamespace(NS);
     let BASE;
 
     // FUNCS

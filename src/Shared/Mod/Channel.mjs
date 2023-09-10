@@ -23,9 +23,6 @@ export default class TeqFw_Web_Event_Shared_Mod_Channel {
         /** @type {Object<string, function[]>} */
         const _sinks = {};
 
-        // MAIN
-        logger.setNamespace(this.constructor.name);
-
         // INSTANCE METHODS
 
         this.createMessage = function (source) {

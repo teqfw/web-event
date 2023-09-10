@@ -56,7 +56,6 @@ export default function (
         'TeqFw_Web_Event_Front_Mod_Crypto_Scrambler.Factory$': factScrambler,
     }) {
     // VARS
-    logger.setNamespace(NS);
     /** @type {EventSource} */
     let _source;
     /**

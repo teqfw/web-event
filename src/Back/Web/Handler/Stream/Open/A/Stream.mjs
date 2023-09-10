@@ -50,7 +50,6 @@ export default function (
         'TeqFw_Web_Back_App_Server_Respond.respond404': respond404,
     }) {
     // VARS
-    logger.setNamespace(NS);
     /**
      * UUID for this backup instance.
      * @type {string}

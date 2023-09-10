@@ -24,9 +24,6 @@ export default class TeqFw_Web_Event_Back_Mod_Portal_Front {
             TeqFw_Core_Back_Mod_App_Uuid$: modBackUuid,
             TeqFw_Web_Event_Shared_Mod_Stamper$: modStamper,
         }) {
-        // VARS
-        logger.setNamespace(this.constructor.name);
-
         // INSTANCE METHODS
 
         this.cleanDelayedEvents = async function () {

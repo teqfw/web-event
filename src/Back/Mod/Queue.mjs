@@ -25,9 +25,6 @@ export default class TeqFw_Web_Event_Back_Mod_Queue {
         /** @type {typeof TeqFw_Web_Event_Back_RDb_Schema_Queue.ATTR} */
         const A_QUEUE = rdbQueue.getAttributes();
 
-        // MAIN
-        logger.setNamespace(this.constructor.name);
-
         // INSTANCE METHODS
 
         this.cleanUpExpired = async function () {

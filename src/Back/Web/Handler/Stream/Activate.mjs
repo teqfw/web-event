@@ -41,7 +41,6 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Stream_Activate {
             TeqFw_Web_Event_Back_Enum_Stream_State$: STATE,
         }) {
         // MAIN
-        logger.setNamespace(this.constructor.name);
         const A_SESS = rdbFrontSess.getAttributes();
 
         // FUNCS

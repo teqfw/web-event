@@ -25,8 +25,6 @@ export default class TeqFw_Web_Event_Back_Web_Handler_Stream_Open {
             TeqFw_Core_Shared_Api_Logger$$: logger,
             TeqFw_Web_Event_Back_Web_Handler_Stream_Open_A_Stream$: aOpenStream,
         }) {
-        // MAIN
-        logger.setNamespace(this.constructor.name);
 
         // FUNCS
 
