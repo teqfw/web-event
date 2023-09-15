@@ -1,5 +1,9 @@
 # @teqfw/web-event: releases
 
+## 0.20.2
+
+* The logger initialization is moved to the post-processor.
+
 ## 0.20.1
 
 * Fix `spec` for `TeqFw_Web_Event_Front_Web_Connect_Front_Register`.
