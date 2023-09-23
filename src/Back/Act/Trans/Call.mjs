@@ -8,16 +8,13 @@ const NS = 'TeqFw_Web_Event_Back_Act_Trans_Call';
 
 // MODULE'S FUNCS
 /**
- * @param {TeqFw_Di_Shared_SpecProxy} spec
- */
-/**
- * @param {Dev_Back_Defaults} DEF
+ * @param {TeqFw_Web_Event_Back_Defaults} DEF
  * @param {TeqFw_Web_Event_Back_Mod_Channel} eventsBack
  * @param {TeqFw_Web_Event_Back_Mod_Portal_Front} portalFront
  */
 export default function (
     {
-        Dev_Back_Defaults$: DEF,
+        TeqFw_Web_Event_Back_Defaults$: DEF,
         TeqFw_Web_Event_Back_Mod_Channel$: eventsBack,
         TeqFw_Web_Event_Back_Mod_Portal_Front$: portalFront,
     }) {

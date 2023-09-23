@@ -20,9 +20,7 @@ const {
 // MODULE'S FUNCS
 /**
  * Default export is a factory to create result function in working environment (with deps).
- * @param {TeqFw_Di_Shared_SpecProxy} spec
- */
-/**
+ *
  * @param {TeqFw_Web_Event_Back_Defaults} DEF
  * @param {TeqFw_Core_Shared_Api_Logger} logger -  instance
  * @param {TeqFw_Db_Back_RDb_IConnect} conn

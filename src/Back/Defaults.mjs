@@ -11,6 +11,8 @@ export default class TeqFw_Web_Event_Back_Defaults {
     /** @type {TeqFw_Web_Event_Shared_Defaults} */
     SHARED;
 
+    TIMEOUT_EVENT_RESPONSE = 8000; // default timeout for response events (transborder)
+
     /**
      * @param {TeqFw_Web_Back_Defaults} MOD_WEB
      * @param {TeqFw_Web_Event_Shared_Defaults} SHARED
