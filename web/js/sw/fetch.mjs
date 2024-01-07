@@ -7,7 +7,7 @@
 
 // MODULE'S FUNCS
 /**
- * Function to detect URLs that always bypass caching for @teqfw/web-api plugin.
+ * Function to detect URLs that always bypass caching for @teqfw/web-event plugin.
  * @param {Request} req
  * @return {boolean}
  */
